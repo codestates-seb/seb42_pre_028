@@ -1,5 +1,5 @@
 ---
-name: "[FE]   xx 기능 구현"
+name: "[BE] xx 기능 구현"
 about: 기능 구현
 title: ''
 labels: enhancement
