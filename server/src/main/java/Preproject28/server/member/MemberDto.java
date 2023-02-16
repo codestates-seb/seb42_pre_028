@@ -8,7 +8,6 @@ public class MemberDto {
     @Getter
     @AllArgsConstructor
     public static class Post{
-        private Long memberId;
         private String name;
         private String email;
         private String password;
@@ -21,6 +20,9 @@ public class MemberDto {
         private Long memberId;
         private String name;
         private String email;
+
+        public Response() {
+        }
     }
 
 }

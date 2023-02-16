@@ -18,6 +18,6 @@ public class MemberController {
         Member member = mapper.memberPostDtoToMember(requestBody);
         Member createdMember = memberService.createMember(member);
         MemberDto.Response response = mapper.memberToMemberResponse(createdMember);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
