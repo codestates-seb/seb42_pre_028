@@ -1,7 +1,7 @@
 ---
 name: "[BE] xx 기능 구현"
 about: 기능 구현
-title: ''
+title: "[BE] xx 기능 구현"
 labels: enhancement
 assignees: ''
 
