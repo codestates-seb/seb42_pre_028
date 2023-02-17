@@ -1,7 +1,6 @@
-// eslint-disable-next-line prettier/prettier
 import React from 'react';
-// eslint-disable-next-line prettier/prettier
-import styled from "styled-components";
+import styled from 'styled-components';
+// 지워도 작동하길래 지웠습니다...
 
 const Content = styled.div`
   display: flex;
