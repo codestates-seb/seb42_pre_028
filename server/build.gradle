@@ -2,65 +2,74 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id "org.asciidoctor.jvm.convert" version "3.3.2"
+	id "org.asciidoctor.jvm.convert" version "3.3.2" // docs 설정추가
 }
 
 group = 'Preproject-28'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	asciidoctorExtensions // docs 설정추가
+}
+
 repositories {
 	mavenCentral()
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
-
-configurations {
-	asciidoctorExtensions
+	set('snippetsDir', file("build/generated-snippets")) // docs 설정추가
 }
 
 dependencies {
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+//	implementation 'org.springframework.boot:spring-boot-starter-security' // 기본코드 구현시 잠시 비활성화
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'org.projectlombok:lombok:1.18.22'// docs 설정추가
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'  // docs 설정추가
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	implementation 'com.google.code.gson:gson'
-}
-tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	testImplementation 'org.springframework.security:spring-security-test' // 기본코드 구현시 잠시 비활성화
+
+	implementation 'org.mapstruct:mapstruct:1.5.2.Final' //mapper 자동작성 mapstruct 추가
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final' //mapper 자동작성 mapstruct 추가
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	implementation 'com.google.code.gson:gson' // test json 변환용
+	testAnnotationProcessor 'org.projectlombok:lombok' // test log 작성용
 }
 
-tasks.named('asciidoctor') {
+tasks.named('test') {
+	outputs.dir snippetsDir  // docs 설정추가
+	useJUnitPlatform()
+}
+tasks.named('asciidoctor') {  // docs 설정추가
 	configurations "asciidoctorExtensions"
 	inputs.dir snippetsDir
 	dependsOn test
 }
-
-task copyDocument(type: Copy) {
+task copyDocument(type: Copy) {   // docs 설정추가
 	dependsOn asciidoctor
-	println "asciidoctor output: ${asciidoctor.outputDir}"
 	from file("${asciidoctor.outputDir}")
 	into file("src/main/resources/static/docs")
 }
 
 build {
-	dependsOn copyDocument
+	dependsOn copyDocument  // docs 설정추가
 }
 
-bootJar {
+bootJar { // docs 설정추가
 	dependsOn copyDocument
 	from("${asciidoctor.outputDir}") {
 		into 'static/docs'
