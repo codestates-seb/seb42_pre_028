@@ -20,4 +20,9 @@ public class MemberController {
         MemberDto.Response response = mapper.memberToMemberResponse(createdMember);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public String getMember(){
+        return "member로 들어왔음";
+    }
 }
