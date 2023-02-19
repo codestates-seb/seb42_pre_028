@@ -40,6 +40,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) {
         Member member = (Member) authResult.getPrincipal();
 
+        String accessToken = delegateAccessToken(member);
+        String refreshToken = delegateRefreshToken(member);
+
+        response.setHeader("Authorization","Bearer" + accessToken);
+        response.setHeader("Refresh", refreshToken);
+
+
     }
 
     private String delegateAccessToken(Member member){

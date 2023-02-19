@@ -16,7 +16,11 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Optional;
 
-@Component
+/**
+ *  토큰방식에서 필요없음
+ */
+
+//@Component
 @Slf4j
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
