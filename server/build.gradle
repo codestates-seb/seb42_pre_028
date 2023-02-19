@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id "org.asciidoctor.jvm.convert" version "3.3.2" // docs 설정추가
+	id "org.asciidoctor.jvm.convert" version "3.3.2"  // docs 설정추가
 }
 
 group = 'Preproject-28'
@@ -13,7 +13,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	asciidoctorExtensions // docs 설정추가
+	asciidoctorExtensions  // docs 설정추가
 }
 
 repositories {
@@ -39,15 +39,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test' // 기본코드 구현시 잠시 비활성화
+	testImplementation 'org.springframework.security:spring-security-test'  // 기본코드 구현시 잠시 비활성화
 
-	implementation 'org.mapstruct:mapstruct:1.5.2.Final' //mapper 자동작성 mapstruct 추가
+	implementation 'org.mapstruct:mapstruct:1.5.2.Final'  //mapper 자동작성 mapstruct 추가
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final' //mapper 자동작성 mapstruct 추가
-
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'  // security 추가
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	implementation 'com.google.code.gson:gson' // test json 변환용
-	testAnnotationProcessor 'org.projectlombok:lombok' // test log 작성용
+	implementation 'com.google.code.gson:gson'  // test json 변환용
+	testAnnotationProcessor 'org.projectlombok:lombok'  // test log 작성용
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5' // jwt 인증 방식 추가
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'  // jwt 인증 방식 추가
+	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'  // jwt 인증 방식 추가
 }
 
 tasks.named('test') {
@@ -59,7 +63,7 @@ tasks.named('asciidoctor') {  // docs 설정추가
 	inputs.dir snippetsDir
 	dependsOn test
 }
-task copyDocument(type: Copy) {   // docs 설정추가
+task copyDocument(type: Copy) {  // docs 설정추가
 	dependsOn asciidoctor
 	from file("${asciidoctor.outputDir}")
 	into file("src/main/resources/static/docs")
@@ -69,7 +73,7 @@ build {
 	dependsOn copyDocument  // docs 설정추가
 }
 
-bootJar { // docs 설정추가
+bootJar {  // docs 설정추가
 	dependsOn copyDocument
 	from("${asciidoctor.outputDir}") {
 		into 'static/docs'
