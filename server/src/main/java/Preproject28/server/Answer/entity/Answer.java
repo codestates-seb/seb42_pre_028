@@ -29,6 +29,9 @@ public class Answer {
     private Long voteCount;
 
     @Column
+    private Long viewCount;
+
+    @Column
     @CreatedDate
     private LocalDateTime createdAt;
 

@@ -22,8 +22,14 @@ public class AnswerPatchDto {
     private LocalDateTime modifiedAt;
 
 
+    private long viewCount;
+
+
+    private long voteCount;
+
+
     private long memberId;
 
 
-    private String answers;;
+    private String answers;
 }

@@ -23,6 +23,12 @@ public class AnswerResponseDto {
     private LocalDateTime modifiedAt;
 
 
+    private long viewCount;
+
+
+    private long voteCount;
+
+
     private long memberId;
 
 
