@@ -56,8 +56,8 @@ public class QuestionControllerTest {
     private QuestionMapper mapper;
     @Autowired
     private Gson gson;
-    LocalDateTime createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    LocalDateTime modifiedAt = LocalDateTime.of(2023,02,1,1,1);
+    LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
     @Test
     @DisplayName("PostQuestionTest")
     public void postQuestionTest() throws Exception{
@@ -72,8 +72,8 @@ public class QuestionControllerTest {
                 "질문 1",
                 "문제 바디",
                 "에상 바디",
-                createdAt,
-                modifiedAt,
+                now,
+                modified,
                 1,
                 1,
                 1,
@@ -83,7 +83,6 @@ public class QuestionControllerTest {
         when(mapper.questionPostDtoToQuestion(any())).thenReturn(new Question());
         when(questionService.createQuestion(any())).thenReturn(new Question());
         when(mapper.questionToQuestionResponseDto(any())).thenReturn(response);
-
         log.info(response.toString());
 
         ResultActions actions = mockMvc.perform(post("/question")
@@ -92,13 +91,12 @@ public class QuestionControllerTest {
                 .content(content)
                 .with(csrf()));
 
-        actions.andExpect(status().isCreated())
-                .andDo(document("post-Question",
+        actions.andExpect(status().isCreated()).andDo(document("post-Question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디/ 보내는거아님"),
+                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("problemBody").type(JsonFieldType.STRING).description("문제본문"),
                                         fieldWithPath("expectingBody").type(JsonFieldType.STRING).description("예상본문"),
