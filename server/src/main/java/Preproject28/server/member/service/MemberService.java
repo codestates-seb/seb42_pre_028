@@ -6,14 +6,18 @@ import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.repository.MemberRepository;
 import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -37,12 +41,27 @@ public class MemberService {
     }
 
     public Member findMember(long memberId) {
-        return findverifiedMember(memberId);
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info(name);
+        Member findMember = findverifiedMember(memberId);
+        log.info(findMember.getEmail());
+        if(!Objects.equals(findMember.getEmail(), name)) {
+            throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        }
+        return findMember;
     }
 
     public void deleteMember(long memberId) {
-        //회원삭제시 본인인지 검증할 코드가 필요함
-        memberRepository.deleteById(memberId);
+        String name = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+
+        Member findMember = findverifiedMember(memberId);
+
+        if(Objects.equals(findMember.getEmail(), name)) { // 토큰의 아이디, 삭제요청 id 확인해서 일치할때만 삭제가능하게
+            memberRepository.deleteById(memberId);
+        } else {
+            throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+        }
+
     }
 
     private Member findverifiedMember(long memberId) {
