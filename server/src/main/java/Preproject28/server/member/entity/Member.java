@@ -1,5 +1,7 @@
 package Preproject28.server.member.entity;
 
+import Preproject28.server.question.entity.Question;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,4 +31,8 @@ public class Member {
     private LocalDateTime createdAt;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @JsonManagedReference
+    private List<Question> questions = new ArrayList<>();
 }

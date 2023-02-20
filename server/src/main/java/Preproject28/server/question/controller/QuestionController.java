@@ -1,5 +1,7 @@
 package Preproject28.server.question.controller;
 
+import Preproject28.server.member.entity.Member;
+import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.dto.QuestionPostDto;
 import Preproject28.server.question.dto.QuestionResponseDto;
 import Preproject28.server.question.entity.Question;
@@ -24,9 +26,16 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
+    private final MemberService memberService;
+
+
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){
-        Question question = questionService.createQuestion(questionMapper.questionPostDtoToQuestion(questionPostDto));
+        Member member = memberService.findMember(questionPostDto.getMemberId());
+        Question request = questionMapper.questionPostDtoToQuestion(questionPostDto);
+        request.setMember(member);
+
+        Question question = questionService.createQuestion(request);
         QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
