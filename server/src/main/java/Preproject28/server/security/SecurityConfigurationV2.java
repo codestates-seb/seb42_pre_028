@@ -1,7 +1,11 @@
 package Preproject28.server.security;
 
+import Preproject28.server.security.auths.CustomAuthorityUtils;
 import Preproject28.server.security.auths.JwtTokenizer;
 import Preproject28.server.security.auths.filter.JwtAuthenticationFilter;
+import Preproject28.server.security.auths.filter.JwtVerificationFilter;
+import Preproject28.server.security.auths.handler.MemberAuthenticationFailureHandler;
+import Preproject28.server.security.auths.handler.MemberAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,15 +31,18 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfigurationV2 {
 
     private final JwtTokenizer jwtTokenizer; // JWT 설정 추가
+    private final CustomAuthorityUtils customAuthorityUtils; // JWT 검증필터 DI 를 위해 추가
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .headers().frameOptions().sameOrigin()
                 .and()
-
                 .csrf().disable()
                 .cors(withDefaults())    // corsConfigurationSource Bean 을 이용
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // 세션 생성 비활성화 (토큰방식) JwtVerificationFilter 에서 SecurityContextHolder 에 추가되게 해놓음
+                .and()
                 .formLogin().disable()   // CSR 방식일때 JSON 포맷으로 id,비밀번호 전송하기때문에 비활성화
                 .httpBasic().disable()   // UsernamePasswordAuthenticationFilter 비활성화
                 .apply(new CustomFilterConfigurer())
@@ -62,14 +70,19 @@ public class SecurityConfigurationV2 {
     }
 
     public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
-        // 구현한 JwtAuthenticationFilter 를 등록
+        // JWT 를 구현하기위해 만든 필터를 추가함 + 로그인시 Url 을 설정해줌
         @Override
         public void configure(HttpSecurity builder) {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-            builder.addFilter(jwtAuthenticationFilter);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, customAuthorityUtils);
+
+            builder.addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
 }

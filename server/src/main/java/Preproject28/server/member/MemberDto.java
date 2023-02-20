@@ -2,6 +2,7 @@ package Preproject28.server.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 public class MemberDto {
@@ -21,7 +22,7 @@ public class MemberDto {
         private Long memberId;
         private String displayName;
         private String email;
-        private String password;
+//        private String password;
 
         public Response() {
         }

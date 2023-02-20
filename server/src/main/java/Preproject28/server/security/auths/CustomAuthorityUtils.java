@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * 사용자 권한 처리
+ */
 @Component
 public class CustomAuthorityUtils {
 

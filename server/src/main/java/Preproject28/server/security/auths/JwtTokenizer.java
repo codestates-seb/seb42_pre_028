@@ -17,6 +17,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ *  JWT 생성을 위한 클래스
+ */
 @Component
 public class JwtTokenizer {
 

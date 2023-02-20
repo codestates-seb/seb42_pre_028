@@ -12,11 +12,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ *  JWT 를 생성하는 필터
+ */
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
@@ -37,15 +42,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) {
+                                            Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
 
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
-        response.setHeader("Authorization","Bearer" + accessToken);
+        response.setHeader("Authorization","Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
 
+        this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
+        //실패시 Failure 는 별도의 코드 추가없이 호출
 
     }
 
