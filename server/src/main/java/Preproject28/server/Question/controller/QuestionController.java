@@ -1,10 +1,10 @@
-package Preproject28.server.Question.controller;
+package Preproject28.server.question.controller;
 
-import Preproject28.server.Question.dto.QuestionPostDto;
-import Preproject28.server.Question.dto.QuestionResponseDto;
-import Preproject28.server.Question.entity.Question;
-import Preproject28.server.Question.mapper.QuestionMapper;
-import Preproject28.server.Question.service.QuestionService;
+import Preproject28.server.question.dto.QuestionPostDto;
+import Preproject28.server.question.dto.QuestionResponseDto;
+import Preproject28.server.question.entity.Question;
+import Preproject28.server.question.mapper.QuestionMapper;
+import Preproject28.server.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +21,8 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Validated
 public class QuestionController {
-    private QuestionService questionService;
-
-    private QuestionMapper questionMapper;
-
-    public QuestionController (QuestionService questionService, QuestionMapper questionMapper){
-        this.questionMapper = questionMapper;
-        this.questionService = questionService;
-    }
-
+    private final QuestionService questionService;
+    private final QuestionMapper questionMapper;
 
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){

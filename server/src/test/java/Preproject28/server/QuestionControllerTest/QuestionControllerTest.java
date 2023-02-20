@@ -1,9 +1,8 @@
 package Preproject28.server.QuestionControllerTest;
 
-import Preproject28.server.Question.dto.QuestionPostDto;
-import Preproject28.server.Question.entity.Question;
-import Preproject28.server.Question.mapper.QuestionMapper;
-import Preproject28.server.Question.service.QuestionService;
+import Preproject28.server.question.dto.QuestionPostDto;
+import Preproject28.server.question.mapper.QuestionMapper;
+import Preproject28.server.question.service.QuestionService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +15,6 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.ZoneId;
 
 @WebMvcTest(QuestionControllerTest.class)
@@ -38,9 +36,7 @@ public class QuestionControllerTest {
     @Test
     @DisplayName("PostQuestionTest")
     public void postQuestionTest() throws Exception{
-        QuestionPostDto mockPost = new QuestionPostDto(1L,"질문 1", "문제 바디","에상 바디",now, modified,1,2,1L,"대답부분-> 리스트로 대체");
-
-
+//        QuestionPostDto mockPost = new QuestionPostDto(1L,"질문 1", "문제 바디","에상 바디",now, modified,1,2,1L,"대답부분-> 리스트로 대체");
 
     }
 

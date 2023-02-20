@@ -20,6 +20,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
     private String displayName;
+    @Column(unique = true)
     private String email;
     private String password;
     private String iconImageUrl;

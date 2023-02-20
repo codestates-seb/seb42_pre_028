@@ -1,9 +1,9 @@
-package Preproject28.server.Answer.mapper;
+package Preproject28.server.answer.mapper;
 
 import Preproject28.server.Answer.dto.AnswerPatchDto;
 import Preproject28.server.Answer.dto.AnswerPostDto;
 import Preproject28.server.Answer.dto.AnswerResponseDto;
-import Preproject28.server.Answer.entity.Answer;
+import Preproject28.server.answer.entity.Answer;
 import org.mapstruct.Mapper;
 
 import java.util.List;

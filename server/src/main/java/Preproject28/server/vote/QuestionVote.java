@@ -1,10 +1,9 @@
 package Preproject28.server.vote;
 
 import Preproject28.server.member.Member;
-import Preproject28.server.question.Question;
+import Preproject28.server.question.entity.Question;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 

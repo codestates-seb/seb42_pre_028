@@ -1,45 +1,45 @@
-package Preproject28.server.Answer.entity;
+package Preproject28.server.answer.entity;
 
+import Preproject28.server.member.Member;
+import Preproject28.server.question.entity.Question;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
+@Entity
 @Getter
 @Setter
-@Entity
-//@MappedSuperclass
-//@EntityListeners(AuditingEntityListener.class)
-@Table(name = "Question")
+@EntityListeners(AuditingEntityListener.class)
 public class Answer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
-
-    @Column
     private String content;
+    private long voteCount;
 
-    @Column
-    private Long voteCount;
-
-    @Column
     @CreatedDate
     private LocalDateTime createdAt;
-
-    @Column
-    @CreatedDate
+    @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    @Column
-    private long memberId;
+    private boolean adoptionStatus;
 
-    @Column
-    private String answers;
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+
+
+
+
 
 }

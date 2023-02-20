@@ -1,8 +1,8 @@
-package Preproject28.server.Answer.service;
+package Preproject28.server.answer.service;
 
 
-import Preproject28.server.Answer.entity.Answer;
-import Preproject28.server.Answer.repository.AnswerRepository;
+import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.repository.AnswerRepository;
 import Preproject28.server.exception.BusinessLogicException;
 import Preproject28.server.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
@@ -29,10 +29,9 @@ public class AnswerService {
 
     public Answer updateQuestion(Answer answer){
         Answer findAnswer = findAnswer (answer.getAnswerId());
-        Optional.ofNullable(answer.getAnswers()).ifPresent(Answers -> findAnswer.setAnswers(Answers));
-        Optional.ofNullable(answer.getContent()).ifPresent(Content -> findAnswer.setContent(Content));
-        Optional.ofNullable(answer.getMemberId()).ifPresent(MemberId -> findAnswer.setMemberId(MemberId));
-        Optional.ofNullable(answer.getVoteCount()).ifPresent(VoteCount -> findAnswer.setVoteCount(VoteCount));
+        Optional.ofNullable(answer.getContent()).ifPresent(findAnswer::setContent);
+        Optional.ofNullable(answer.getMember()).ifPresent(findAnswer::setMember);
+        Optional.of(answer.getVoteCount()).ifPresent(findAnswer::setVoteCount);
         return findAnswer;
     }
     public void deleteAnswer(long QId){
