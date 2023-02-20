@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Button, Input } from './styled_component';
 import Menu from './Menu';
+// import { useEffect, useState } from 'react';
 import { useState } from 'react';
 
 const Container = styled.nav`
@@ -15,9 +15,31 @@ const MenuContainer = styled.div`
   position: relative;
 `;
 
+const Button = styled.button`
+  background-color: ${(props) => props.background_color || '#e1ecf4'};
+  color: ${(props) => props.color || '#39739e'};
+  border: 1px solid #7aa7c7;
+  border-radius: 5px;
+  cursor: pointer;
+
+  padding: 10px;
+`;
+
+const Input = styled.input`
+  width: ${(props) => props.width || '290px'};
+  height: ${(props) => props.height || '32.6px'};
+  padding-left: 8px;
+  border: 0.5px solid gray;
+  border-radius: 5px;
+`;
+
 const Header = () => {
   const [menuflag, setMenuFlag] = useState(false);
   const [logflag, setLogFlag] = useState(false);
+
+  // useEffect(() => {
+  //   logToggle();
+  // }, []);
 
   const menuToggle = () => {
     setMenuFlag(!menuflag);
@@ -38,7 +60,7 @@ const Header = () => {
         </Link>
       </MenuContainer>
       <div>
-        <Input width="290px" height="40px" />
+        <Input width="30rem" height="40px" />
         <Link to="/search">
           <Button>Search</Button>
         </Link>
@@ -54,7 +76,9 @@ const Header = () => {
             <Button>Log In!</Button>
           </Link>
           <Link to="/signup">
-            <Button>Sign Up!</Button>
+            <Button background_color="#1295ff" color="white">
+              Sign Up!
+            </Button>
           </Link>
         </div>
       )}
