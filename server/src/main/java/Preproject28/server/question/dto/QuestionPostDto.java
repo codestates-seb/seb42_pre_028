@@ -22,20 +22,6 @@ public class QuestionPostDto {
     private String expectingBody;
 
 
-    private LocalDateTime createdAt;
-
-
-    private LocalDateTime modifiedAt;
-
-
-    private long viewCount;
-
-
-    private long voteCount;
-
-
     private long memberId;
 
-
-    private String answers;
 }
