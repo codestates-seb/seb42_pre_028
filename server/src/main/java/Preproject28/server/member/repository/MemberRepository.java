@@ -1,5 +1,6 @@
-package Preproject28.server.member;
+package Preproject28.server.member.repository;
 
+import Preproject28.server.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

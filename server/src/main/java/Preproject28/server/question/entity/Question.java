@@ -1,8 +1,6 @@
 package Preproject28.server.question.entity;
 
-import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.member.Member;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import Preproject28.server.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,8 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -35,9 +31,11 @@ public class Question {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "question")
-    @JsonManagedReference
-    private List<Answer> answers = new ArrayList<>();
+    private String answers;
+
+//    @OneToMany(mappedBy = "question")
+//    @JsonManagedReference
+//    private List<Answer> answers = new ArrayList<>();
 
 
 

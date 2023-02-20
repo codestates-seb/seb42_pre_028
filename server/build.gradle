@@ -39,7 +39,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'  // 기본코드 구현시 잠시 비활성화
+//	testImplementation 'org.springframework.security:spring-security-test'  // 기본코드 구현시 잠시 비활성화
 
 	implementation 'org.mapstruct:mapstruct:1.5.2.Final'  //mapper 자동작성 mapstruct 추가
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final' //mapper 자동작성 mapstruct 추가

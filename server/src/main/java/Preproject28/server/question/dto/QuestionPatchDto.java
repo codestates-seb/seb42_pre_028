@@ -1,18 +1,17 @@
-package Preproject28.server.Question.dto;
+package Preproject28.server.question.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class QuestionPostDto {
+public class QuestionPatchDto {
+
     private Long questionId;
 
 

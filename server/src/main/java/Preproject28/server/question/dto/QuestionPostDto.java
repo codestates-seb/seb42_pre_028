@@ -1,5 +1,4 @@
-package Preproject28.server.Question.dto;
-
+package Preproject28.server.question.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class QuestionPatchDto {
-
+public class QuestionPostDto {
     private Long questionId;
 
 

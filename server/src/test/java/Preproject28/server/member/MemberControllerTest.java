@@ -1,5 +1,11 @@
 package Preproject28.server.member;
 
+import Preproject28.server.member.controller.MemberController;
+import Preproject28.server.member.dto.MemberPostDto;
+import Preproject28.server.member.dto.MemberResponseDto;
+import Preproject28.server.member.entity.Member;
+import Preproject28.server.member.mapper.MemberMapper;
+import Preproject28.server.member.service.MemberService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -13,18 +19,13 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,10 +51,10 @@ class MemberControllerTest {
     @DisplayName("postMemberTest")
     public void postMemberTest() throws Exception {
         //given
-        MemberDto.Post samplePost1 = new MemberDto.Post("김민호", "godalsgh@gmail.com", "1111");
+        MemberPostDto samplePost1 = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
         String samplePost1ToJson = gson.toJson(samplePost1);
 
-        MemberDto.Response sampleResponse1 = new MemberDto.Response(1L, "김민호", "godalsgh@gmail.com");
+        MemberResponseDto sampleResponse1 = new MemberResponseDto(1L, "김민호", "godalsgh@gmail.com");
 
 
 

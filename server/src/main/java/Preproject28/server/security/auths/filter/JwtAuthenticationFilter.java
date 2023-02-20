@@ -1,6 +1,6 @@
 package Preproject28.server.security.auths.filter;
 
-import Preproject28.server.member.Member;
+import Preproject28.server.member.entity.Member;
 import Preproject28.server.security.auths.jwt.JwtTokenizer;
 import Preproject28.server.security.auths.dto.LoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
