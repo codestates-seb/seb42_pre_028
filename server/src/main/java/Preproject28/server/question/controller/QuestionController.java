@@ -30,7 +30,7 @@ public class QuestionController {
 
 
     @PostMapping
-    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){
+    public ResponseEntity postQuestion(@RequestBody QuestionPostDto questionPostDto){
         Member member = memberService.findMember(questionPostDto.getMemberId());
         Question request = questionMapper.questionPostDtoToQuestion(questionPostDto);
         request.setMember(member);

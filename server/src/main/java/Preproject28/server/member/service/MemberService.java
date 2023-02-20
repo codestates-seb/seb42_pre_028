@@ -41,14 +41,7 @@ public class MemberService {
     }
 
     public Member findMember(long memberId) {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        log.info(name);
-        Member findMember = findverifiedMember(memberId);
-        log.info(findMember.getEmail());
-        if(!Objects.equals(findMember.getEmail(), name)) {
-            throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
-        }
-        return findMember;
+        return findverifiedMember(memberId);
     }
 
     public void deleteMember(long memberId) {
