@@ -1,6 +1,7 @@
 package Preproject28.server.Question.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
+@AllArgsConstructor
 public class QuestionResponseDto {
     private Long questionId;
 
