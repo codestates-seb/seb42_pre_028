@@ -1,5 +1,9 @@
 package Preproject28.server.member;
 
+import Preproject28.server.member.controller.MemberController;
+import Preproject28.server.member.entity.Member;
+import Preproject28.server.member.mapper.MemberMapper;
+import Preproject28.server.member.service.MemberService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -13,17 +17,13 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;

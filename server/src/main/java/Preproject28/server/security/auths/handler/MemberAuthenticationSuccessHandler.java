@@ -1,6 +1,6 @@
 package Preproject28.server.security.auths.handler;
 
-import Preproject28.server.member.Member;
+import Preproject28.server.member.entity.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

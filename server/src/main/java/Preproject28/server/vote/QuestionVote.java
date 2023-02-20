@@ -1,6 +1,6 @@
 package Preproject28.server.vote;
 
-import Preproject28.server.member.Member;
+import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.entity.Question;
 import lombok.Getter;
 import lombok.Setter;

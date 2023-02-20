@@ -1,16 +1,13 @@
-package Preproject28.server.Answer.dto;
+package Preproject28.server.answer.dto;
 
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Builder
 @Getter
 @Setter
-public class AnswerResponseDto {
+public class AnswerPostDto {
     private Long answerId;
 
 

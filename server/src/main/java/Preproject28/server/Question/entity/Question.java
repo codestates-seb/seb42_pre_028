@@ -1,7 +1,7 @@
 package Preproject28.server.question.entity;
 
 import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.member.Member;
+import Preproject28.server.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
