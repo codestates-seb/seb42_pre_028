@@ -1,4 +1,4 @@
-package Preproject28.server.security.auths;
+package Preproject28.server.security.auths.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,7 @@
 package Preproject28.server.security.auths.filter;
 
-import Preproject28.server.security.auths.CustomAuthorityUtils;
-import Preproject28.server.security.auths.JwtTokenizer;
-import io.jsonwebtoken.Claims;
+import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
+import Preproject28.server.security.auths.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,8 +33,12 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-        Map<String, Object> claims = verifyJws(request);
-        setAuthenticationToContext(claims);
+        try {
+            Map<String, Object> claims = verifyJws(request);
+            setAuthenticationToContext(claims);
+        } catch (Exception e) { // 여기 catch 추가하여
+            request.setAttribute("exception",e);
+        }
 
         filterChain.doFilter(request, response);
     }

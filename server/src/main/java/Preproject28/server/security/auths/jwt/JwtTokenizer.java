@@ -1,4 +1,4 @@
-package Preproject28.server.security.auths;
+package Preproject28.server.security.auths.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

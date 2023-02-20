@@ -1,6 +1,6 @@
 package Preproject28.server.member;
 
-import Preproject28.server.security.auths.CustomAuthorityUtils;
+import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -2,6 +2,7 @@ package Preproject28.server.security.auths;
 
 import Preproject28.server.member.Member;
 import Preproject28.server.member.MemberRepository;
+import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

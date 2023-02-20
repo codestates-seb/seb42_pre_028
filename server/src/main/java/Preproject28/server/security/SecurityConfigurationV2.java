@@ -1,7 +1,9 @@
 package Preproject28.server.security;
 
-import Preproject28.server.security.auths.CustomAuthorityUtils;
-import Preproject28.server.security.auths.JwtTokenizer;
+import Preproject28.server.security.auths.handler.MemberAccessDeniedHandler;
+import Preproject28.server.security.auths.handler.MemberAuthenticationEntryPoint;
+import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
+import Preproject28.server.security.auths.jwt.JwtTokenizer;
 import Preproject28.server.security.auths.filter.JwtAuthenticationFilter;
 import Preproject28.server.security.auths.filter.JwtVerificationFilter;
 import Preproject28.server.security.auths.handler.MemberAuthenticationFailureHandler;
@@ -45,6 +47,10 @@ public class SecurityConfigurationV2 {
                 .and()
                 .formLogin().disable()   // CSR 방식일때 JSON 포맷으로 id,비밀번호 전송하기때문에 비활성화
                 .httpBasic().disable()   // UsernamePasswordAuthenticationFilter 비활성화
+                .exceptionHandling()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .accessDeniedHandler(new MemberAccessDeniedHandler())
+                .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests()
