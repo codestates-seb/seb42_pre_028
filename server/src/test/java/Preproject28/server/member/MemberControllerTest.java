@@ -1,6 +1,8 @@
 package Preproject28.server.member;
 
 import Preproject28.server.member.controller.MemberController;
+import Preproject28.server.member.dto.MemberPostDto;
+import Preproject28.server.member.dto.MemberResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
@@ -50,10 +52,10 @@ class MemberControllerTest {
     @DisplayName("postMemberTest")
     public void postMemberTest() throws Exception {
         //given
-        MemberDto.Post samplePost1 = new MemberDto.Post("김민호", "godalsgh@gmail.com", "1111");
+        MemberPostDto samplePost1 = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
         String samplePost1ToJson = gson.toJson(samplePost1);
 
-        MemberDto.Response sampleResponse1 = new MemberDto.Response(1L, "김민호", "godalsgh@gmail.com");
+        MemberResponseDto sampleResponse1 = new MemberResponseDto(1L, "김민호", "godalsgh@gmail.com");
 
 
 

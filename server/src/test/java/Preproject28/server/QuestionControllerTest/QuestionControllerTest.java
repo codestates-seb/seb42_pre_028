@@ -32,12 +32,10 @@ public class QuestionControllerTest {
     private Gson gson;
 
     LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
+    LocalDateTime modified = LocalDateTime.of(2023, 2,1,1,1);
     @Test
     @DisplayName("PostQuestionTest")
     public void postQuestionTest() throws Exception{
-//        QuestionPostDto mockPost = new QuestionPostDto(1L,"질문 1", "문제 바디","에상 바디",now, modified,1,2,1L,"대답부분-> 리스트로 대체");
-
     }
 
 
