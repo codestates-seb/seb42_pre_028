@@ -1,7 +1,14 @@
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
+// redux 부분
+// import { useSelector, useDispatch } from 'react-redux';
+// import { login, logout } from '../features/log/logSlice';
 
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,7 +108,51 @@ const TextContainer = styled.div`
   height: 40px;
 `;
 
-const Sign_Up = () => {
+function Sign_Up() {
+  // redux 부분
+  // const log = useSelector((state) => state.log.value);
+  // const dispatch = useDispatch();
+
+  // const loginHandler = () => {
+  //   dispatch(login());
+  // };
+
+  // const logoutHandler = () => {
+  //   dispatch(logout());
+  // };
+
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (displayName === '' || email === '' || password === '') {
+      alert('빈 곳을 채워주세요');
+    } else {
+      // usePostfetch 사용 예정
+
+      fetch('https://f30d-112-156-175-230.jp.ngrok.io/members', {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          displayName,
+          email,
+          password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          alert('회원가입 성공!');
+          navigate('/login');
+        });
+    }
+  };
   return (
     <Container>
       <LContainer align="start" padding="30px">
@@ -137,18 +188,30 @@ const Sign_Up = () => {
         <OauthButton background_color="#385499" color="white">
           Sign up with Facebook
         </OauthButton>
-        <Form>
+        <Form onsubmit="return false;">
           <InputContainer>
-            <Label for="display_name">Display name</Label>
-            <Input id="display_name"></Input>
+            <Label htmlFor="display_name">Display name</Label>
+            <Input
+              id="display_name"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+            ></Input>
           </InputContainer>
           <InputContainer>
-            <Label for="email">Email</Label>
-            <Input id="email"></Input>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            ></Input>
           </InputContainer>
           <InputContainer>
-            <Label for="password">Password</Label>
-            <Input id="password"></Input>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></Input>
             <P>
               Passwords must contain at least eight characters, including at
               least 1 letter and 1 number.
@@ -156,13 +219,15 @@ const Sign_Up = () => {
           </InputContainer>
           <InputContainer direction="row" width="290px">
             <input type="checkbox" id="check" />
-            <Label for="check" font_weight="none" font_size="small">
+            <Label htmlFor="check" font_weight="none" font_size="small">
               Opt-in to receive occasional product updates, user research
               invitations, company announcements, and digests.
             </Label>
             <div>Icon?</div>
           </InputContainer>
-          <SubmitButton>Sign up</SubmitButton>
+          <SubmitButton type="submit" onClick={submitHandler}>
+            Sign up
+          </SubmitButton>
           <P>
             By clicking “Sign up”, you agree to our{' '}
             <a href="https://stackoverflow.com/legal/terms-of-service/public">
@@ -192,6 +257,6 @@ const Sign_Up = () => {
       </LContainer>
     </Container>
   );
-};
+}
 
 export default Sign_Up;
