@@ -43,8 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = QuestionController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
-@Slf4j
 @WithMockUser
+@Slf4j
 public class QuestionControllerTest {
     @Autowired
     private MockMvc mockMvc;
