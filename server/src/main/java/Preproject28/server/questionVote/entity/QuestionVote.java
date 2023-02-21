@@ -1,4 +1,4 @@
-package Preproject28.server.vote;
+package Preproject28.server.questionVote.entity;
 
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.entity.Question;
