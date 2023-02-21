@@ -11,6 +11,7 @@ import Preproject28.server.security.auths.handler.MemberAuthenticationSuccessHan
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -54,6 +55,7 @@ public class SecurityConfigurationV2 {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests()
+//                .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll() // 얘는 필요없음
                 .anyRequest().permitAll();
 
         return http.build();
@@ -68,7 +70,8 @@ public class SecurityConfigurationV2 {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("GET","POST","PATCH","DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("GET","POST","PATCH","DELETE","OPTIONS"));
+        configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

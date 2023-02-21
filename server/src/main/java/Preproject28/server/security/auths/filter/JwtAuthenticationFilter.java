@@ -6,6 +6,7 @@ import Preproject28.server.security.auths.dto.LoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import java.util.HashMap;
  *  JWT 를 생성하는 필터
  */
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
