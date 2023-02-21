@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-// 지워도 작동하길래 지웠습니다...
 
 const Content = styled.div`
   display: flex;
@@ -18,6 +17,9 @@ const Items = styled.div`
 `;
 
 const Logo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 24px;
   #logo {
     width: 32px;
@@ -165,13 +167,47 @@ const LoginBtnDiv = styled.div`
 const Message = styled.div`
   padding: 16px;
   margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   div.mt12 {
     margin-top: 12px;
   }
 `;
 
+const Label = styled.label`
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 function LogIn() {
+  const [userEmail, setUserEmail] = useState('');
+  const [userPW, setUserPW] = useState('');
+
+  const loginHandler = () => {
+    const loginData = {
+      email: userEmail,
+      password: userPW,
+    };
+
+    fetch('http://localhost:3001/members/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.ACCESS_TOKEN) {
+          localStorage.setItem('loginToken', res.ACCESS_TOKEN);
+        }
+      })
+      .then(console.log(localStorage));
+  };
+
   return (
     <React.Fragment>
       <Content>
@@ -186,10 +222,12 @@ function LogIn() {
           </OpenIdDiv>
           <LogInForm>
             <InputEmail>
-              <label htmlFor="email">Email</label>
+              <Label htmlFor="email">Email</Label>
               <input
                 id="email"
                 type="email"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
                 size="30"
                 maxLength="100"
                 name="email"
@@ -197,24 +235,29 @@ function LogIn() {
             </InputEmail>
             <InputPW>
               <div className="input-password-label">
-                <label htmlFor="password">Password</label>
+                <Label htmlFor="password">Password</Label>
                 <span>Forgot password?</span>
               </div>
               <input
                 id="password"
                 type="password"
+                value={userPW}
+                onChange={(e) => setUserPW(e.target.value)}
                 name="password"
                 autoComplete="off"
               />
             </InputPW>
             <LoginBtnDiv>
-              <button>Log in</button>
+              <button onClick={loginHandler}>Log in</button>
             </LoginBtnDiv>
           </LogInForm>
           <Message>
             <div>Don`t have an accout? Sign up</div>
             <div className="mt12">Are you an employer? Sign up on Talent</div>
           </Message>
+          {/*localStorage.loginToken ? (
+            <div>Access Token을 발급받았습니다. {localStorage.loginToken} </div>
+          ) : null*/}
         </Items>
       </Content>
     </React.Fragment>

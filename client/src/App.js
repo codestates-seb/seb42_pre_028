@@ -1,10 +1,11 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Sign_Up from './Page/Sign_Up';
+import SignUp from './Page/Sign_Up';
 import Header from './Component/Header';
-import Log_In from './Page/LogIn';
-import Questions_List from './Page/Questions_List';
+import LogIn from './Page/LogIn';
+import QuestionsList from './Page/Questions_List';
+import MyPage from './Page/My_Page';
 
 function App() {
   return (
@@ -13,11 +14,11 @@ function App() {
       <div className="content">
         <Routes>
           {/* <Route path="/" element={<Home />}></Route> */}
-          <Route path="/login" element={<Log_In />}></Route>
-          <Route path="/signup" element={<Sign_Up />}></Route>
-          <Route path="/questions" element={<Questions_List />}></Route>
+          <Route path="/login" element={<LogIn />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/questions" element={<QuestionsList />}></Route>
           {/* <Route path="/questions/:id" element={<Question_Detail />} /> */}
-          {/* <Route path="/mypage" element={<My_Page />}></Route> */}
+          <Route path="/mypage" element={<MyPage />}></Route>
           {/* <Route path="/search" element={<Search />}></Route> */}
         </Routes>
       </div>
