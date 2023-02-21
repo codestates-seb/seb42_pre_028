@@ -139,7 +139,7 @@ function Questions_List() {
                   return <ArrayButton key={index}>{el}</ArrayButton>;
                 })}
               </ArrayDiv>
-              <button>Filter</button>
+              <ArrayButton>Filter</ArrayButton>
             </RowDiv>
           </MainComponent>
           <MainComponent>

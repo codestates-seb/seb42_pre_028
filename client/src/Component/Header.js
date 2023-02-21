@@ -5,10 +5,12 @@ import Menu from './Menu';
 import { useState } from 'react';
 
 const Container = styled.nav`
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #f8f9f9;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  border-top: 0.2rem solid #f48225;
 `;
 
 const MenuContainer = styled.div`
