@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// eslint-disable-next-line no-unused-vars
+import MyProfile from './MyPages/My_Profile';
+import MyActivity from './MyPages/My_Activity';
+// eslint-disable-next-line no-unused-vars
+import MySettings from './MyPages/My_Settings';
+
 const Content = styled.div`
   display: flex;
   padding: 24px 16px 24px 16px;
@@ -49,21 +55,7 @@ function My_Page() {
             <li>Settings</li>
           </ul>
         </div>
-        <div className="my_questions_container">
-          <div className="my_question_menubar">
-            <div className="my_q_total">0 Questions</div>
-            <div className="my_q_top_btn">
-              <button>Score</button>
-              <button>Activity</button>
-              <button>Newest</button>
-              <button>View</button>
-            </div>
-          </div>
-          <div className="my_question_container">
-            <div className="my_q_list">You have not asked any questions</div>
-            <div className="my_q_delete">Deleted questions</div>
-          </div>
-        </div>
+        <MyActivity />
       </Content>
     </React.Fragment>
   );

@@ -188,11 +188,12 @@ function LogIn() {
 
   const loginHandler = () => {
     const loginData = {
-      email: userEmail,
+      username: userEmail,
       password: userPW,
     };
 
-    fetch('http://localhost:3001/members/token', {
+    fetch(`https://f30d-112-156-175-230.jp.ngrok.io/auth/login`, {
+      credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -200,12 +201,13 @@ function LogIn() {
       body: JSON.stringify(loginData),
     })
       .then((res) => res.json())
-      .then((res) => {
-        if (res.ACCESS_TOKEN) {
-          localStorage.setItem('loginToken', res.ACCESS_TOKEN);
-        }
-      })
-      .then(console.log(localStorage));
+      .then((res) => console.log(res.json()));
+    // .then((res) => {
+    //   if (res.ACCESS_TOKEN) {
+    //     localStorage.setItem('loginToken', res.ACCESS_TOKEN);
+    //   }
+    // })
+    // .then(console.log(localStorage));
   };
 
   return (
