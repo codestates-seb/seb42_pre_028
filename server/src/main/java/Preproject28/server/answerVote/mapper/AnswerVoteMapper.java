@@ -6,7 +6,7 @@ import Preproject28.server.answerVote.dto.AnswerVoteResponseDto;
 import Preproject28.server.answerVote.entity.AnswerVote;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+//@Mapper(componentModel = "spring")
 public interface AnswerVoteMapper {
     AnswerVote answerVotePostDtoToAnswerVote(AnswerVotePostDto answerVotePostDto);
     AnswerVote answerVotePatchDtoToAnswerVote(AnswerVotePathDto answerVotePathDto);

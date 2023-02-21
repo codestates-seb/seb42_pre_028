@@ -1,15 +1,28 @@
 package Preproject28.server.answerVote.controller;
 
-import Preproject28.server.answerVote.mapper.AnswerVoteMapper;
+
 import Preproject28.server.answerVote.service.AnswerVoteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/answer/vote")
+@RequestMapping("/answer-vote")
 @RequiredArgsConstructor
 public class AnswerVoteController {
     private final AnswerVoteService answerVoteService;
-    private final AnswerVoteMapper answerVoteMapper;
+    //추천수
+    @PostMapping("/{answer-id}/up")
+    public void answerVoteUpPost(@PathVariable("answer-id") long answerId) {
+        answerVoteService.answerVoteUp(answerId);
+        //조건 : 로그인이 되있는사람만 (시큐리티에서 추가필요)
+    }
+
+    @PostMapping("/{answer-id}/down")
+    public void answerVoteDownPost(@PathVariable("answer-id") long answerId) {
+        answerVoteService.answerVoteDown(answerId);
+        //조건 : 로그인이 되있는사람만 (시큐리티에서 추가필요)
+    }
 }

@@ -57,10 +57,15 @@ public class MemberService {
 
     }
 
-    private Member findverifiedMember(long memberId) {
+    public Member findverifiedMember(long memberId) {
         Optional<Member> memberOptional = memberRepository.findById(memberId);
         return memberOptional.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
+    public Member findverifiedMemberByEmail(String memberEmail) {
+        Optional<Member> memberOptional = memberRepository.findByEmail(memberEmail);
+        return memberOptional.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
     private String passwordEncoding(String password) {
         return passwordEncoder.encode(password);
     }
