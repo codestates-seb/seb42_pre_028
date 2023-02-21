@@ -8,20 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class AnswerPostDto {
-    private Long answerId;
-
-
     private String content;
-
-
-    private LocalDateTime createdAt;
-
-
-    private LocalDateTime modifiedAt;
-
-
+    private long questionId;
     private long memberId;
-
-
-    private String answers;
 }

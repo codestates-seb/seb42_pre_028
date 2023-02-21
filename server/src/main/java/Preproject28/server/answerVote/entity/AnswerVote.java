@@ -28,6 +28,7 @@ public class AnswerVote {
         this.voteStatus = voteStatus;
     }
 
+    @Enumerated(EnumType.STRING)
     private VoteStatus voteStatus;
 
     public enum VoteStatus{
