@@ -1,7 +1,9 @@
 package Preproject28.server.answer.dto;
 
 
+import Preproject28.server.member.dto.MemberResponseDto;
 import Preproject28.server.member.entity.Member;
+import Preproject28.server.question.dto.QuestionResponseDto;
 import Preproject28.server.question.entity.Question;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +19,7 @@ public class AnswerResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private Member member;
-    private Question question;
+    private MemberResponseDto member;
+    private QuestionResponseDto question;
 
 }
