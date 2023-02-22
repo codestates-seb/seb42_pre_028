@@ -5,7 +5,9 @@ import SignUp from './Page/Sign_Up';
 import Header from './Component/Header';
 import LogIn from './Page/LogIn';
 import QuestionsList from './Page/Questions_List';
-import MyPage from './Page/My_Page';
+import MyPage from './Page/MyPages/My_Page';
+import MyProfile from './Page/MyPages/My_Profile';
+import MySettings from './Page/MyPages/My_Settings';
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/questions" element={<QuestionsList />}></Route>
           {/* <Route path="/questions/:id" element={<QuestionDetail />} /> */}
-          <Route path="/mypage" element={<MyPage />}></Route>
+          <Route path="/mypage/activity" element={<MyPage />}></Route>
+          <Route path="/mypage/profile" element={<MyProfile />}></Route>
+          <Route path="/mypage/setting" element={<MySettings />}></Route>
           {/* <Route path="/search" element={<Search />}></Route> */}
         </Routes>
       </div>

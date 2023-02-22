@@ -60,7 +60,7 @@ function Header() {
       </div>
 
       {log ? (
-        <Link to="/mypage">
+        <Link to="/mypage/activity">
           <Button>MyPage</Button>
         </Link>
       ) : (
