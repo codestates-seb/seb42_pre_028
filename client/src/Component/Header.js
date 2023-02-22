@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Menu from './Menu';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../features/log/logSlice';
 
 const Container = styled.nav`
   padding: 0.5rem 1rem;
@@ -38,9 +39,46 @@ const Input = styled.input`
 function Header() {
   const log = useSelector((state) => state.log.value);
   const [menuflag, setMenuFlag] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.log);
 
   const menuToggle = () => {
     setMenuFlag(!menuflag);
+  };
+
+  // 로그아웃 기능 추가
+  const logoutHandler = () => {
+    // const logoutData = {
+    // req.body에 담을 데이터가 들어갈 자리
+    // };
+
+    // 테스트용 코드
+    // 기능 : 로그아웃 버튼 클릭 시 로그인 상태를 false로 변경 후 홈으로 이동
+    dispatch(logout(state));
+    navigate('/');
+
+    // 서버 통신용 코드 (임의로 작성. 로그아웃 api 필요)
+    // fetch(`https://991b-112-156-175-230.jp.ngrok.io/auth/logout`, {
+    //   credentials: 'include',
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(logoutData),
+    // })
+    //   .then((res) => {
+    //     if (res.ok) {
+    //       dispatch(logout(state));
+    //     }
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //     if (state.value === false) {
+    //       navigate('/');
+    //   })
+    //   .catch(() => alert('에러 발생'));
   };
 
   return (
@@ -60,9 +98,12 @@ function Header() {
       </div>
 
       {log ? (
-        <Link to="/mypage/activity">
-          <Button>MyPage</Button>
-        </Link>
+        <div>
+          <Link to="/mypage/activity">
+            <Button>MyPage</Button>
+          </Link>
+          <Button onClick={logoutHandler}>LogOut</Button>
+        </div>
       ) : (
         <div>
           <Link to="/login">

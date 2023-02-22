@@ -9,7 +9,8 @@ import MyPSetNav from '../../Component/MyPages/myP_Set_nav';
 
 const Content = styled.div`
   display: flex;
-  padding: 24px 16px 24px 16px;
+  flex-direction: column;
+  padding: 24px;
   font-size: 0.8rem;
 `;
 
