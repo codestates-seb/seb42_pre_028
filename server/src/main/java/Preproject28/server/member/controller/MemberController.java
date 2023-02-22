@@ -13,19 +13,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class MemberController {
 
     private final MemberMapper mapper;
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity postMember(@RequestBody MemberPostDto requestBody) {
+    public ResponseEntity postMember(@RequestBody @Valid MemberPostDto requestBody) {
         Member member = mapper.memberPostDtoToMember(requestBody);
         Member createdMember = memberService.createMember(member);
         MemberResponseDto response = mapper.memberToMemberResponse(createdMember);
@@ -33,7 +37,7 @@ public class MemberController {
     }
 
     @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@RequestBody MemberPatchDto requestBody, @PathVariable("member-id") long memberId) {
+    public ResponseEntity patchMember(@RequestBody @Valid MemberPatchDto requestBody, @PathVariable("member-id") long memberId) {
         Member member = mapper.memberPatchDtoToMember(requestBody);
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);

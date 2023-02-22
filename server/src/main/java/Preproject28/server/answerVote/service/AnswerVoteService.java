@@ -1,10 +1,8 @@
 package Preproject28.server.answerVote.service;
 
 import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.answer.repository.AnswerRepository;
 import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.answerVote.entity.AnswerVote;
-import Preproject28.server.answerVote.mapper.AnswerVoteMapper;
 import Preproject28.server.answerVote.repository.AnswerVoteRepository;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
