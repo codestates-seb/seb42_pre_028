@@ -208,7 +208,7 @@ function LogIn() {
       navigate('/mypage', { replace: true });
     }
 
-    // fetch(`https://f30d-112-156-175-230.jp.ngrok.io/auth/login`, {
+    // fetch(`https://991b-112-156-175-230.jp.ngrok.io/auth/login`, {
     //   credentials: 'include',
     //   method: 'POST',
     //   headers: {
@@ -217,16 +217,21 @@ function LogIn() {
     //   body: JSON.stringify(loginData),
     // })
     //   .then((res) => {
-    //     console.log(`res.json() : ${res.json()}`);
+    //     if (res.ok) {
+    //       dispatch(login(state));
+    //     }
     //     return res.json();
     //   })
     //   .then((data) => {
     //     console.log(data);
-    //     dispatch(login(state));
-    //     alert('로그인 성공');
-    //     navigate('/mypage', { replace: true });
+    //     if (state.value === true) {
+    //       alert('로그인 성공');
+    //       navigate('/mypage', { replace: true });
+    //     } else {
+    //       alert('아이디와 비밀번호를 확인해주세요');
+    //     }
     //   })
-    //   .catch(() => alert('로그인 실패 : 아이디와 패스워드를 확인해주세요'));
+    //   .catch(() => alert('에러 발생'));
 
     // .then((res) => {
     //   if (res.ACCESS_TOKEN) {
@@ -283,7 +288,6 @@ function LogIn() {
             <div>Don`t have an accout? Sign up</div>
             <div className="mt12">Are you an employer? Sign up on Talent</div>
           </Message>
-          <div>{`${state.value}`}</div>
           {/*localStorage.loginToken ? (
             <div>Access Token을 발급받았습니다. {localStorage.loginToken} </div>
           ) : null*/}

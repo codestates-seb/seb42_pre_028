@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 function Footer() {
+  if (window.location.pathname === '/login') return null;
+  if (window.location.pathname === '/signup') return null;
   return (
     <FooterContainer>
       <LogoContainer>
@@ -62,6 +65,7 @@ function Footer() {
           licensed under CC BY-SA. rev 2022.12.19.43125
         </p>
       </SnsAndCopyright>
+      <Outlet />
     </FooterContainer>
   );
 }
@@ -73,6 +77,7 @@ const FooterContainer = styled.div`
   color: #9199a1;
   display: flex;
   justify-content: center;
+  bottom: 0px;
 `;
 
 const LogoContainer = styled.div`
@@ -100,7 +105,7 @@ const Category = styled.div`
 `;
 
 const Menu = styled.p`
-  font-size: 13px;
+  font-size: 0.8rem;
   padding-bottom: 6px;
   margin: 0px;
   color: #babfc4;

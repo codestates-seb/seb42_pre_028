@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const Container = styled.header`
   padding: 4px;
-  position: fixed; //상단바 고정스크롤
+  position: sticky; //상단바 고정 스크롤
   top: 0;
   left: 0;
   right: 0;
@@ -74,7 +74,7 @@ function Header() {
       </div>
 
       {log ? (
-        <Link to="/mypage">
+        <Link to="/mypage/activity">
           <Button>MyPage</Button>
         </Link>
       ) : (

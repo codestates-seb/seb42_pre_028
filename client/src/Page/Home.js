@@ -24,7 +24,7 @@ function Home() {
 }
 
 const HomeContainer = styled.div`
-  margin: 90px 30px 30px;
+  margin: 30px;
   height: 30rem;
   color: #9199a1;
   display: flex;

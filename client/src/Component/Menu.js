@@ -30,7 +30,7 @@ const Menu = ({ setMenuFlag }) => {
         <Link to="/questions">
           <Button onClick={() => setMenuFlag(false)}>Questions</Button>
         </Link>
-        <Link to="/mypage">
+        <Link to="/mypage/activity">
           <Button onClick={() => setMenuFlag(false)}>My Page</Button>
         </Link>
       </NavContainer>
