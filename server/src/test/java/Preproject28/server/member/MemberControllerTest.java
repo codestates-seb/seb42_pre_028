@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,20 +55,20 @@ class MemberControllerTest {
     @DisplayName("회원정보 수정 테스트")
     public void postMemberTest() throws Exception {
         //given
-        MemberPatchDto samplePatch = new MemberPatchDto("김민호", "godalsgh@gmail.com", "1111");
-        String samplePost1ToJson = gson.toJson(samplePost1);
+        MemberPostDto requestPost = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
+        String requestJson = gson.toJson(requestPost);
 
-        MemberResponseDto sampleResponse1 = new MemberResponseDto(1L, "김민호", "godalsgh@gmail.com");
+        MemberResponseDto response = new MemberResponseDto(1L, "김민호", "godalsgh@gmail.com");
 
         when(mapper.memberPostDtoToMember(any())).thenReturn(new Member());
         when(memberService.createMember(any())).thenReturn(new Member());
-        when(mapper.memberToMemberResponse(any())).thenReturn(sampleResponse1);
+        when(mapper.memberToMemberResponse(any())).thenReturn(response);
         //when
 
         ResultActions actions = mockMvc.perform(post("/members")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(samplePost1ToJson)
+                .content(requestJson)
                 .with(csrf()));
         //then
         actions
@@ -99,41 +99,40 @@ class MemberControllerTest {
     @DisplayName("멤버 수정테스트")
     public void patchMemberTest() throws Exception {
         //given
-        MemberPostDto samplePost1 = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
-        String samplePost1ToJson = gson.toJson(samplePost1);
+        MemberPatchDto requestPatch = new MemberPatchDto("김민호", "1111");
+        String requestJson = gson.toJson(requestPatch);
 
-        MemberResponseDto sampleResponse1 = new MemberResponseDto(1L, "김민호", "godalsgh@gmail.com");
+        MemberResponseDto response = new MemberResponseDto(1L, "김민호", "godalsgh@gmail.com");
 
-        when(mapper.memberPostDtoToMember(any())).thenReturn(new Member());
-        when(memberService.createMember(any())).thenReturn(new Member());
-        when(mapper.memberToMemberResponse(any())).thenReturn(sampleResponse1);
+        when(mapper.memberPatchDtoToMember(any())).thenReturn(new Member());
+        when(memberService.updateMember(any())).thenReturn(new Member());
+        when(mapper.memberToMemberResponse(any())).thenReturn(response);
+
         //when
-
-        ResultActions actions = mockMvc.perform(post("/members")
+        ResultActions actions = mockMvc.perform(patch("/members/1")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(samplePost1ToJson)
+                .content(requestJson)
                 .with(csrf()));
         //then
         actions
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document(
-                        "post-member",
+                        "patch-member",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름").optional(),
-                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                                 )
                         ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름"),
-                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름")
                                 )
                         )
                 ));

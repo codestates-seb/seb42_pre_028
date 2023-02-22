@@ -18,8 +18,8 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         Member member = (Member) authentication.getPrincipal();
-        log.info(member.getDisplayName());
-        log.info(" # 로그인 성공");
-        response.setHeader("test", "login");
+        String clientIp = new CustomHttpServletRequestWrapper(request).getRemoteAddr();
+        log.info(" # 로그인 성공" + " ID : " + member.getEmail() + " , 요청 IP : " + clientIp);
+//        response.setHeader("test", "login"); // 그냥 실험
     }
 }

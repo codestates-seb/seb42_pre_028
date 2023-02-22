@@ -21,7 +21,8 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        log.error("# Authentication failed: {}", exception.getMessage());
+        String clientIp = new CustomHttpServletRequestWrapper(request).getRemoteAddr();
+        log.error("# Authentication failed: {}", exception.getMessage() + " , 요청 IP : " + clientIp);
         sendErrorResponse(response);
     }
 
