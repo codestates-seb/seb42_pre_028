@@ -63,7 +63,7 @@ public class QuestionController {
     }
 
 
-    @GetMapping("/{question-id")
+    @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable("question-id") long QId){
         Question question = questionService.findQuestion(QId);
 

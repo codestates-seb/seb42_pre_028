@@ -23,15 +23,26 @@ public class AnswerService {
         this.answerRepository = answerRepository;
     }
 
-    public Answer createQuestion(Answer answer){
+    public Answer createAnswer(Answer answer){
         return answerRepository.save(answer);
     }
 
-    public Answer updateQuestion(Answer answer){
-        Answer findAnswer = findAnswer (answer.getAnswerId());
-        Optional.ofNullable(answer.getContent()).ifPresent(findAnswer::setContent);
-        Optional.ofNullable(answer.getMember()).ifPresent(findAnswer::setMember);
-        Optional.of(answer.getVoteCount()).ifPresent(findAnswer::setVoteCount);
+    public Answer updateAnswer(Answer answer){
+        Answer findAnswer = findAnswer(answer.getAnswerId());
+        Optional.ofNullable(answer.getContent())
+                .ifPresent(content -> findAnswer.setContent(content));
+        Optional.ofNullable(answer.getVoteCount())
+                .ifPresent(voteCount -> answer.setVoteCount(voteCount));
+        Optional.ofNullable(answer.getMember())
+                .ifPresent(member -> answer.setMember(member));
+        Optional.ofNullable(answer.getContent())
+                .ifPresent(content -> findAnswer.setContent(content));
+        Optional.ofNullable(answer.getModifiedAt())
+                .ifPresent(Modified -> findAnswer.setModifiedAt(Modified));
+;
+
+
+
         return findAnswer;
     }
     public void deleteAnswer(long QId){

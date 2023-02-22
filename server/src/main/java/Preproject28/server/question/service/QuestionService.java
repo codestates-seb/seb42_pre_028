@@ -27,12 +27,18 @@ public class QuestionService {
 
     public Question updateQuestion(Question question){
         Question findQuestion = findQuestion(question.getQuestionId());
-        Optional.ofNullable(question.getAnswers()).ifPresent(findQuestion::setAnswers);
-        Optional.ofNullable(question.getTitle()).ifPresent(findQuestion::setTitle);
-        Optional.ofNullable(question.getProblemBody()).ifPresent(findQuestion::setProblemBody);
-        Optional.ofNullable(question.getExpectingBody()).ifPresent(findQuestion::setExpectingBody);
-        Optional.of(question.getViewCount()).ifPresent(findQuestion::setViewCount);
-        Optional.of(question.getVoteCount()).ifPresent(findQuestion::setViewCount);
+        Optional.ofNullable(question.getAnswers())
+                .ifPresent(answers -> findQuestion.setAnswers(answers));
+        Optional.ofNullable(question.getTitle())
+                .ifPresent(title -> findQuestion.setTitle(title));
+        Optional.ofNullable(question.getProblemBody())
+                .ifPresent(problemBody -> findQuestion.setProblemBody(problemBody));
+        Optional.ofNullable(question.getExpectingBody())
+                .ifPresent(expectingBody -> findQuestion.setExpectingBody(expectingBody));
+        Optional.of(question.getViewCount())
+                .ifPresent(viewCount -> findQuestion.setViewCount(viewCount));
+        Optional.of(question.getVoteCount())
+                .ifPresent(voteCount ->findQuestion.setVoteCount(voteCount));
         return findQuestion;
     }
     public void deleteQuestion(long QId){

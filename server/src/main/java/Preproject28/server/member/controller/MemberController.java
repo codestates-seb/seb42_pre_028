@@ -26,7 +26,7 @@ public class MemberController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/member0d")
     public String getMember(){
         return "member로 들어왔음";
     }
