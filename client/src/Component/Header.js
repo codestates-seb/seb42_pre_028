@@ -5,13 +5,25 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../features/log/logSlice';
 
-const Container = styled.nav`
-  padding: 0.5rem 1rem;
+const Container = styled.header`
+  padding: 4px;
+  position: sticky; //상단바 고정 스크롤
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: #f8f9f9;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   border-top: 0.2rem solid #f48225;
+  box-shadow: 0 0 5px #c8c8c8;
+`;
+
+const Logo = styled.img`
+  margin: 2px;
+  width: 150px;
+  height: 30px;
+  vertical-align: middle;
 `;
 
 const MenuContainer = styled.div`
@@ -19,6 +31,7 @@ const MenuContainer = styled.div`
 `;
 
 const Button = styled.button`
+  margin: 2px;
   background-color: ${(props) => props.background_color || '#e1ecf4'};
   color: ${(props) => props.color || '#39739e'};
   border: 1px solid #7aa7c7;
@@ -29,6 +42,7 @@ const Button = styled.button`
 `;
 
 const Input = styled.input`
+  margin: 2px;
   width: ${(props) => props.width || '290px'};
   height: ${(props) => props.height || '32.6px'};
   padding-left: 8px;
@@ -87,7 +101,7 @@ function Header() {
         <Button onClick={menuToggle}>Menu</Button>
         {menuflag ? <Menu setMenuFlag={setMenuFlag} /> : null}
         <Link to="/">
-          <Button>Logo</Button>
+          <Logo img src="../images/Stack_Overflow_logo.svg.png" />
         </Link>
       </MenuContainer>
       <div>
