@@ -8,6 +8,7 @@ import QuestionsList from './Page/Questions_List';
 import MyPage from './Page/MyPages/My_Page';
 import MyProfile from './Page/MyPages/My_Profile';
 import MySettings from './Page/MyPages/My_Settings';
+import QuestionDetail from './Page/Question_Detail';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           <Route path="/login" element={<LogIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/questions" element={<QuestionsList />}></Route>
-          {/* <Route path="/questions/:id" element={<QuestionDetail />} /> */}
+          <Route path="/questions/:id" element={<QuestionDetail />} />
+          {/* <Route path="/create" element={<Create />}></Route> */}
           <Route path="/mypage/activity" element={<MyPage />}></Route>
           <Route path="/mypage/profile" element={<MyProfile />}></Route>
           <Route path="/mypage/setting" element={<MySettings />}></Route>
