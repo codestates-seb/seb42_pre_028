@@ -120,6 +120,12 @@ public class QuestionControllerTest {
                 );
 
     }
+    @Test
+    @DisplayName("postQuestionTest")
+    public void patchQuestionTest() throws Exception{
+        long memberId = 1L;
+
+    }
 
 
 

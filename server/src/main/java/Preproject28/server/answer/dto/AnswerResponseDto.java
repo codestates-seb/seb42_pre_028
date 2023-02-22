@@ -1,30 +1,37 @@
 package Preproject28.server.answer.dto;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import Preproject28.server.member.entity.Member;
+import Preproject28.server.question.entity.Question;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AnswerResponseDto {
     private Long answerId;
 
-
     private String content;
 
+    private int voteCount;
 
     private LocalDateTime createdAt;
 
-
     private LocalDateTime modifiedAt;
 
+    private boolean adoptStatus;
 
-    private long memberId;
+    private long questionId;
+
+    private long memberID;
 
 
-    private String answers;
 }

@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("/answer")
 @RequiredArgsConstructor
 public class AnswerController {
     private final QuestionService questionService;

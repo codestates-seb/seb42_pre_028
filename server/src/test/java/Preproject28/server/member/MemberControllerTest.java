@@ -48,7 +48,7 @@ class MemberControllerTest {
     private Gson gson;
 
     @Test
-    @DisplayName("postMemberTest")
+    @DisplayName("PostMemberTest")
     public void postMemberTest() throws Exception {
         //given
         MemberPostDto samplePost1 = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
@@ -90,6 +90,14 @@ class MemberControllerTest {
                                 )
                 )
                 ));
+    }
+    @Test
+    @DisplayName("PatchMemberTest")
+    public void patchMemberTest() throws Exception{
+
+
+
+
     }
 
 

@@ -17,18 +17,23 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
+
     private String title;
+
     private String problemBody;
+
     private String expectingBody;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
     private long viewCount;
+
     private long voteCount;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
     private Member member;
 
     private String answers;
