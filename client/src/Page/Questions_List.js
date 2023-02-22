@@ -3,6 +3,7 @@ import Question from '../Component/Question';
 import { useState } from 'react';
 import Pagination from '../Component/Pagination';
 import { dummyData } from '../dummyData';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -130,7 +131,9 @@ function Questions_List() {
         <Mainbar>
           <MainComponent>
             <H1>All Questions</H1>
-            <AskButton>Ask Question</AskButton>
+            <Link to="/create">
+              <AskButton>Ask Question</AskButton>
+            </Link>
           </MainComponent>
           <MainComponent>
             <div>{size} questions</div>
