@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../features/log/logSlice';
 
 const Content = styled.div`
   display: flex;
@@ -185,23 +189,45 @@ const Label = styled.label`
 function LogIn() {
   const [userEmail, setUserEmail] = useState('');
   const [userPW, setUserPW] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.log);
 
   const loginHandler = () => {
-    const loginData = {
-      username: userEmail,
-      password: userPW,
-    };
+    // const loginData = {
+    //   username: userEmail,
+    //   password: userPW,
+    // };
 
-    fetch(`https://f30d-112-156-175-230.jp.ngrok.io/auth/login`, {
-      credentials: 'include',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData),
-    })
-      .then((res) => res.json())
-      .then((res) => console.log(res.json()));
+    // 테스트용 코드
+    // 로그인 버튼을 클릭하면 state의 value 값이 true로 변하고
+    // state의 value 값이 true일 경우 로그인 성공 메시지를 출력 후 마이페이지로 이동하게 함.
+    dispatch(login(state));
+    if (state.value === true) {
+      alert('로그인 성공');
+      navigate('/mypage', { replace: true });
+    }
+
+    // fetch(`https://f30d-112-156-175-230.jp.ngrok.io/auth/login`, {
+    //   credentials: 'include',
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(loginData),
+    // })
+    //   .then((res) => {
+    //     console.log(`res.json() : ${res.json()}`);
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //     dispatch(login(state));
+    //     alert('로그인 성공');
+    //     navigate('/mypage', { replace: true });
+    //   })
+    //   .catch(() => alert('로그인 실패 : 아이디와 패스워드를 확인해주세요'));
+
     // .then((res) => {
     //   if (res.ACCESS_TOKEN) {
     //     localStorage.setItem('loginToken', res.ACCESS_TOKEN);
@@ -257,6 +283,7 @@ function LogIn() {
             <div>Don`t have an accout? Sign up</div>
             <div className="mt12">Are you an employer? Sign up on Talent</div>
           </Message>
+          <div>{`${state.value}`}</div>
           {/*localStorage.loginToken ? (
             <div>Access Token을 발급받았습니다. {localStorage.loginToken} </div>
           ) : null*/}
