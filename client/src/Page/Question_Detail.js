@@ -1,7 +1,11 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Like from '../features/questionDetail/Like';
 import Author from '../features/questionDetail/Author';
+import { useState } from 'react';
+import Preview from '../features/questionDetail/Preview';
+import QuestionContent from '../features/questionDetail/QuestionContent';
+import { dummyData } from '../dummyData';
 
 const Container = styled.div`
   display: flex;
@@ -32,10 +36,12 @@ const TitleContainer = styled.div`
 `;
 
 const H2 = styled.h2`
+  width: 80%;
   margin-top: 0;
 `;
 
 const AskButton = styled.button`
+  width: fit-content;
   height: 2.5rem;
   padding: 0 0.6rem;
   background-color: #1295ff;
@@ -106,7 +112,16 @@ const AnswerContainer = styled.div`
   border-bottom: 0.5px solid gray;
 `;
 
+const Textarea = styled.textarea`
+  padding: 1rem;
+  height: 18rem;
+  margin-bottom: 1rem;
+`;
+
 function Question_Detail() {
+  const { id } = useParams();
+  const [content, setContent] = useState('');
+
   return (
     <Container>
       <Content>
@@ -131,48 +146,7 @@ function Question_Detail() {
           <QuestionContainer>
             <Like size={7} />
             <QuestionContentContainer>
-              <p>
-                I would like to redirect my user after he has made a payment
-                (successful or failed) to a page automatically.
-              </p>
-              <p>
-                Currently, the payment is going well, the update is a success on
-                stripe and I manage to retrieve the necessary information with
-                my django view.
-              </p>
-              <p>
-                However, after successful payment, no redirection takes place.
-                There are several documentation but I cant find a way to do it
-                with the react component proposed by stripe themselves.
-              </p>
-              <p>How can I proceed?</p>
-              <p>here is my work</p>
-              <p>Offers.js : ReactComponent by Stripe</p>
-              <div>---------------code1----------------</div>
-              <p>
-                When I click on the subscribe button, everything is fine. the
-                payment is made on stripe and I retrieve the information in my
-                webhook with django
-              </p>
-              <p>views.py</p>
-              <div>---------------code2----------------</div>
-              <p>
-                And here are my affiliate url routes to my subscriptions app
-              </p>
-              <p>urls.py</p>
-              <div>---------------code3----------------</div>
-              <p>models.py</p>
-              <div>---------------code4----------------</div>
-              <p>
-                after the payment I get a page with `successful payment` but no
-                redirect to apply and no possibility to return to the
-                application. the URL looks like this:
-                <a href="https://checkout.stripe.com/c/pay/cs_test_b1m%5B...%5DERl#fid%5B...%5DICUl">
-                  https://checkout.stripe.com/c/pay/cs_test_b1m[...]ERl#fid[...]ICUl
-                </a>
-              </p>
-              <p>[...] = sequence of several numbers and letters</p>
-              <p>what am I doing wrong? thanks for your help</p>
+              <QuestionContent qContent={dummyData[id].content} />
               <TagContainer>
                 <TagSpan>python</TagSpan>
                 <TagSpan>reactjs</TagSpan>
@@ -197,6 +171,16 @@ function Question_Detail() {
               <Author name="yuting" />
             </QuestionContentContainer>
           </AnswerContainer>
+          <p>Your Answer</p>
+          <Textarea
+            value={content}
+            onChange={(e) => {
+              let text = e.target.value;
+              setContent(text);
+            }}
+          />
+          <Preview content={content} />
+          <AskButton>Post Your Answer</AskButton>
         </Mainbar>
 
         {/* <Sidebar>Sidebar</Sidebar> */}
