@@ -12,8 +12,10 @@ const Li = styled.li`
 `;
 
 const Button = styled.button`
-  background-color: ${(props) => props.page || null};
+  background-color: ${(props) => props.seleted || null};
 `;
+
+// props type 에러 : props 타입을 검사하여 안전한 props 인지 확인하라는 오류
 // eslint-disable-next-line react/prop-types
 function Pagination({ size, pageCnt, currentPage, setCurrentPage }) {
   let totalPage = Math.ceil(size / pageCnt); // 전체 Page 개수
@@ -29,13 +31,11 @@ function Pagination({ size, pageCnt, currentPage, setCurrentPage }) {
   const handleNextPage = () => {
     if (currentPage < totalPage) {
       setCurrentPage(++currentPage);
-      console.log(currentPage);
     }
   };
 
   const handleChangePage = (e) => {
     setCurrentPage(e.target.value);
-    console.log(currentPage);
   };
 
   return (
@@ -49,7 +49,7 @@ function Pagination({ size, pageCnt, currentPage, setCurrentPage }) {
           <Li key={index}>
             <Button
               value={el}
-              page={el === currentPage ? '#f38225' : null}
+              seleted={el === currentPage ? '#f38225' : null}
               onClick={handleChangePage}
             >
               {el}

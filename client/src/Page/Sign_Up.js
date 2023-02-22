@@ -3,10 +3,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-// redux 부분
-// import { useSelector, useDispatch } from 'react-redux';
-// import { login, logout } from '../features/log/logSlice';
-
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
@@ -109,18 +105,6 @@ const TextContainer = styled.div`
 `;
 
 function Sign_Up() {
-  // redux 부분
-  // const log = useSelector((state) => state.log.value);
-  // const dispatch = useDispatch();
-
-  // const loginHandler = () => {
-  //   dispatch(login());
-  // };
-
-  // const logoutHandler = () => {
-  //   dispatch(logout());
-  // };
-
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -131,8 +115,6 @@ function Sign_Up() {
     if (displayName === '' || email === '' || password === '') {
       alert('빈 곳을 채워주세요');
     } else {
-      // usePostfetch 사용 예정
-
       fetch('https://f30d-112-156-175-230.jp.ngrok.io/members', {
         credentials: 'include',
         method: 'POST',

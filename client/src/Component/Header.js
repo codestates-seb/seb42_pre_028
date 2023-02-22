@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Menu from './Menu';
-// import { useEffect, useState } from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Container = styled.nav`
   padding: 0.5rem 1rem;
@@ -35,21 +35,12 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
-const Header = () => {
+function Header() {
+  const log = useSelector((state) => state.log.value);
   const [menuflag, setMenuFlag] = useState(false);
-  const [logflag, setLogFlag] = useState(false);
-
-  // useEffect(() => {
-  //   logToggle();
-  // }, []);
 
   const menuToggle = () => {
     setMenuFlag(!menuflag);
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const logToggle = () => {
-    setLogFlag(!logflag);
   };
 
   return (
@@ -68,7 +59,7 @@ const Header = () => {
         </Link>
       </div>
 
-      {logflag ? (
+      {log ? (
         <Link to="/mypage">
           <Button>MyPage</Button>
         </Link>
@@ -86,6 +77,6 @@ const Header = () => {
       )}
     </Container>
   );
-};
+}
 
 export default Header;

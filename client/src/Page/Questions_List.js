@@ -118,6 +118,7 @@ function Questions_List() {
   const renderData = dummyData.filter((el) => el.id >= start && el.id < end);
 
   const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered', 'More'];
+
   const pageHandler = (e) => {
     setPageCnt(e.target.value);
     setCurrentPage(1);
