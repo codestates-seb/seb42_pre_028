@@ -2,6 +2,7 @@ package Preproject28.server.answer.entity;
 
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.entity.Question;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,6 +36,7 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @JsonBackReference
     private Member member;
 
 

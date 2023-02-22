@@ -1,5 +1,6 @@
 package Preproject28.server.member.entity;
 
+import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.question.entity.Question;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
@@ -35,6 +36,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     @JsonManagedReference
     private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @JsonManagedReference
+    private List<Answer> answers = new ArrayList<>();
 }
 
 

@@ -42,3 +42,19 @@ include::{snippets}/patch-member/http-response.adoc[]
 
 // .response-headers
 // include::{snippets}/post-member/response-headers.adoc[]
+
+=== 내가쓴 게시물 조회
+.curl-request
+include::{snippets}/get-member-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-member-question/http-request.adoc[]
+
+.request-fields
+include::{snippets}/get-member-question/request-fields.adoc[]
+
+.http-response
+include::{snippets}/get-member-question/http-response.adoc[]
+
+// .response-headers
+// include::{snippets}/post-member/response-headers.adoc[]

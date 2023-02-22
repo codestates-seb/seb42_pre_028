@@ -1,18 +1,13 @@
 package Preproject28.server.member.controller;
 
-import Preproject28.server.member.dto.MemberPatchDto;
-import Preproject28.server.member.dto.MemberPostDto;
-import Preproject28.server.member.dto.MemberQuestionResponseDto;
-import Preproject28.server.member.dto.MemberResponseDto;
+import Preproject28.server.member.dto.*;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
-import Preproject28.server.security.auths.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +27,7 @@ public class MemberController {
     public ResponseEntity postMember(@RequestBody @Valid MemberPostDto requestBody) {
         Member member = mapper.memberPostDtoToMember(requestBody);
         Member createdMember = memberService.createMember(member);
-        MemberResponseDto response = mapper.memberToMemberResponse(createdMember);
+        MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(createdMember);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -41,7 +36,7 @@ public class MemberController {
         Member member = mapper.memberPatchDtoToMember(requestBody);
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);
-        MemberResponseDto response = mapper.memberToMemberResponse(updateMember);
+        MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(updateMember);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -54,21 +49,34 @@ public class MemberController {
      * 회원 정보 ( 이메일 , 유저네임 , 이미지 url ) 만 확인하하는 코드.
      * @param memberId
      */
-    @GetMapping("/{member-id}")
-    public ResponseEntity getMember(@PathVariable("member-id") long memberId){
+    @GetMapping("/{member-id}/info")
+    public ResponseEntity getMemberInfo(@PathVariable("member-id") long memberId){
         Member findMember = memberService.findMember(memberId);
-        MemberResponseDto response = mapper.memberToMemberResponse(findMember);
+        MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(findMember);
         return new ResponseEntity<>(response, HttpStatus.OK);
-
     }
 
-    //내가쓴글 조회
+    /**
+     * 내가 쓴 글 조회
+     * @param memberId
+     * @return
+     */
     @GetMapping("/{member-id}/question")
     public ResponseEntity getMemberQuestion(@PathVariable("member-id") long memberId) {
         Member findMember = memberService.findMember(memberId);
         MemberQuestionResponseDto response = mapper.memberToMemberQuestionResponse(findMember);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    //내가쓴 답변 조회
 
+    /**
+     * 내가 쓴 답변 조회
+     * @param memberId
+     * @return
+     */
+    @GetMapping("/{member-id}/answer")
+    public ResponseEntity getMemberAnswer(@PathVariable("member-id") long memberId) {
+        Member findMember = memberService.findMember(memberId);
+        MemberAnswersResponseDto response = mapper.memberToMemberAnswerResponse(findMember);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

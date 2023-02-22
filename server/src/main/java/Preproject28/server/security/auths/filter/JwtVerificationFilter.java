@@ -54,8 +54,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         // JWT 의 정보를 SecurityContextHolder 에 저장함
         String username = (String) claims.get("username");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("roles"));
-        log.info("# 저장될 정보 - " + username);
-        log.info("# 권한 - " + authorities.toString());
+        log.info("# 토큰값 username: " + username + " # 권한 - " + authorities.toString());
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
