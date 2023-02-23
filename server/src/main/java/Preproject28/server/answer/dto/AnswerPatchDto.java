@@ -15,18 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerPatchDto {
-
     private Long answerId;
-
     private String content;
 
-    private int voteCount;
-
-    private LocalDateTime modifiedAt;
-
-    private boolean adoptStatus;
-
-    private long questionId;
-
-    private long memberId;
 }

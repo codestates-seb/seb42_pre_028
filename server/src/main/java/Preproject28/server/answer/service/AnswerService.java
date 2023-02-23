@@ -31,19 +31,8 @@ public class AnswerService {
         Answer findAnswer = findAnswer(answer.getAnswerId());
         Optional.ofNullable(answer.getContent())
                 .ifPresent(content -> findAnswer.setContent(content));
-        Optional.ofNullable(answer.getVoteCount())
-                .ifPresent(voteCount -> answer.setVoteCount(voteCount));
-        Optional.ofNullable(answer.getMember())
-                .ifPresent(member -> answer.setMember(member));
-        Optional.ofNullable(answer.getContent())
-                .ifPresent(content -> findAnswer.setContent(content));
-        Optional.ofNullable(answer.getModifiedAt())
-                .ifPresent(Modified -> findAnswer.setModifiedAt(Modified));
-;
-
-
-
-        return findAnswer;
+        Answer updateAnswer = answerRepository.save(findAnswer);
+        return updateAnswer;
     }
     public void deleteAnswer(long QId){
         Answer answer = findAnswer(QId);
