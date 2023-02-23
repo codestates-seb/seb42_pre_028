@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
 
+const Container = styled.div`
+  margin: 0px 65px 0px 65px;
+`;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,14 +17,37 @@ const Content = styled.div`
   font-size: 0.8rem;
 `;
 
-const ProfileContent = styled.div`
+const MainContent = styled.div`
   display: flex;
   flex-wrap: nowrap;
+
+  & a {
+    color: #0074cc;
+    text-decoration: none;
+  }
 `;
 
 const LeftDiv = styled.div`
+  margin: 12px;
+  max-width: 240px;
+`;
+
+const LeftContent = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  min-height: 270.344px;
+`;
+
+const LeftTitle = styled.div`
+  font-size: 1.61538462rem;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  > div.communities-edit {
+    font-size: 0.8rem;
+  }
 `;
 
 const LeftMainDiv = styled.div`
@@ -28,11 +55,44 @@ const LeftMainDiv = styled.div`
   border: 1px solid #d6d9dc;
   border-radius: 5px;
   background-color: white;
+  padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const StatsBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-basis: calc(50% - 16px);
+  margin: 8px;
+`;
+
+const UL = styled.div`
+  list-style: none;
+  width: 100%;
+
+  > li {
+    margin: 6px 0 6px 0;
+  }
+`;
+
+const LinkDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+
+    &.communities-main-total {
+      color: black;
+    }
+  }
 `;
 
 const RightDiv = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 12px;
 `;
 
 const RightMainDiv = styled.div`
@@ -43,75 +103,99 @@ const RightMainDiv = styled.div`
   text-align: center;
 `;
 
+const RightTitle = styled.div`
+  margin-bottom: 8px;
+  font-size: 1.61538462rem;
+`;
+
+const P = styled.p`
+  margin: 0 auto;
+  max-width: calc(97.2307692rem * 3);
+`;
+
 function MyProfile() {
   return (
     <React.Fragment>
-      <Content>
-        <MyPTProfile />
-        <MyPMenu />
-        <ProfileContent>
-          <LeftDiv>
-            <div className="stats">
-              <div className="stats-title">Stats</div>
-              <LeftMainDiv>
-                <div className="stats-main-1">
-                  <div className="stats-main-1-num">1</div>
-                  reputation
+      <Container>
+        <Content>
+          <MyPTProfile />
+          <MyPMenu />
+          <MainContent>
+            <LeftDiv>
+              <LeftContent>
+                <div className="stats">
+                  <LeftTitle>Stats</LeftTitle>
+                  <LeftMainDiv>
+                    <StatsBox>
+                      <div className="stats-main-1-num">1</div>
+                      <div>reputation</div>
+                    </StatsBox>
+                    <StatsBox>
+                      <div className="stats-main-2-num">0</div>
+                      <div>reached</div>
+                    </StatsBox>
+                    <StatsBox>
+                      <div className="stats-main-3-num">0</div>
+                      <div>answers</div>
+                    </StatsBox>
+                    <StatsBox>
+                      <div className="stats-main-4-num">0</div>
+                      <div>questions</div>
+                    </StatsBox>
+                  </LeftMainDiv>
                 </div>
-                <div className="stats-main-2">
-                  <div className="stats-main-2-num">0</div>
-                  reached
+                <div className="communities">
+                  <LeftTitle>
+                    <div className="communities-title">Communities</div>
+                    <div className="communities-edit">Edit</div>
+                  </LeftTitle>
+                  <LeftMainDiv>
+                    <UL>
+                      <li>
+                        <Link to="/">
+                          <LinkDiv>
+                            <div>(icon)Stack Overflow</div>
+                            <div className="communities-main-total">1</div>
+                          </LinkDiv>
+                        </Link>
+                      </li>
+                    </UL>
+                  </LeftMainDiv>
                 </div>
-                <div className="stats-main-3">
-                  <div className="stats-main-3-num">0</div>answers
-                </div>
-                <div className="stats-main-4">
-                  <div className="stats-main-4-num">0</div>questions
-                </div>
-              </LeftMainDiv>
-            </div>
-            <div className="communities">
-              <div className="communities-title">Communities</div>
-              <div className="communities-edit">Edit</div>
-              <LeftMainDiv>
-                <div className="communities-main-list">
-                  <Link to="/">Stack Overflow</Link>
-                </div>
-                <div className="communities-main-total">1</div>
-              </LeftMainDiv>
-            </div>
-          </LeftDiv>
-          <RightDiv>
-            <div className="about">
-              <div className="about-title">About</div>
-              <RightMainDiv>
-                <p>
-                  Your about me section is currently blank. Would you like to
-                  add one? Edit profile
-                </p>
-              </RightMainDiv>
-            </div>
-            <div className="badges">
-              <div className="badges-title">Badges</div>
-              <RightMainDiv>
-                <p>You have not earned any badges.</p>
-              </RightMainDiv>
-            </div>
-            <div className="posts">
-              <div className="posts-title">Posts</div>
-              <RightMainDiv>
-                <p>이미지</p>
-                <p>Just getting started? Try answering a question!</p>
-                <p>
-                  Your most helpful questions, answers and tags will appear
-                  here. Start by answering a question or selecting tags that
-                  match topics you’re interested in.
-                </p>
-              </RightMainDiv>
-            </div>
-          </RightDiv>
-        </ProfileContent>
-      </Content>
+              </LeftContent>
+            </LeftDiv>
+            <RightDiv>
+              <div className="about">
+                <RightTitle>About</RightTitle>
+                <RightMainDiv>
+                  <P>
+                    Your about me section is currently blank. Would you like to
+                    add one? Edit profile
+                  </P>
+                </RightMainDiv>
+              </div>
+              <div className="badges">
+                <RightTitle>Badges</RightTitle>
+                <RightMainDiv>
+                  <P>You have not earned any badges.</P>
+                </RightMainDiv>
+              </div>
+              <div className="posts">
+                <RightTitle>Posts</RightTitle>
+                <RightMainDiv>
+                  <P>이미지</P>
+                  <P>Just getting started? Try answering a question!</P>
+                  <P>
+                    Your most helpful questions, answers and tags will appear
+                    here. Start by answering a question or selecting tags that
+                    match topics you’re interested in.
+                  </P>
+                </RightMainDiv>
+              </div>
+            </RightDiv>
+          </MainContent>
+        </Content>
+      </Container>
     </React.Fragment>
   );
 }
