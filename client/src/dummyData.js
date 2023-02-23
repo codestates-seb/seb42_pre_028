@@ -13,20 +13,27 @@ export const dummyData = [
       avatar: 'Img',
     },
     time: new Date(),
-    content: `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.
-    Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.
-    However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.
-    How can I proceed?
-    here is my work
-    Offers.js : ReactComponent by Stripe
-        <stripe-pricing-table
-        pricing-table-id="prctbl_<my_pricing_table_key>"
-        publishable-key="pk_test_<my-stripe-public-key>"
-        // user informations for update subscriptions django model
-        customer-email={asdf}
-        client-reference-id={asdf}
-        >
-        </stripe-pricing-table>`,
+    content: [
+      `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.`,
+      `Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.`,
+      `However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.`,
+      `How can I proceed?`,
+      `here is my work`,
+      `Offers.js : ReactComponent by Stripe`,
+      `    <stripe-pricing-table`,
+      `      pricing-table-id="prctbl_<my_pricing_table_key>"`,
+      `      publishable-key="pk_test_<my-stripe-public-key>"`,
+      `      // user informations for update subscriptions django model`,
+      `      customer-email={asdf}`,
+      `      client-reference-id={asdf}`,
+      `    >`,
+      `    </stripe-pricing-table>`,
+    ],
+    answerContent: [
+      `To set up redirection to your application after successful payment, it can be done by setting in the pricing table page in Dashboard. You can select Dont show confirmation page in every price to disable showing Stripes confirmation page and set the return URL to direct to your website.`,
+      `Heres the screenshot of where you can set it up:`,
+      `[Img]`,
+    ],
   },
   {
     id: 1,
@@ -42,22 +49,27 @@ export const dummyData = [
       avatar: 'Img',
     },
     time: new Date(),
-    content: `
-    I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.
-    Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.
-    However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.
-    How can I proceed?
-    here is my work
-    Offers.js : ReactComponent by Stripe
-      
-        <stripe-pricing-table 
-        pricing-table-id="prctbl_<my_pricing_table_key>"
-        publishable-key="pk_test_<my-stripe-public-key>"
-        // user informations for update subscriptions django model
-        customer-email={asdf}
-        client-reference-id={asdf}
-        >
-        </stripe-pricing-table>`,
+    content: [
+      `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.`,
+      `Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.`,
+      `However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.`,
+      `How can I proceed?`,
+      `here is my work`,
+      `Offers.js : ReactComponent by Stripe`,
+      `    <stripe-pricing-table`,
+      `      pricing-table-id="prctbl_<my_pricing_table_key>"`,
+      `      publishable-key="pk_test_<my-stripe-public-key>"`,
+      `      // user informations for update subscriptions django model`,
+      `      customer-email={asdf}`,
+      `      client-reference-id={asdf}`,
+      `    >`,
+      `    </stripe-pricing-table>`,
+    ],
+    answerContent: [
+      `To set up redirection to your application after successful payment, it can be done by setting in the pricing table page in Dashboard. You can select Dont show confirmation page in every price to disable showing Stripes confirmation page and set the return URL to direct to your website.`,
+      `Heres the screenshot of where you can set it up:`,
+      `[Img]`,
+    ],
   },
   {
     id: 2,
@@ -73,22 +85,27 @@ export const dummyData = [
       avatar: 'Img',
     },
     time: new Date(),
-    content: `
-    I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.
-    Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.
-    However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.
-    How can I proceed?
-    here is my work
-    Offers.js : ReactComponent by Stripe
-      
-        <stripe-pricing-table 
-        pricing-table-id="prctbl_<my_pricing_table_key>"
-        publishable-key="pk_test_<my-stripe-public-key>"
-        // user informations for update subscriptions django model
-        customer-email={asdf}
-        client-reference-id={asdf}
-        >
-        </stripe-pricing-table>`,
+    content: [
+      `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.`,
+      `Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.`,
+      `However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.`,
+      `How can I proceed?`,
+      `here is my work`,
+      `Offers.js : ReactComponent by Stripe`,
+      `    <stripe-pricing-table`,
+      `      pricing-table-id="prctbl_<my_pricing_table_key>"`,
+      `      publishable-key="pk_test_<my-stripe-public-key>"`,
+      `      // user informations for update subscriptions django model`,
+      `      customer-email={asdf}`,
+      `      client-reference-id={asdf}`,
+      `    >`,
+      `    </stripe-pricing-table>`,
+    ],
+    answerContent: [
+      `To set up redirection to your application after successful payment, it can be done by setting in the pricing table page in Dashboard. You can select Dont show confirmation page in every price to disable showing Stripes confirmation page and set the return URL to direct to your website.`,
+      `Heres the screenshot of where you can set it up:`,
+      `[Img]`,
+    ],
   },
   {
     id: 3,
@@ -104,22 +121,27 @@ export const dummyData = [
       avatar: 'Img',
     },
     time: new Date(),
-    content: `
-    I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.
-    Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.
-    However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.
-    How can I proceed?
-    here is my work
-    Offers.js : ReactComponent by Stripe
-      
-        <stripe-pricing-table 
-        pricing-table-id="prctbl_<my_pricing_table_key>"
-        publishable-key="pk_test_<my-stripe-public-key>"
-        // user informations for update subscriptions django model
-        customer-email={asdf}
-        client-reference-id={asdf}
-        >
-        </stripe-pricing-table>`,
+    content: [
+      `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.`,
+      `Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.`,
+      `However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.`,
+      `How can I proceed?`,
+      `here is my work`,
+      `Offers.js : ReactComponent by Stripe`,
+      `    <stripe-pricing-table`,
+      `      pricing-table-id="prctbl_<my_pricing_table_key>"`,
+      `      publishable-key="pk_test_<my-stripe-public-key>"`,
+      `      // user informations for update subscriptions django model`,
+      `      customer-email={asdf}`,
+      `      client-reference-id={asdf}`,
+      `    >`,
+      `    </stripe-pricing-table>`,
+    ],
+    answerContent: [
+      `To set up redirection to your application after successful payment, it can be done by setting in the pricing table page in Dashboard. You can select Dont show confirmation page in every price to disable showing Stripes confirmation page and set the return URL to direct to your website.`,
+      `Heres the screenshot of where you can set it up:`,
+      `[Img]`,
+    ],
   },
   {
     id: 4,
@@ -135,22 +157,27 @@ export const dummyData = [
       avatar: 'Img',
     },
     time: new Date(),
-    content: `
-    I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.
-    Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.
-    However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.
-    How can I proceed?
-    here is my work
-    Offers.js : ReactComponent by Stripe
-      
-        <stripe-pricing-table 
-        pricing-table-id="prctbl_<my_pricing_table_key>"
-        publishable-key="pk_test_<my-stripe-public-key>"
-        // user informations for update subscriptions django model
-        customer-email={asdf}
-        client-reference-id={asdf}
-        >
-        </stripe-pricing-table>`,
+    content: [
+      `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.`,
+      `Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.`,
+      `However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.`,
+      `How can I proceed?`,
+      `here is my work`,
+      `Offers.js : ReactComponent by Stripe`,
+      `    <stripe-pricing-table`,
+      `      pricing-table-id="prctbl_<my_pricing_table_key>"`,
+      `      publishable-key="pk_test_<my-stripe-public-key>"`,
+      `      // user informations for update subscriptions django model`,
+      `      customer-email={asdf}`,
+      `      client-reference-id={asdf}`,
+      `    >`,
+      `    </stripe-pricing-table>`,
+    ],
+    answerContent: [
+      `To set up redirection to your application after successful payment, it can be done by setting in the pricing table page in Dashboard. You can select Dont show confirmation page in every price to disable showing Stripes confirmation page and set the return URL to direct to your website.`,
+      `Heres the screenshot of where you can set it up:`,
+      `[Img]`,
+    ],
   },
   {
     id: 5,
@@ -166,22 +193,22 @@ export const dummyData = [
       avatar: 'Img',
     },
     time: new Date(),
-    content: `
-    I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.
-    Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.
-    However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.
-    How can I proceed?
-    here is my work
-    Offers.js : ReactComponent by Stripe
-      
-        <stripe-pricing-table 
-        pricing-table-id="prctbl_<my_pricing_table_key>"
-        publishable-key="pk_test_<my-stripe-public-key>"
-        // user informations for update subscriptions django model
-        customer-email={asdf}
-        client-reference-id={asdf}
-        >
-        </stripe-pricing-table>`,
+    content: [
+      `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.`,
+      `Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.`,
+      `However, after successful payment, no redirection takes place. There are several documentation but I cant find a way to do it with the react component proposed by stripe themselves.`,
+      `How can I proceed?`,
+      `here is my work`,
+      `Offers.js : ReactComponent by Stripe`,
+      `    <stripe-pricing-table`,
+      `      pricing-table-id="prctbl_<my_pricing_table_key>"`,
+      `      publishable-key="pk_test_<my-stripe-public-key>"`,
+      `      // user informations for update subscriptions django model`,
+      `      customer-email={asdf}`,
+      `      client-reference-id={asdf}`,
+      `    >`,
+      `    </stripe-pricing-table>`,
+    ],
   },
   {
     id: 6,

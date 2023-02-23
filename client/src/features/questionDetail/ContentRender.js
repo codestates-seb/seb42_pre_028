@@ -8,12 +8,11 @@ const PreviewBox = styled.div`
 `;
 
 const NomalBox = styled.div`
-  margin: 1rem 0;
-  // 개행을 인식시키는 속성
+  margin-bottom: 1rem;
+  // 개행(enter)을 인식시키는 속성
   white-space: pre-wrap;
 `;
 
-// eslint-disable-next-line no-unused-vars
 const CodeBox = styled.div`
   margin: 0;
   background-color: #f6f6f6;
@@ -21,10 +20,10 @@ const CodeBox = styled.div`
   white-space: pre-wrap;
 `;
 
-function QuestionContent({ qContent }) {
+function ContentRender({ qContent }) {
   return (
     <PreviewBox>
-      {qContent.split('\n').map((el, index) => {
+      {qContent.map((el, index) => {
         if (el.slice(0, 4) === '    ') {
           return <CodeBox key={index}>{el.slice(4)}</CodeBox>;
         }
@@ -34,4 +33,4 @@ function QuestionContent({ qContent }) {
   );
 }
 
-export default QuestionContent;
+export default ContentRender;

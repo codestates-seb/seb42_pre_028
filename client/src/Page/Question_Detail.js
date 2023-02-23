@@ -4,8 +4,9 @@ import Like from '../features/questionDetail/Like';
 import Author from '../features/questionDetail/Author';
 import { useState } from 'react';
 import Preview from '../features/questionDetail/Preview';
-import QuestionContent from '../features/questionDetail/QuestionContent';
+import ContentRender from '../features/questionDetail/ContentRender';
 import { dummyData } from '../dummyData';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
@@ -118,7 +119,19 @@ const Textarea = styled.textarea`
   margin-bottom: 1rem;
 `;
 
+const YourAnswerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid gray;
+`;
+
 function Question_Detail() {
+  const log = useSelector((state) => state.log.value);
   const { id } = useParams();
   const [content, setContent] = useState('');
 
@@ -127,7 +140,7 @@ function Question_Detail() {
       <Content>
         <Mainbar>
           <TitleContainer>
-            <H2>how redirect user with stripe react component and django</H2>
+            <H2>{dummyData[id].title}</H2>
             <Link to="/create">
               <AskButton>Ask Question</AskButton>
             </Link>
@@ -144,43 +157,39 @@ function Question_Detail() {
             </div>
           </TitleStateContainer>
           <QuestionContainer>
-            <Like size={7} />
+            <Like size={dummyData[id].vote} />
             <QuestionContentContainer>
-              <QuestionContent qContent={dummyData[id].content} />
+              <ContentRender qContent={dummyData[id].content} />
               <TagContainer>
                 <TagSpan>python</TagSpan>
                 <TagSpan>reactjs</TagSpan>
                 <TagSpan>django</TagSpan>
               </TagContainer>
-              <Author name="Bastien Angeloz" />
+              <Author name={dummyData[id].author.name} />
             </QuestionContentContainer>
           </QuestionContainer>
           <p>1 Answer</p>
           <AnswerContainer>
             <Like size={8} />
             <QuestionContentContainer>
-              <p>
-                To set up redirection to your application after successful
-                payment, it can be done by setting in the pricing table page in
-                Dashboard. You can select Dont show confirmation page in every
-                price to disable showing Stripes confirmation page and set the
-                return URL to direct to your website.
-              </p>
-              <p>Heres the screenshot of where you can set it up:</p>
-              [Img]
-              <Author name="yuting" />
+              <ContentRender qContent={dummyData[id].answerContent} />
+              <Author name="yuting2" />
             </QuestionContentContainer>
           </AnswerContainer>
-          <p>Your Answer</p>
-          <Textarea
-            value={content}
-            onChange={(e) => {
-              let text = e.target.value;
-              setContent(text);
-            }}
-          />
-          <Preview content={content} />
-          <AskButton>Post Your Answer</AskButton>
+          {log ? (
+            <YourAnswerContainer>
+              <p>Your Answer</p>
+              <Textarea
+                value={content}
+                onChange={(e) => {
+                  let text = e.target.value;
+                  setContent(text);
+                }}
+              />
+              <Preview content={content} />
+              <AskButton>Post Your Answer</AskButton>
+            </YourAnswerContainer>
+          ) : null}
         </Mainbar>
 
         {/* <Sidebar>Sidebar</Sidebar> */}

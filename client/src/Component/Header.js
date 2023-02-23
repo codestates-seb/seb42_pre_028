@@ -70,6 +70,7 @@ function Header() {
     // 테스트용 코드
     // 기능 : 로그아웃 버튼 클릭 시 로그인 상태를 false로 변경 후 홈으로 이동
     dispatch(logout(state));
+    alert('로그아웃 성공!');
     navigate('/');
 
     // 서버 통신용 코드 (임의로 작성. 로그아웃 api 필요)
