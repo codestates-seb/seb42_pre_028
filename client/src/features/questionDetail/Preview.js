@@ -8,28 +8,42 @@ const PreviewBox = styled.div`
 `;
 
 const NomalBox = styled.div`
-  margin: 0;
+  margin-bottom: 1rem;
   // 개행을 인식시키는 속성
   white-space: pre-wrap;
 `;
 
-// eslint-disable-next-line no-unused-vars
 const CodeBox = styled.div`
-  margin: 0;
+  padding: 1rem 1rem;
   background-color: #f6f6f6;
-  padding: 0 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   white-space: pre-wrap;
 `;
 
 function Preview({ content }) {
+  let codeArr = [];
   return (
     <PreviewBox>
       {content.split('\n').map((el, index) => {
         if (el.slice(0, 4) === '    ') {
-          return <CodeBox key={index}>{el.slice(4)}</CodeBox>;
+          codeArr.push(el.slice(4));
+        } else {
+          if (codeArr.length) {
+            const sumCode = codeArr.join('\n');
+            codeArr.length = 0;
+            return (
+              <div key={index}>
+                <CodeBox>{sumCode}</CodeBox>
+                <NomalBox>{el}</NomalBox>
+              </div>
+            );
+          }
+          return <NomalBox key={index}>{el}</NomalBox>;
         }
-        return <NomalBox key={index}>{el}</NomalBox>;
       })}
+      {/* 남은 codeArr 렌더링 */}
+      {codeArr.length ? <CodeBox>{codeArr.join('\n')}</CodeBox> : null}
     </PreviewBox>
   );
 }

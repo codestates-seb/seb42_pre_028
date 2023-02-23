@@ -61,7 +61,7 @@ function Question({ question }) {
         </RowDiv>
 
         <RowDiv>
-          <span>{question.answer}</span>
+          <span>{question.answer.length}</span>
           <span>answer</span>
         </RowDiv>
         <RowDiv>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
 
 const LeftSpan = styled.span`
@@ -36,18 +37,17 @@ const AuthorRightInnerRightContainer = styled.div`
   gap: 0.2rem;
 `;
 
-// eslint-disable-next-line react/prop-types
-function Author({ name }) {
+function Author({ name, answered, avatar }) {
   return (
     <AuthorContainer>
       <LeftSpan>Share Edit Follow</LeftSpan>
       <AuthorRightContainer>
         <LeftSpan>asked 2 days ago</LeftSpan>
         <AuthorRightInnerContainer>
-          <span>[Icon]</span>
+          <span>{avatar}</span>
           <AuthorRightInnerRightContainer>
             <span>{name}</span>
-            <div>15 *5</div>
+            <div>{answered}</div>
           </AuthorRightInnerRightContainer>
         </AuthorRightInnerContainer>
       </AuthorRightContainer>

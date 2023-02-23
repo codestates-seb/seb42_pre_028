@@ -8,9 +8,9 @@ const QuestionLikeContainer = styled.div`
 `;
 
 // eslint-disable-next-line react/prop-types
-function Like({ vote }) {
+function AnswerLike({ vote }) {
   const voteUpHandler = (e) => {
-    fetch('URL/question/up', {
+    fetch('URL/answer/up', {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -24,7 +24,7 @@ function Like({ vote }) {
   };
 
   const voteDownHandler = (e) => {
-    fetch('URL/question/down', {
+    fetch('URL/answer/down', {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -48,4 +48,4 @@ function Like({ vote }) {
   );
 }
 
-export default Like;
+export default AnswerLike;

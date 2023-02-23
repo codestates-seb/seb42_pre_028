@@ -11,7 +11,6 @@ import MyPage from './Page/MyPages/My_Page';
 import MyProfile from './Page/MyPages/My_Profile';
 import MySettings from './Page/MyPages/My_Settings';
 import QuestionDetail from './Page/Question_Detail';
-// import Footer from './Component/Footer';
 
 function App() {
   return (

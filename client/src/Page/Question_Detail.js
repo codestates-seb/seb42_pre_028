@@ -1,13 +1,17 @@
+/* eslint-disable no-unused-vars */
 import styled from 'styled-components';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+
 import Like from '../features/questionDetail/Like';
 import Author from '../features/questionDetail/Author';
-import { useState } from 'react';
 import Preview from '../features/questionDetail/Preview';
 import ContentRender from '../features/questionDetail/ContentRender';
-import { dummyData } from '../dummyData';
 import Footer from '../Component/Footer';
-import { useSelector } from 'react-redux';
+import AnswerLike from '../features/questionDetail/AnswerLike';
+import useGetFetch from '../Util/useGetFetch';
+import { dummyData } from '../dummyData';
 
 const Container = styled.div`
   display: flex;
@@ -107,11 +111,28 @@ const TagSpan = styled.span`
 const AnswerContainer = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: left;
   gap: 2rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 0.5px solid gray;
+`;
+const AnswerRowContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  gap: 2rem;
+`;
+
+const AnswerColumContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const Textarea = styled.textarea`
@@ -132,10 +153,70 @@ const YourAnswerContainer = styled.div`
 `;
 
 function Question_Detail() {
+  const [question, isPendingQ, errorQ] = useGetFetch('url');
+  const [answer, isPendingA, errorA] = useGetFetch('url');
+
   const log = useSelector((state) => state.log.value);
   const { id } = useParams();
   const [content, setContent] = useState('');
 
+  const keyDownHandler = (e) => {
+    let prevText = e.target.value.slice(0, e.target.selectionStart);
+    let nextText = e.target.value.slice(e.target.selectionEnd);
+    let selectedText = e.target.value.slice(
+      e.target.selectionStart,
+      e.target.selectionEnd
+    );
+    if (e.key === 'q' || e.key === 'Q') {
+      let originData = selectedText.split('\n');
+      let filterData = selectedText
+        .split('\n')
+        .filter((el) => el.slice(0, 4) === '    ');
+
+      if (originData.length === filterData.length) {
+        e.target.value =
+          prevText +
+          selectedText
+            .split('\n')
+            .map((el) => {
+              return `${el.slice(4)}`;
+            })
+            .join('\n') +
+          nextText;
+        setContent(e.target.value);
+      } else {
+        e.target.value =
+          prevText +
+          selectedText
+            .split('\n')
+            .map((el) => {
+              return `    ${el}`;
+            })
+            .join('\n') +
+          nextText;
+        setContent(e.target.value);
+      }
+    }
+  };
+
+  const postHandler = () => {
+    const splitContent = content.split('\n');
+
+    fetch('URL/answer', {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        splitContent,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   return (
     <div>
       <Container>
@@ -159,23 +240,38 @@ function Question_Detail() {
               </div>
             </TitleStateContainer>
             <QuestionContainer>
-              <Like size={7} />
+              <Like vote={dummyData[id].vote} />
               <QuestionContentContainer>
                 <ContentRender qContent={dummyData[id].content} />
                 <TagContainer>
-                  <TagSpan>python</TagSpan>
-                  <TagSpan>reactjs</TagSpan>
-                  <TagSpan>django</TagSpan>
+                  {dummyData[id].tags.map((el, index) => {
+                    return <TagSpan key={index}>{el}</TagSpan>;
+                  })}
                 </TagContainer>
-                <Author name="Bastien Angeloz" />
+                <Author
+                  name={dummyData[id].author.name}
+                  answered={dummyData[id].author.answered}
+                  avatar={dummyData[id].author.avatar}
+                />
               </QuestionContentContainer>
             </QuestionContainer>
-            <p>1 Answer</p>
             <AnswerContainer>
-              <Like size={8} />
-              <YourAnswerContainer>
-                <ContentRender qContent={dummyData[id].answerContent} />
-              </YourAnswerContainer>
+              <p>{dummyData[id].answer.length} Answer</p>
+              {dummyData[id].answer.map((el, index) => {
+                return (
+                  <AnswerColumContainer key={index}>
+                    <AnswerRowContainer>
+                      <AnswerLike vote={el.vote} />
+                      <ContentRender qContent={el.answerContent} />
+                    </AnswerRowContainer>
+                    <Author
+                      name={el.author.name}
+                      answered={el.author.answered}
+                      avatar={el.author.avatar}
+                    />
+                  </AnswerColumContainer>
+                );
+              })}
             </AnswerContainer>
             {log ? (
               <YourAnswerContainer>
@@ -183,12 +279,12 @@ function Question_Detail() {
                 <Textarea
                   value={content}
                   onChange={(e) => {
-                    let text = e.target.value;
-                    setContent(text);
+                    setContent(e.target.value);
                   }}
+                  onKeyDown={keyDownHandler}
                 />
                 <Preview content={content} />
-                <AskButton>Post Your Answer</AskButton>
+                <AskButton onClick={postHandler}>Post Your Answer</AskButton>
               </YourAnswerContainer>
             ) : null}
           </Mainbar>
