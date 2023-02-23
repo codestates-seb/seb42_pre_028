@@ -3,10 +3,7 @@ package Preproject28.server.answerVote.controller;
 
 import Preproject28.server.answerVote.service.AnswerVoteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/answer-vote")
