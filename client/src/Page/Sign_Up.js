@@ -115,7 +115,7 @@ function Sign_Up() {
     if (displayName === '' || email === '' || password === '') {
       alert('빈 곳을 채워주세요');
     } else {
-      fetch('https://f30d-112-156-175-230.jp.ngrok.io/members', {
+      fetch('http://13.125.1.215:8080/members', {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -191,6 +191,7 @@ function Sign_Up() {
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></Input>

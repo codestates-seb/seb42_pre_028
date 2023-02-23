@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Content = styled.div`
@@ -15,6 +16,11 @@ const MyPageMenuUl = styled.ul`
   list-style: none;
   margin: 0px;
   padding: 0px;
+
+  > a {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 const MyPageMenuLi = styled.li`
@@ -36,10 +42,6 @@ const MyPageMenuLi = styled.li`
       cursor: pointer;
     }
   }
-  > a {
-    text-decoration: none;
-    color: black;
-  }
 `;
 
 function MyPSetNav() {
@@ -50,15 +52,21 @@ function MyPSetNav() {
           <MyPageMenuLi className="title first">
             PERSONAL INFORMATION
           </MyPageMenuLi>
-          <MyPageMenuLi className="item">Edit profile</MyPageMenuLi>
-          <MyPageMenuLi className="item">Delete profile</MyPageMenuLi>
+          <Link to="/mypage/useredit">
+            <MyPageMenuLi className="item">Edit profile</MyPageMenuLi>
+          </Link>
+          <Link to="/mypage/userdelete">
+            <MyPageMenuLi className="item">Delete profile</MyPageMenuLi>
+          </Link>
           <MyPageMenuLi className="title">EMAIL SETTINGS</MyPageMenuLi>
           <MyPageMenuLi className="item">Edit email settings</MyPageMenuLi>
           <MyPageMenuLi className="item">Tag watching & ignoring</MyPageMenuLi>
           <MyPageMenuLi className="item">community digests</MyPageMenuLi>
           <MyPageMenuLi className="item">Question subscriptions</MyPageMenuLi>
           <MyPageMenuLi className="title">SITE SETTINGS</MyPageMenuLi>
-          <MyPageMenuLi className="item">Preferences</MyPageMenuLi>
+          <Link to="/mypage/setting">
+            <MyPageMenuLi className="item">Preferences</MyPageMenuLi>
+          </Link>
           <MyPageMenuLi className="item">Flair</MyPageMenuLi>
           <MyPageMenuLi className="item">Hide communities</MyPageMenuLi>
           <MyPageMenuLi className="title">ACCESS</MyPageMenuLi>
