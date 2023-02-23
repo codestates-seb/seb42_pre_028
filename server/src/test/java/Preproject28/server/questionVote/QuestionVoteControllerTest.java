@@ -13,11 +13,14 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
+import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -26,6 +29,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,6 +51,29 @@ public class QuestionVoteControllerTest {
 
     @MockBean
     private MemberService memberService;
+
+    @Test
+    public void  questionVoteControllerTest() throws Exception {
+        //given
+        long questionId = 1;
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                        post("/question-vote/{question-id}/up",questionId)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .with(csrf())
+                );
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "question-vote-up",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor()
+                ));
+    }
 //
 //    @Test
 //    public void QuestionVoteControllerTest() throws Exception {
