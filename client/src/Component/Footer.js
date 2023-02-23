@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Outlet } from 'react-router';
 
 function Footer() {
-  if (window.location.pathname === '/login') return null;
-  if (window.location.pathname === '/signup') return null;
   return (
     <FooterContainer>
       <LogoContainer>
@@ -65,7 +62,6 @@ function Footer() {
           licensed under CC BY-SA. rev 2022.12.19.43125
         </p>
       </SnsAndCopyright>
-      <Outlet />
     </FooterContainer>
   );
 }

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
 import MyPSetNav from '../../Component/MyPages/myP_Set_nav';
+import Footer from '../../Component/Footer';
 
 const Content = styled.div`
   display: flex;
@@ -24,6 +25,7 @@ function MySettings() {
         <h2>Settings 페이지 입니다</h2>
         <div>회원 정보 수정 기능, 회원 탈퇴 기능이 들어갑니다.</div>
       </Content>
+      <Footer />
     </React.Fragment>
   );
 }

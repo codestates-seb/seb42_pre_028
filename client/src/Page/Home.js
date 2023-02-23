@@ -1,25 +1,30 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Footer from '../Component/Footer';
 
 function Home() {
   return (
-    <HomeContainer>
-      <Link to="/questions" style={{ textDecoration: 'none' }}>
-        <HomeCategory>
-          <p className="category">Questions</p>
-        </HomeCategory>
-      </Link>
-      <Link to="/Tags" style={{ textDecoration: 'none' }}>
-        <HomeCategory>
-          <p className="category">Tags</p>
-        </HomeCategory>
-      </Link>
-      <Link to="Users" style={{ textDecoration: 'none' }}>
-        <HomeCategory>
-          <p className="category">Users</p>
-        </HomeCategory>
-      </Link>
-    </HomeContainer>
+    <React.Fragment>
+      <HomeContainer>
+        <Link to="/questions" style={{ textDecoration: 'none' }}>
+          <HomeCategory>
+            <p className="category">Questions</p>
+          </HomeCategory>
+        </Link>
+        <Link to="/Tags" style={{ textDecoration: 'none' }}>
+          <HomeCategory>
+            <p className="category">Tags</p>
+          </HomeCategory>
+        </Link>
+        <Link to="Users" style={{ textDecoration: 'none' }}>
+          <HomeCategory>
+            <p className="category">Users</p>
+          </HomeCategory>
+        </Link>
+      </HomeContainer>
+      <Footer />
+    </React.Fragment>
   );
 }
 
@@ -28,6 +33,7 @@ const HomeContainer = styled.div`
   height: 30rem;
   color: #9199a1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #5a5a5a;

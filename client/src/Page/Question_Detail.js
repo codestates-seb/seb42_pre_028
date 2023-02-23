@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Preview from '../features/questionDetail/Preview';
 import ContentRender from '../features/questionDetail/ContentRender';
 import { dummyData } from '../dummyData';
+import Footer from '../Component/Footer';
 import { useSelector } from 'react-redux';
 
 const Container = styled.div`
@@ -136,65 +137,67 @@ function Question_Detail() {
   const [content, setContent] = useState('');
 
   return (
-    <Container>
-      <Content>
-        <Mainbar>
-          <TitleContainer>
-            <H2>{dummyData[id].title}</H2>
-            <Link to="/create">
-              <AskButton>Ask Question</AskButton>
-            </Link>
-          </TitleContainer>
-          <TitleStateContainer>
-            <div>
-              <LeftSpan>Asked</LeftSpan> <RightSpan>16 days ago</RightSpan>
-            </div>
-            <div>
-              <LeftSpan>Modified</LeftSpan> <RightSpan>9 days ago</RightSpan>
-            </div>
-            <div>
-              <LeftSpan>Viewed</LeftSpan> <RightSpan>6k times</RightSpan>
-            </div>
-          </TitleStateContainer>
-          <QuestionContainer>
-            <Like size={dummyData[id].vote} />
-            <QuestionContentContainer>
-              <ContentRender qContent={dummyData[id].content} />
-              <TagContainer>
-                <TagSpan>python</TagSpan>
-                <TagSpan>reactjs</TagSpan>
-                <TagSpan>django</TagSpan>
-              </TagContainer>
-              <Author name={dummyData[id].author.name} />
-            </QuestionContentContainer>
-          </QuestionContainer>
-          <p>1 Answer</p>
-          <AnswerContainer>
-            <Like size={8} />
-            <QuestionContentContainer>
-              <ContentRender qContent={dummyData[id].answerContent} />
-              <Author name="yuting2" />
-            </QuestionContentContainer>
-          </AnswerContainer>
-          {log ? (
-            <YourAnswerContainer>
-              <p>Your Answer</p>
-              <Textarea
-                value={content}
-                onChange={(e) => {
-                  let text = e.target.value;
-                  setContent(text);
-                }}
-              />
-              <Preview content={content} />
-              <AskButton>Post Your Answer</AskButton>
-            </YourAnswerContainer>
-          ) : null}
-        </Mainbar>
+    <div>
+      <Container>
+        <Content>
+          <Mainbar>
+            <TitleContainer>
+              <H2>how redirect user with stripe react component and django</H2>
+              <Link to="/create">
+                <AskButton>Ask Question</AskButton>
+              </Link>
+            </TitleContainer>
+            <TitleStateContainer>
+              <div>
+                <LeftSpan>Asked</LeftSpan> <RightSpan>16 days ago</RightSpan>
+              </div>
+              <div>
+                <LeftSpan>Modified</LeftSpan> <RightSpan>9 days ago</RightSpan>
+              </div>
+              <div>
+                <LeftSpan>Viewed</LeftSpan> <RightSpan>6k times</RightSpan>
+              </div>
+            </TitleStateContainer>
+            <QuestionContainer>
+              <Like size={7} />
+              <QuestionContentContainer>
+                <ContentRender qContent={dummyData[id].content} />
+                <TagContainer>
+                  <TagSpan>python</TagSpan>
+                  <TagSpan>reactjs</TagSpan>
+                  <TagSpan>django</TagSpan>
+                </TagContainer>
+                <Author name="Bastien Angeloz" />
+              </QuestionContentContainer>
+            </QuestionContainer>
+            <p>1 Answer</p>
+            <AnswerContainer>
+              <Like size={8} />
+              <YourAnswerContainer>
+                <ContentRender qContent={dummyData[id].answerContent} />
+              </YourAnswerContainer>
+            </AnswerContainer>
+            {log ? (
+              <YourAnswerContainer>
+                <p>Your Answer</p>
+                <Textarea
+                  value={content}
+                  onChange={(e) => {
+                    let text = e.target.value;
+                    setContent(text);
+                  }}
+                />
+                <Preview content={content} />
+                <AskButton>Post Your Answer</AskButton>
+              </YourAnswerContainer>
+            ) : null}
+          </Mainbar>
 
-        {/* <Sidebar>Sidebar</Sidebar> */}
-      </Content>
-    </Container>
+          {/* <Sidebar>Sidebar</Sidebar> */}
+        </Content>
+      </Container>
+      <Footer />
+    </div>
   );
 }
 export default Question_Detail;
