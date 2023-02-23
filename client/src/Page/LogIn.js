@@ -194,51 +194,51 @@ function LogIn() {
   const state = useSelector((state) => state.log);
 
   const loginHandler = () => {
-    // const loginData = {
-    //   username: userEmail,
-    //   password: userPW,
-    // };
+    const loginData = {
+      username: userEmail,
+      password: userPW,
+    };
 
     // 테스트용 코드
     // 로그인 버튼을 클릭하면 state의 value 값이 true로 변하고
     // state의 value 값이 true일 경우 로그인 성공 메시지를 출력 후 마이페이지로 이동하게 함.
-    dispatch(login(state));
-    if (state.value === true) {
-      alert('로그인 성공');
-      navigate('/mypage/activity', { replace: true });
-    }
+    // dispatch(login(state));
+    // if (state.value === true) {
+    //   alert('로그인 성공');
+    //   navigate('/mypage/activity', { replace: true });
+    // }
 
-    // fetch(`https://991b-112-156-175-230.jp.ngrok.io/auth/login`, {
-    //   credentials: 'include',
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(loginData),
-    // })
-    //   .then((res) => {
-    //     if (res.ok) {
-    //       dispatch(login(state));
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     if (state.value === true) {
-    //       alert('로그인 성공');
-    //       navigate('/mypage', { replace: true });
-    //     } else {
-    //       alert('아이디와 비밀번호를 확인해주세요');
-    //     }
-    //   })
-    //   .catch(() => alert('에러 발생'));
+    fetch(`http://13.125.1.215:8080/auth/login`, {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+    })
+      .then((res) => {
+        if (res.ok) {
+          let accessToken = res.headers.get('Authorization');
+          let refreshToken = res.headers.get('Refresh');
+          localStorage.setItem('Authorization', accessToken);
+          localStorage.setItem('Refresh', refreshToken);
 
-    // .then((res) => {
-    //   if (res.ACCESS_TOKEN) {
-    //     localStorage.setItem('loginToken', res.ACCESS_TOKEN);
-    //   }
-    // })
-    // .then(console.log(localStorage));
+          console.log(
+            `localStorage.Authorization : ${localStorage.Authorization}`
+          );
+          console.log(`refreshToken : ${refreshToken}`);
+          console.log(`localStorage.Refresh : ${localStorage.Refresh}`);
+
+          dispatch(login(state));
+          alert('로그인 성공!!');
+          navigate('/mypage/activity', { replace: true });
+        } else {
+          alert('아이디와 비밀번호를 확인해주세요');
+        }
+        // 아래 문장은 응답 바디를 받게 될 경우 주석 해제할 것
+        //return res.json();
+      })
+      .catch(() => alert('에러 발생'));
   };
 
   return (
@@ -288,9 +288,6 @@ function LogIn() {
             <div>Don`t have an accout? Sign up</div>
             <div className="mt12">Are you an employer? Sign up on Talent</div>
           </Message>
-          {/*localStorage.loginToken ? (
-            <div>Access Token을 발급받았습니다. {localStorage.loginToken} </div>
-          ) : null*/}
         </Items>
       </Content>
     </React.Fragment>

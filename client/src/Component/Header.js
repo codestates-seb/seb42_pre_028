@@ -61,39 +61,13 @@ function Header() {
     setMenuFlag(!menuflag);
   };
 
-  // 로그아웃 기능 추가
   const logoutHandler = () => {
-    // const logoutData = {
-    // req.body에 담을 데이터가 들어갈 자리
-    // };
-
-    // 테스트용 코드
-    // 기능 : 로그아웃 버튼 클릭 시 로그인 상태를 false로 변경 후 홈으로 이동
+    // 로그아웃은 프론트엔드에서만 처리하기로 함
+    localStorage.setItem('Authorization', null);
+    localStorage.setItem('Refresh', null);
     dispatch(logout(state));
     alert('로그아웃 성공!');
     navigate('/');
-
-    // 서버 통신용 코드 (임의로 작성. 로그아웃 api 필요)
-    // fetch(`https://991b-112-156-175-230.jp.ngrok.io/auth/logout`, {
-    //   credentials: 'include',
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(logoutData),
-    // })
-    //   .then((res) => {
-    //     if (res.ok) {
-    //       dispatch(logout(state));
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     if (state.value === false) {
-    //       navigate('/');
-    //   })
-    //   .catch(() => alert('에러 발생'));
   };
 
   return (
