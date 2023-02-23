@@ -9,7 +9,7 @@
 v1.0.0, 2023.02.16
 
 // (4)
-***
+'''
 == MemberController
 === 회원 등록
 .curl-request
@@ -83,10 +83,10 @@ include::{snippets}/delete-member/curl-request.adoc[]
 include::{snippets}/delete-member/http-request.adoc[]
 
 .request-fields
-include::{snippets}/delete-member/request-fields.adoc[]
+// include::{snippets}/delete-member/request-fields.adoc[]
 
 .http-response
 include::{snippets}/delete-member/http-response.adoc[]
 
 .response-headers
-include::{snippets}/delete-member/response-headers.adoc[]
+// include::{snippets}/delete-member/response-headers.adoc[]
