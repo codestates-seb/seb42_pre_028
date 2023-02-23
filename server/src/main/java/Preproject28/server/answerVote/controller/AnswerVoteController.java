@@ -25,5 +25,7 @@ public class AnswerVoteController {
     public void answerVoteDownPost(@PathVariable("answer-id") long answerId) {
         answerVoteService.answerVoteDown(answerId);
         //조건 : 로그인이 되있는사람만 (시큐리티에서 추가필요)
+
+        // 갱신된값 보내줘야하는지?
     }
 }

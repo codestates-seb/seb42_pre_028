@@ -60,6 +60,7 @@ public class MemberController {
      */
     @GetMapping("/{member-id}/info")
     public ResponseEntity getMemberInfo(@PathVariable("member-id") long memberId){
+        // 토큰만으로 memberId & 유저정보 돌려주는식으로 구현
         Member findMember = memberService.findMember(memberId);
         MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(findMember);
         return new ResponseEntity<>(response, HttpStatus.OK);
