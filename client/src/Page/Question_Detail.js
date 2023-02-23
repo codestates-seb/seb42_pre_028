@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Preview from '../features/questionDetail/Preview';
 import QuestionContent from '../features/questionDetail/QuestionContent';
 import { dummyData } from '../dummyData';
+import Footer from '../Component/Footer';
 
 const Container = styled.div`
   display: flex;
@@ -123,69 +124,72 @@ function Question_Detail() {
   const [content, setContent] = useState('');
 
   return (
-    <Container>
-      <Content>
-        <Mainbar>
-          <TitleContainer>
-            <H2>how redirect user with stripe react component and django</H2>
-            <Link to="/create">
-              <AskButton>Ask Question</AskButton>
-            </Link>
-          </TitleContainer>
-          <TitleStateContainer>
-            <div>
-              <LeftSpan>Asked</LeftSpan> <RightSpan>16 days ago</RightSpan>
-            </div>
-            <div>
-              <LeftSpan>Modified</LeftSpan> <RightSpan>9 days ago</RightSpan>
-            </div>
-            <div>
-              <LeftSpan>Viewed</LeftSpan> <RightSpan>6k times</RightSpan>
-            </div>
-          </TitleStateContainer>
-          <QuestionContainer>
-            <Like size={7} />
-            <QuestionContentContainer>
-              <QuestionContent qContent={dummyData[id].content} />
-              <TagContainer>
-                <TagSpan>python</TagSpan>
-                <TagSpan>reactjs</TagSpan>
-                <TagSpan>django</TagSpan>
-              </TagContainer>
-              <Author name="Bastien Angeloz" />
-            </QuestionContentContainer>
-          </QuestionContainer>
-          <p>1 Answer</p>
-          <AnswerContainer>
-            <Like size={8} />
-            <QuestionContentContainer>
-              <p>
-                To set up redirection to your application after successful
-                payment, it can be done by setting in the pricing table page in
-                Dashboard. You can select Dont show confirmation page in every
-                price to disable showing Stripes confirmation page and set the
-                return URL to direct to your website.
-              </p>
-              <p>Heres the screenshot of where you can set it up:</p>
-              [Img]
-              <Author name="yuting" />
-            </QuestionContentContainer>
-          </AnswerContainer>
-          <p>Your Answer</p>
-          <Textarea
-            value={content}
-            onChange={(e) => {
-              let text = e.target.value;
-              setContent(text);
-            }}
-          />
-          <Preview content={content} />
-          <AskButton>Post Your Answer</AskButton>
-        </Mainbar>
+    <div>
+      <Container>
+        <Content>
+          <Mainbar>
+            <TitleContainer>
+              <H2>how redirect user with stripe react component and django</H2>
+              <Link to="/create">
+                <AskButton>Ask Question</AskButton>
+              </Link>
+            </TitleContainer>
+            <TitleStateContainer>
+              <div>
+                <LeftSpan>Asked</LeftSpan> <RightSpan>16 days ago</RightSpan>
+              </div>
+              <div>
+                <LeftSpan>Modified</LeftSpan> <RightSpan>9 days ago</RightSpan>
+              </div>
+              <div>
+                <LeftSpan>Viewed</LeftSpan> <RightSpan>6k times</RightSpan>
+              </div>
+            </TitleStateContainer>
+            <QuestionContainer>
+              <Like size={7} />
+              <QuestionContentContainer>
+                <QuestionContent qContent={dummyData[id].content} />
+                <TagContainer>
+                  <TagSpan>python</TagSpan>
+                  <TagSpan>reactjs</TagSpan>
+                  <TagSpan>django</TagSpan>
+                </TagContainer>
+                <Author name="Bastien Angeloz" />
+              </QuestionContentContainer>
+            </QuestionContainer>
+            <p>1 Answer</p>
+            <AnswerContainer>
+              <Like size={8} />
+              <QuestionContentContainer>
+                <p>
+                  To set up redirection to your application after successful
+                  payment, it can be done by setting in the pricing table page
+                  in Dashboard. You can select Dont show confirmation page in
+                  every price to disable showing Stripes confirmation page and
+                  set the return URL to direct to your website.
+                </p>
+                <p>Heres the screenshot of where you can set it up:</p>
+                [Img]
+                <Author name="yuting" />
+              </QuestionContentContainer>
+            </AnswerContainer>
+            <p>Your Answer</p>
+            <Textarea
+              value={content}
+              onChange={(e) => {
+                let text = e.target.value;
+                setContent(text);
+              }}
+            />
+            <Preview content={content} />
+            <AskButton>Post Your Answer</AskButton>
+          </Mainbar>
 
-        {/* <Sidebar>Sidebar</Sidebar> */}
-      </Content>
-    </Container>
+          {/* <Sidebar>Sidebar</Sidebar> */}
+        </Content>
+      </Container>
+      <Footer />
+    </div>
   );
 }
 export default Question_Detail;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
 import MyPActNav from '../../Component/MyPages/myP_Act_nav';
+import Footer from '../../Component/Footer';
 
 const Content = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ function My_Page() {
           <div className="my_q_delete">Deleted questions</div>
         </MainContent>
       </Content>
+      <Footer />
     </React.Fragment>
   );
 }
