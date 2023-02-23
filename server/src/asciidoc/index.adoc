@@ -11,18 +11,37 @@ v1.0.0, 2023.02.16
 // (4)
 ***
 == MemberController
-=== 회원 등록
+// === 회원 등록
+// .curl-request
+// include::{snippets}/post-member/curl-request.adoc[]
+//
+// .http-request
+// include::{snippets}/post-member/http-request.adoc[]
+//
+// .request-fields
+// include::{snippets}/post-member/request-fields.adoc[]
+//
+// .http-response
+// include::{snippets}/post-member/http-response.adoc[]
+//
+// // .response-headers
+// // include::{snippets}/post-member/response-headers.adoc[]
+
+=== 답변 추천업
+
 .curl-request
-include::{snippets}/post-member/curl-request.adoc[]
+include::{snippets}/answer-vote-up/curl-request.adoc[]
 
 .http-request
-include::{snippets}/post-member/http-request.adoc[]
+include::{snippets}/answer-vote-up/http-request.adoc[]
 
-.request-fields
-include::{snippets}/post-member/request-fields.adoc[]
+.request-body
+include::{snippets}/answer-vote-up/request-body.adoc[]
+// .request-fields
+// include::{snippets}/answer-vote-up/request-fields.adoc[]
 
 .http-response
-include::{snippets}/post-member/http-response.adoc[]
+include::{snippets}/answer-vote-up/http-response.adoc[]
 
-// .response-headers
-// include::{snippets}/post-member/response-headers.adoc[]
+.response-body
+include::{snippets}/answer-vote-up/response-body.adoc[]
