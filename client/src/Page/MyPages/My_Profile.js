@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
+import Footer from '../../Component/Footer';
 
 const Container = styled.div`
   margin: 0px 65px 0px 65px;
@@ -196,6 +197,7 @@ function MyProfile() {
           </MainContent>
         </Content>
       </Container>
+      <Footer />
     </React.Fragment>
   );
 }

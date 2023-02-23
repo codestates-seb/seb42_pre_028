@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
 import MyPSetNav from '../../Component/MyPages/myP_Set_nav';
+import Footer from '../../Component/Footer';
 
 const Container = styled.div`
   margin: 0px 65px 0px 65px;
@@ -268,6 +269,7 @@ function MySettings() {
           </MainContainer>
         </Content>
       </Container>
+      <Footer />
     </React.Fragment>
   );
 }

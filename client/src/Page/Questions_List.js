@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Pagination from '../Component/Pagination';
 import { dummyData } from '../dummyData';
 import { Link } from 'react-router-dom';
+import Footer from '../Component/Footer';
 
 const Container = styled.div`
   display: flex;
@@ -126,58 +127,61 @@ function Questions_List() {
   };
 
   return (
-    <Container>
-      <Content>
-        <Mainbar>
-          <MainComponent>
-            <H1>All Questions</H1>
-            <Link to="/create">
-              <AskButton>Ask Question</AskButton>
-            </Link>
-          </MainComponent>
-          <MainComponent>
-            <div>{size} questions</div>
-            <RowDiv>
-              <ArrayDiv>
-                {sortArr.map((el, index) => {
-                  return <ArrayButton key={index}>{el}</ArrayButton>;
+    <div>
+      <Container>
+        <Content>
+          <Mainbar>
+            <MainComponent>
+              <H1>All Questions</H1>
+              <Link to="/create">
+                <AskButton>Ask Question</AskButton>
+              </Link>
+            </MainComponent>
+            <MainComponent>
+              <div>{size} questions</div>
+              <RowDiv>
+                <ArrayDiv>
+                  {sortArr.map((el, index) => {
+                    return <ArrayButton key={index}>{el}</ArrayButton>;
+                  })}
+                </ArrayDiv>
+                <ArrayButton>Filter</ArrayButton>
+              </RowDiv>
+            </MainComponent>
+            <MainComponent>
+              <QuestionDiv>
+                {renderData.map((obj, index) => {
+                  return <Question key={index} question={obj}></Question>;
                 })}
-              </ArrayDiv>
-              <ArrayButton>Filter</ArrayButton>
-            </RowDiv>
-          </MainComponent>
-          <MainComponent>
-            <QuestionDiv>
-              {renderData.map((obj, index) => {
-                return <Question key={index} question={obj}></Question>;
-              })}
-            </QuestionDiv>
-          </MainComponent>
-          <RowWrapDiv>
-            <Pagination
-              size={size}
-              pageCnt={pageCnt}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-            <RowDiv>
-              <PagingButton onClick={pageHandler} value={5}>
-                5
-              </PagingButton>
-              <PagingButton onClick={pageHandler} value={10}>
-                10
-              </PagingButton>
-              <PagingButton onClick={pageHandler} value={15}>
-                15
-              </PagingButton>
-              per page
-            </RowDiv>
-          </RowWrapDiv>
-        </Mainbar>
+              </QuestionDiv>
+            </MainComponent>
+            <RowWrapDiv>
+              <Pagination
+                size={size}
+                pageCnt={pageCnt}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+              <RowDiv>
+                <PagingButton onClick={pageHandler} value={5}>
+                  5
+                </PagingButton>
+                <PagingButton onClick={pageHandler} value={10}>
+                  10
+                </PagingButton>
+                <PagingButton onClick={pageHandler} value={15}>
+                  15
+                </PagingButton>
+                per page
+              </RowDiv>
+            </RowWrapDiv>
+          </Mainbar>
 
-        {/* <Sidebar>Sidebar</Sidebar> */}
-      </Content>
-    </Container>
+          {/* <Sidebar>Sidebar</Sidebar> */}
+        </Content>
+      </Container>
+      <Footer />
+    </div>
   );
 }
 
