@@ -1,8 +1,8 @@
 package Preproject28.server.question.service;
 
 
-import Preproject28.server.exception.BusinessLogicException;
-import Preproject28.server.exception.ExceptionCode;
+import Preproject28.server.error.exception.BusinessLogicException;
+import Preproject28.server.error.exception.ExceptionCode;
 import Preproject28.server.question.entity.Question;
 import Preproject28.server.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;

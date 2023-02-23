@@ -1,6 +1,6 @@
-package Preproject28.server.response;
+package Preproject28.server.error.response;
 
-import Preproject28.server.exception.ExceptionCode;
+import Preproject28.server.error.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;

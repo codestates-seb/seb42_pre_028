@@ -3,8 +3,8 @@ package Preproject28.server.answer.service;
 
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.repository.AnswerRepository;
-import Preproject28.server.exception.BusinessLogicException;
-import Preproject28.server.exception.ExceptionCode;
+import Preproject28.server.error.exception.BusinessLogicException;
+import Preproject28.server.error.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

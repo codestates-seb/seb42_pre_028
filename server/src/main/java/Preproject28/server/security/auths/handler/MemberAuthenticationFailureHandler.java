@@ -1,6 +1,6 @@
 package Preproject28.server.security.auths.handler;
 
-import Preproject28.server.response.ErrorResponse;
+import Preproject28.server.error.response.ErrorResponse;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

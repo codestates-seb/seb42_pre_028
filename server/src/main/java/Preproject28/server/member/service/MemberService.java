@@ -1,7 +1,7 @@
 package Preproject28.server.member.service;
 
-import Preproject28.server.exception.BusinessLogicException;
-import Preproject28.server.exception.ExceptionCode;
+import Preproject28.server.error.exception.BusinessLogicException;
+import Preproject28.server.error.exception.ExceptionCode;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.repository.MemberRepository;
 import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
@@ -65,5 +65,11 @@ public class MemberService {
     }
     private String passwordEncoding(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    public Member findverifiedMemberByEmail(String memberEmail) {
+        Optional<Member> memberOptional = memberRepository.findByEmail(memberEmail);
+        return memberOptional.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
     }
 }

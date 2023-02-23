@@ -1,4 +1,4 @@
-package Preproject28.server.Answer;
+package Preproject28.server.answer;
 
 
 import Preproject28.server.answer.controller.AnswerController;
@@ -10,11 +10,9 @@ import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
-import Preproject28.server.question.entity.Question;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

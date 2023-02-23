@@ -1,6 +1,6 @@
 package Preproject28.server.security.auths.utils;
 
-import Preproject28.server.response.ErrorResponse;
+import Preproject28.server.error.response.ErrorResponse;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

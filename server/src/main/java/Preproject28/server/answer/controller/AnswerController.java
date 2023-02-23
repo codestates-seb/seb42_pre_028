@@ -1,7 +1,7 @@
 package Preproject28.server.answer.controller;
 
-import Preproject28.server.Dto.MultiResponseDto;
-import Preproject28.server.Dto.SingleResponseDto;
+import Preproject28.server.util.dto.MultiResponseDto;
+import Preproject28.server.util.dto.SingleResponseDto;
 import Preproject28.server.answer.dto.AnswerPatchDto;
 import Preproject28.server.answer.dto.AnswerPostDto;
 import Preproject28.server.answer.dto.AnswerResponseDto;
@@ -10,9 +10,6 @@ import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
-import Preproject28.server.question.entity.Question;
-import Preproject28.server.question.mapper.QuestionMapper;
-import Preproject28.server.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

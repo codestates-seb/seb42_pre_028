@@ -1,8 +1,8 @@
-package Preproject28.server.advice;
+package Preproject28.server.error.advice;
 
 
-import Preproject28.server.exception.BusinessLogicException;
-import Preproject28.server.response.ErrorResponse;
+import Preproject28.server.error.exception.BusinessLogicException;
+import Preproject28.server.error.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

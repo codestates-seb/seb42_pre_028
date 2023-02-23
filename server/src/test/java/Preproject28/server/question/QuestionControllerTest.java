@@ -1,6 +1,5 @@
 package Preproject28.server.question;
 
-import Preproject28.server.member.controller.MemberController;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.controller.QuestionController;
@@ -43,8 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = QuestionController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
-@Slf4j
 @WithMockUser
+@Slf4j
 public class QuestionControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -56,49 +55,47 @@ public class QuestionControllerTest {
     private QuestionMapper mapper;
     @Autowired
     private Gson gson;
-    LocalDateTime createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    LocalDateTime modifiedAt = LocalDateTime.of(2023,02,1,1,1);
+    LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
     @Test
     @DisplayName("PostQuestionTest")
     public void postQuestionTest() throws Exception{
         QuestionPostDto mockPost = new QuestionPostDto(1L,
-                                                        "질문 1",
-                                                        "문제 바디",
-                                                        "에상 바디",
-                                                        1);
+                "질문 1",
+                "문제 바디",
+                "에상 바디",
+                1);
 
         String content = gson.toJson(mockPost);
         QuestionResponseDto response = new QuestionResponseDto(1L,
-                                                                "질문 1",
-                                                                "문제 바디",
-                                                                "에상 바디",
-                                                                createdAt,
-                                                                modifiedAt,
-                                                                1,
-                                                                1,
-                                                                1,
-                                                                "리스트로 대체");
+                "질문 1",
+                "문제 바디",
+                "에상 바디",
+                now,
+                modified,
+                1,
+                1,
+                1,
+                "리스트로 대체");
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(mapper.questionPostDtoToQuestion(any())).thenReturn(new Question());
         when(questionService.createQuestion(any())).thenReturn(new Question());
         when(mapper.questionToQuestionResponseDto(any())).thenReturn(response);
-
         log.info(response.toString());
 
         ResultActions actions = mockMvc.perform(post("/question")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(content)
-                        .with(csrf()));
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content)
+                .with(csrf()));
 
-        actions.andExpect(status().isCreated())
-                .andDo(document("post-Question",
+        actions.andExpect(status().isCreated()).andDo(document("post-Question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디/ 보내는거아님"),
+                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("problemBody").type(JsonFieldType.STRING).description("문제본문"),
                                         fieldWithPath("expectingBody").type(JsonFieldType.STRING).description("예상본문"),
@@ -119,7 +116,13 @@ public class QuestionControllerTest {
                                         fieldWithPath("answers").type(JsonFieldType.STRING).description("답 아이디 리스트")
                                 )
                         ))
-        );
+                );
+
+    }
+    @Test
+    @DisplayName("postQuestionTest")
+    public void patchQuestionTest() throws Exception{
+        long memberId = 1L;
 
     }
 

@@ -1,4 +1,4 @@
-package Preproject28.server.exception;
+package Preproject28.server.error.exception;
 
 public class BusinessLogicException extends RuntimeException {
 
