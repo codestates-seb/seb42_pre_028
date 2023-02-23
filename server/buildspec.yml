@@ -7,15 +7,15 @@ phases:
   build:
     commands:
       - echo Build Starting on `date`
-      - cd DeployServer
+      - cd server
       - chmod +x ./gradlew
       - ./gradlew build
   post_build:
     commands:
-      - echo $(basename ./seb42_pre_28/build/libs/*.jar)
+      - echo $(basename ./server/build/libs/*.jar)
 artifacts:
   files:
-    - seb42_pre_28/build/libs/*.jar
-    - seb42_pre_28/scripts/**
-    - seb42_pre_28/appspec.yml
+    - server/build/libs/*.jar
+    - server/scripts/**
+    - server/appspec.yml
   discard-paths: yes

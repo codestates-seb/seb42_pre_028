@@ -44,7 +44,7 @@ public class MemberService {
         return findverifiedMember(memberId);
     }
 
-    public void deleteMember(long memberId) {
+    public boolean deleteMember(long memberId) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
 
         Member findMember = findverifiedMember(memberId);
@@ -54,6 +54,8 @@ public class MemberService {
         } else {
             throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
         }
+        Optional<Member> deleteMember = memberRepository.findById(memberId); //지워졌는지 확인
+        return deleteMember.isEmpty(); //지워졌으면 true
 
     }
 

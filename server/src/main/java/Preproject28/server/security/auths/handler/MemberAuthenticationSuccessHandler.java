@@ -20,6 +20,7 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
         Member member = (Member) authentication.getPrincipal();
         String clientIp = new CustomHttpServletRequestWrapper(request).getRemoteAddr();
         log.info(" # 로그인 성공" + " ID : " + member.getEmail() + " , 요청 IP : " + clientIp);
+
 //        response.setHeader("test", "login"); // 그냥 실험
     }
 }
