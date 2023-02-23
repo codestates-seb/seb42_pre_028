@@ -28,20 +28,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import static Preproject28.server.utils.ApiDocumentUtils.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.startsWith;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
+import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -199,7 +195,6 @@ class MemberControllerTest {
                                         fieldWithPath("questions[]viewCount").type(JsonFieldType.NUMBER).description("조회수"),
                                         fieldWithPath("questions[]voteCount").type(JsonFieldType.NUMBER).description("추천수"),
                                         fieldWithPath("questions[]answers").type(JsonFieldType.STRING).description("답변")
-
                                 )
                         )
                 ));
@@ -215,18 +210,62 @@ class MemberControllerTest {
     //내 정보 조회
     @Test
     @DisplayName("내 정보 조회")
-    public void getMemberInfoTest(){
+    public void getMemberInfoTest() throws Exception {
         //given
+        MemberPostDto requestPost = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
+        String requestJson = gson.toJson(requestPost);
+        long memberId = 1;
+        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "김민호", "godalsgh@gmail.com",createdAt);
+
+        when(memberService.findMember(anyInt())).thenReturn(new Member());
+        when(mapper.memberToMemberInfoResponse(any())).thenReturn(response);
         //when
+        ResultActions actions = mockMvc.perform(
+                get("/members/{member-id}/info", memberId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson));
         //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "get-member-info",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
+                                )
+                        )
+                ));
     }
     //회원 탈퇴
     @Test
     @DisplayName("회원 탈퇴")
-    public void deleteMemberTest(){
+    public void deleteMemberTest() throws Exception {
         //given
+        long memberId = 1;
+        boolean deleteStatus = true;
+        when(memberService.deleteMember(anyLong())).thenReturn(deleteStatus);
         //when
+        ResultActions actions = mockMvc.perform(
+                delete("/members/{member-id}/", memberId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf()));
         //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "delete-member",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor()
+                        ));
     }
 
 }

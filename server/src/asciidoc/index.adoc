@@ -58,3 +58,35 @@ include::{snippets}/get-member-question/http-response.adoc[]
 
 // .response-headers
 // include::{snippets}/post-member/response-headers.adoc[]
+
+=== 내 정보 조회
+.curl-request
+include::{snippets}/get-member-info/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-member-info/http-request.adoc[]
+
+.request-fields
+// include::{snippets}/get-member-info/request-fields.adoc[]
+
+.http-response
+include::{snippets}/get-member-info/http-response.adoc[]
+
+// .response-headers
+// include::{snippets}/post-member/response-headers.adoc[]
+
+=== 회원 탈퇴
+.curl-request
+include::{snippets}/delete-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/delete-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
+
+.response-headers
+include::{snippets}/delete-member/response-headers.adoc[]

@@ -40,9 +40,18 @@ public class MemberController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 본인만 삭제가능 & 삭제후 확인과정 추가
+     * @param memberId
+     * @return
+     */
     @DeleteMapping("/{member-id}")
-    public void deleteMember(@PathVariable("member-id") long memberId) {
-        memberService.deleteMember(memberId);
+    public ResponseEntity deleteMember(@PathVariable("member-id") long memberId) {
+
+        boolean deleteStatus = memberService.deleteMember(memberId);
+
+        return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
+        //테스트시 게시글을 등록한 회원은 삭제할때 다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
     }
 
     /**
