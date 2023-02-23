@@ -1,28 +1,55 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-// eslint-disable-next-line no-unused-vars
 import styled from 'styled-components';
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 32px;
+`;
+
+const MyPageMenuUl = styled.ul`
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+`;
+
+const MyPageMenuLi = styled.li`
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding: 6px 48px 6px 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
+  > a {
+    text-decoration: none;
+    color: black;
+  }
+`;
 
 function MyPActNav() {
   return (
     <React.Fragment>
-      <div>
-        액티비티 페이지 좌측 네비
-        <ul>
-          <li>Summary</li>
-          <li>Answer</li>
-          <li>Questions</li>
-          <li>Tags</li>
-          <li>Articles</li>
-          <li>Badges</li>
-          <li>Following</li>
-          <li>Bounties</li>
-          <li>Reputataion</li>
-          <li>All actions</li>
-          <li>Responses</li>
-          <li>Votes</li>
-        </ul>
-      </div>
+      <Content>
+        <MyPageMenuUl>
+          <MyPageMenuLi>Answer</MyPageMenuLi>
+          <MyPageMenuLi>Summary</MyPageMenuLi>
+          <MyPageMenuLi>Questions</MyPageMenuLi>
+          <MyPageMenuLi>Tags</MyPageMenuLi>
+          <MyPageMenuLi>Articles</MyPageMenuLi>
+          <MyPageMenuLi>Badges</MyPageMenuLi>
+          <MyPageMenuLi>Following</MyPageMenuLi>
+          <MyPageMenuLi>Bounties</MyPageMenuLi>
+          <MyPageMenuLi>Reputataion</MyPageMenuLi>
+          <MyPageMenuLi>All actions</MyPageMenuLi>
+          <MyPageMenuLi>Responses</MyPageMenuLi>
+          <MyPageMenuLi>Votes</MyPageMenuLi>
+        </MyPageMenuUl>
+      </Content>
     </React.Fragment>
   );
 }

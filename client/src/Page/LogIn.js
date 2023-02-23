@@ -205,7 +205,7 @@ function LogIn() {
     dispatch(login(state));
     if (state.value === true) {
       alert('로그인 성공');
-      navigate('/mypage', { replace: true });
+      navigate('/mypage/activity', { replace: true });
     }
 
     // fetch(`https://991b-112-156-175-230.jp.ngrok.io/auth/login`, {

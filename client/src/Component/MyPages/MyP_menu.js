@@ -1,8 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
 import styled from 'styled-components';
+
+const Container = styled.div`
+  margin: 0px;
+`;
 
 const Content = styled.div`
   display: flex;
@@ -44,20 +47,22 @@ const MyPageMenuLi = styled.li`
 function MyPMenu() {
   return (
     <React.Fragment>
-      <Content>
-        <MyPageMenuUl>
-          <Link to="/mypage/profile">
-            <MyPageMenuLi>Profile</MyPageMenuLi>
-          </Link>
-          <Link to="/mypage/activity">
-            <MyPageMenuLi>activity</MyPageMenuLi>
-          </Link>
-          <MyPageMenuLi>Saves</MyPageMenuLi>
-          <Link to="/mypage/setting">
-            <MyPageMenuLi>Settings</MyPageMenuLi>
-          </Link>
-        </MyPageMenuUl>
-      </Content>
+      <Container>
+        <Content>
+          <MyPageMenuUl>
+            <Link to="/mypage/profile">
+              <MyPageMenuLi>Profile</MyPageMenuLi>
+            </Link>
+            <Link to="/mypage/activity">
+              <MyPageMenuLi>activity</MyPageMenuLi>
+            </Link>
+            <MyPageMenuLi>Saves</MyPageMenuLi>
+            <Link to="/mypage/setting">
+              <MyPageMenuLi>Settings</MyPageMenuLi>
+            </Link>
+          </MyPageMenuUl>
+        </Content>
+      </Container>
     </React.Fragment>
   );
 }

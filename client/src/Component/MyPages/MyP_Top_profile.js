@@ -1,8 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
 import styled from 'styled-components';
+
+const Container = styled.div`
+  margin: 0px;
+`;
 
 const Content = styled.div`
   display: flex;
@@ -25,7 +28,7 @@ const UserData = styled.div`
   margin: 8px;
 
   > div.user_name {
-    font-size: 2.5em;
+    font-size: 2.8em;
     margin-bottom: 8px;
   }
 `;
@@ -40,32 +43,39 @@ const UserLogLi = styled.li`
   display: flex;
 `;
 
+const BtnContainer = styled.div`
+  display: flex;
+  margin-left: auto;
+`;
+
 function MyPTProfile() {
   return (
     <React.Fragment>
-      <Content>
-        <ProfileImg>
-          <Link to="/mypage/activity">
-            <img
-              id="my_profile_img"
-              src="../logo192.png"
-              alt="my profile img"
-            />
-          </Link>
-        </ProfileImg>
-        <UserData>
-          <div className="user_name">user name</div>
-          <UserLogUl>
-            <UserLogLi>(icon) Member for 6 Days</UserLogLi>
-            <UserLogLi>(icon) Last seen this week</UserLogLi>
-            <UserLogLi>(icon) Visited 4 days, 1 consecutive</UserLogLi>
-          </UserLogUl>
-        </UserData>
-        <div className="profile_top_menu_bar">
-          <button>Edit profile</button>
-          <button>Network profile</button>
-        </div>
-      </Content>
+      <Container>
+        <Content>
+          <ProfileImg>
+            <Link to="/mypage/activity">
+              <img
+                id="my_profile_img"
+                src="../logo192.png"
+                alt="my profile img"
+              />
+            </Link>
+          </ProfileImg>
+          <UserData>
+            <div className="user_name">user name</div>
+            <UserLogUl>
+              <UserLogLi>(icon) Member for 6 Days</UserLogLi>
+              <UserLogLi>(icon) Last seen this week</UserLogLi>
+              <UserLogLi>(icon) Visited 4 days, 1 consecutive</UserLogLi>
+            </UserLogUl>
+          </UserData>
+          <BtnContainer>
+            <button>Edit profile</button>
+            <button>Network profile</button>
+          </BtnContainer>
+        </Content>
+      </Container>
     </React.Fragment>
   );
 }
