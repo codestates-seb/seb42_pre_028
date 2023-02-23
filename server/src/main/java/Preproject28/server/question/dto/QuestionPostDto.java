@@ -12,11 +12,15 @@ import java.time.LocalDateTime;
 public class QuestionPostDto {
     private Long questionId;
 
+
     private String title;
+
 
     private String problemBody;
 
+
     private String expectingBody;
+
 
     private long memberId;
 

@@ -28,24 +28,24 @@ public class AnswerService {
     }
 
     public Answer updateAnswer(Answer answer){
-        Answer findAnswer = findAnswer (answer.getAnswerId());
-        Optional.ofNullable(answer.getContent()).ifPresent(findAnswer::setContent);
-        Optional.ofNullable(answer.getMember()).ifPresent(findAnswer::setMember);
-        Optional.of(answer.getVoteCount()).ifPresent(findAnswer::setVoteCount);
-        return findAnswer;
+        Answer findAnswer = findAnswer(answer.getAnswerId());
+        Optional.ofNullable(answer.getContent())
+                .ifPresent(content -> findAnswer.setContent(content));
+        Answer updateAnswer = answerRepository.save(findAnswer);
+        return updateAnswer;
     }
-    public void deleteAnswer(long answerId){
-        Answer answer = findAnswer(answerId);
-        answerRepository.deleteById(answerId);
+    public void deleteAnswer(long QId){
+        Answer answer = findAnswer(QId);
+        answerRepository.deleteById(QId);
 
     }
     public Page<Answer> findAnswers(int page, int size){
         return answerRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
 
     }
-    public Answer findAnswer(long answerId){
-        Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
-        Answer findAnswer = optionalAnswer.orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+    public Answer findAnswer(long QId){
+        Optional<Answer> optionalQuestion = answerRepository.findById(QId);
+        Answer findAnswer = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
         return findAnswer;
     }
