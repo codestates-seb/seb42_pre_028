@@ -27,5 +27,19 @@ include::{snippets}/post-question/request-fields.adoc[]
 .http-response
 include::{snippets}/post-question/http-response.adoc[]
 
+***
+== AnswerController
+=== 질문 등록
+.curl-request
+include::{snippets}/post-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-answer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-answer/http-response.adoc[]
 // .response-headers
 // include::{snippets}/post-question/response-headers.adoc[]

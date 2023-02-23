@@ -31,7 +31,7 @@ public class AnswerResponseDto {
 
     private long questionId;
 
-    private long memberID;
+    private long memberId;
 
 
 }

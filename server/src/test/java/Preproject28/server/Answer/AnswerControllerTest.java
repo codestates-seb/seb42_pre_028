@@ -1,6 +1,8 @@
 package Preproject28.server.Answer;
 
 
+import Preproject28.server.answer.controller.AnswerController;
+import Preproject28.server.answer.dto.AnswerPatchDto;
 import Preproject28.server.answer.dto.AnswerPostDto;
 import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.answer.entity.Answer;
@@ -38,10 +40,12 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = AnswerControllerTest.class)
+@WebMvcTest(controllers = AnswerController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 @WithMockUser
@@ -58,11 +62,12 @@ public class AnswerControllerTest {
     private AnswerService answerService;
     @MockBean
     private AnswerMapper answerMapper;
-    @MockBean
-    private Question question;
-
-    @MockBean
-    private Member member;
+//
+//    @MockBean
+//    private Question question;
+//
+//    @MockBean
+//    private Member member;
 
 
     LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
@@ -82,8 +87,8 @@ public class AnswerControllerTest {
                 now,
                 modified,
                 false,
-                1,
-                1);
+                1L,
+                1L);
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(answerMapper.answerPostDtoToAnswer(any())).thenReturn(new Answer());
@@ -95,7 +100,8 @@ public class AnswerControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
-                .with(csrf()));
+                .with(csrf())
+        );
 
         actions.andExpect(status().isCreated()).andDo(document("post-Answer",
                 getRequestPreProcessor(),
@@ -120,6 +126,70 @@ public class AnswerControllerTest {
                         )
                 ))
         );
+
+    }
+    @Test
+    @DisplayName("patchAnswerTest")
+    public void patchAnswerTest() throws Exception{
+        AnswerPatchDto answerPatchDto = new AnswerPatchDto(1L,
+                "변경 답변",1,
+                modified,
+                false,
+                1L,1L
+                );
+        AnswerResponseDto response = new AnswerResponseDto(1L,
+                "답변변경",
+                3,
+                now,
+                modified,
+                false,
+                1L,
+                1L);
+        String patchJson = gson.toJson(answerPatchDto);
+
+        long answerId = 1L;
+        when(answerMapper.answerPatchDtoToAnswer(any())).thenReturn(new Answer());
+        when(answerService.updateAnswer(any())).thenReturn(new Answer());
+        when(answerMapper.answerToAnswerResponseDto(any())).thenReturn(response);
+//언제
+        ResultActions actions = mockMvc.perform(patch("/answer/{answer-id}",answerId)
+                .content(patchJson)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
+        );
+//그리고
+        actions.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("patch-answer",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("대답 아이디"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("대답 본문")
+//                                        fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("대답 아이디"),
+//                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정 일자"),
+//                                        fieldWithPath("adoptStatus").type(JsonFieldType.BOOLEAN).description("해결여부"),
+//                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
+//                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("답변 아이디"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("제목")
+//                                        fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
+//                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
+//                                        fieldWithPath("adoptStatus").type(JsonFieldType.BOOLEAN).description("조회수"),
+//                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 엔티티"),
+//                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 엔티티")
+
+                                )
+                        )
+
+
+                ));
 
     }
 }

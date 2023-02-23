@@ -30,15 +30,14 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
     private final MemberService memberService;
-    private final AnswerMapper answerMapper;
-    private final AnswerService answerService;
 
-    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, MemberService memberService, AnswerMapper answerMapper,AnswerService answerService){
-        this.answerMapper = answerMapper;
+
+    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, MemberService memberService){
+
         this.questionMapper = questionMapper;
         this.questionService =questionService;
         this.memberService = memberService;
-        this.answerService = answerService;
+
     }
 
     @PostMapping
@@ -53,8 +52,8 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     @PatchMapping("/{question-id}")
-    public ResponseEntity patchQuestion(@PathVariable("question-id") long coffeeId, @Valid @RequestBody QuestionPatchDto questionPatchDto){
-        questionPatchDto.setQuestionId(coffeeId);
+    public ResponseEntity patchQuestion(@PathVariable("question-id") long QId, @Valid @RequestBody QuestionPatchDto questionPatchDto){
+        questionPatchDto.setQuestionId(QId);
         Question question = questionService.updateQuestion(questionMapper.questionPatchDtoToQuestion(questionPatchDto));
 
         return new ResponseEntity<>(
