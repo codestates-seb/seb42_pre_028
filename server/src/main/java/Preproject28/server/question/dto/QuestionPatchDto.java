@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,10 +18,10 @@ public class QuestionPatchDto {
 
     private String title;
 
-    private String problemBody;
+    private List<String> problemBody;
 
-    private String expectingBody;
-//
+    private List<String> expectingBody;
+
 //
 //    private LocalDateTime createdAt;
 //

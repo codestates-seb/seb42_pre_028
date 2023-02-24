@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-24T10:43:16+0900",
+    date = "2023-02-24T14:09:25+0900",
     comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.jar, environment: Java 11.0.17 (Azul Systems, Inc.)"
 )
 @Component
@@ -26,7 +26,10 @@ public class AnswerMapperImpl implements AnswerMapper {
         Answer answer = new Answer();
 
         answer.setAnswerId( answerPostDto.getAnswerId() );
-        answer.setContent( answerPostDto.getContent() );
+        List<String> list = answerPostDto.getContent();
+        if ( list != null ) {
+            answer.setContent( new ArrayList<String>( list ) );
+        }
 
         return answer;
     }
@@ -40,7 +43,10 @@ public class AnswerMapperImpl implements AnswerMapper {
         Answer answer = new Answer();
 
         answer.setAnswerId( answerPatchDto.getAnswerId() );
-        answer.setContent( answerPatchDto.getContent() );
+        List<String> list = answerPatchDto.getContent();
+        if ( list != null ) {
+            answer.setContent( new ArrayList<String>( list ) );
+        }
 
         return answer;
     }
@@ -54,7 +60,10 @@ public class AnswerMapperImpl implements AnswerMapper {
         AnswerResponseDto.AnswerResponseDtoBuilder answerResponseDto = AnswerResponseDto.builder();
 
         answerResponseDto.answerId( answer.getAnswerId() );
-        answerResponseDto.content( answer.getContent() );
+        List<String> list = answer.getContent();
+        if ( list != null ) {
+            answerResponseDto.content( new ArrayList<String>( list ) );
+        }
         answerResponseDto.voteCount( answer.getVoteCount() );
         answerResponseDto.createdAt( answer.getCreatedAt() );
         answerResponseDto.modifiedAt( answer.getModifiedAt() );

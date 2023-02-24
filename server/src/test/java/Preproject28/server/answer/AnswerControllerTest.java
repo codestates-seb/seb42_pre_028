@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
@@ -68,24 +69,31 @@ public class AnswerControllerTest {
 //    private Member member;
 
 
+
+    public List<String> contentList() {
+        List<String> contentList = new ArrayList<String>();
+        contentList.add("컨텐트");
+        contentList.add("이름");
+        contentList.add("리스트로");
+        return contentList;
+    }
+
     LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
 
     @Test
     @DisplayName("PostAnswerTest")
     public void postAnswerTest() throws Exception{
-        AnswerPostDto mockPost = new AnswerPostDto(1L,
-                "답변 1",1L
+        AnswerPostDto mockPost = new AnswerPostDto(1L, contentList(),1L
             );
 
         String content = gson.toJson(mockPost);
-        AnswerResponseDto response = new AnswerResponseDto(1L,
-                "답변 1",
+        AnswerResponseDto response = new AnswerResponseDto(1L
+              ,contentList(),
                 2,
                 now,
                 modified,
                 false,
-                1L,
                 1L);
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
@@ -107,19 +115,19 @@ public class AnswerControllerTest {
                 requestFields(
                         List.of(
                                 fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 아이디"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("답변내용"),
+                                fieldWithPath("data[].content").type(JsonFieldType.ARRAY).description("답변내용"),
                                 fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디")
                         )
                 ),
                 responseFields(
                         List.of(
                                 fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("답변 아이디"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("data[].content").type(JsonFieldType.ARRAY).description("답변내용"),
                                 fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
                                 fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
                                 fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
                                 fieldWithPath("adoptStatus").type(JsonFieldType.BOOLEAN).description("조회수"),
-                                fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 엔티티"),
+//                                fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 엔티티"),
                                 fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 엔티티")
                         )
                 ))
@@ -130,14 +138,13 @@ public class AnswerControllerTest {
     @DisplayName("patchAnswerTest")
     public void patchAnswerTest() throws Exception{
         AnswerPatchDto answerPatchDto = new AnswerPatchDto(1L,
-                "변경 답변");
+                contentList());
         AnswerResponseDto response = new AnswerResponseDto(1L,
-                "답변변경",
+                contentList(),
                 3,
                 now,
                 modified,
                 false,
-                1L,
                 1L);
         String patchJson = gson.toJson(answerPatchDto);
 
@@ -161,18 +168,18 @@ public class AnswerControllerTest {
                         requestFields(
                                 List.of(
                                         fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("대답 아이디"),
-                                        fieldWithPath("content").type(JsonFieldType.STRING).description("대답 본문")
+                                        fieldWithPath("content").type(JsonFieldType.ARRAY).description("대답 본문")
                                 )
                         ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 아이디"),
-                                        fieldWithPath("data.content").type(JsonFieldType.STRING).description("제목"),
+                                        fieldWithPath("data[].content").type(JsonFieldType.ARRAY).description("제목"),
                                         fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("생성시간"),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
                                         fieldWithPath("data.adoptStatus").type(JsonFieldType.BOOLEAN).description("조회수"),
-                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 ID"),
+//                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 ID"),
                                         fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("작성자 ID")
                                 )
                         )

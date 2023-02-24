@@ -3,6 +3,7 @@ package Preproject28.server.question.entity;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -18,13 +20,14 @@ import java.time.LocalDateTime;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonManagedReference
     private Long questionId;
 
     private String title;
 
-    private String problemBody;
+    private List<String> problemBody;
 
-    private String expectingBody;
+    private List<String> expectingBody;
     //리스트로 변경.
 
     @CreatedDate

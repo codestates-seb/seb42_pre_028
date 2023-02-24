@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-24T10:43:16+0900",
+    date = "2023-02-24T14:09:25+0900",
     comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.jar, environment: Java 11.0.17 (Azul Systems, Inc.)"
 )
 @Component
@@ -27,8 +27,14 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         question.setQuestionId( questionPostDto.getQuestionId() );
         question.setTitle( questionPostDto.getTitle() );
-        question.setProblemBody( questionPostDto.getProblemBody() );
-        question.setExpectingBody( questionPostDto.getExpectingBody() );
+        List<String> list = questionPostDto.getProblemBody();
+        if ( list != null ) {
+            question.setProblemBody( new ArrayList<String>( list ) );
+        }
+        List<String> list1 = questionPostDto.getExpectingBody();
+        if ( list1 != null ) {
+            question.setExpectingBody( new ArrayList<String>( list1 ) );
+        }
 
         return question;
     }
@@ -43,8 +49,14 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         question.setQuestionId( questionPatchDto.getQuestionId() );
         question.setTitle( questionPatchDto.getTitle() );
-        question.setProblemBody( questionPatchDto.getProblemBody() );
-        question.setExpectingBody( questionPatchDto.getExpectingBody() );
+        List<String> list = questionPatchDto.getProblemBody();
+        if ( list != null ) {
+            question.setProblemBody( new ArrayList<String>( list ) );
+        }
+        List<String> list1 = questionPatchDto.getExpectingBody();
+        if ( list1 != null ) {
+            question.setExpectingBody( new ArrayList<String>( list1 ) );
+        }
 
         return question;
     }
@@ -59,8 +71,14 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         questionResponseDto.questionId( question.getQuestionId() );
         questionResponseDto.title( question.getTitle() );
-        questionResponseDto.problemBody( question.getProblemBody() );
-        questionResponseDto.expectingBody( question.getExpectingBody() );
+        List<String> list = question.getProblemBody();
+        if ( list != null ) {
+            questionResponseDto.problemBody( new ArrayList<String>( list ) );
+        }
+        List<String> list1 = question.getExpectingBody();
+        if ( list1 != null ) {
+            questionResponseDto.expectingBody( new ArrayList<String>( list1 ) );
+        }
         questionResponseDto.createdAt( question.getCreatedAt() );
         questionResponseDto.modifiedAt( question.getModifiedAt() );
         questionResponseDto.viewCount( (int) question.getViewCount() );

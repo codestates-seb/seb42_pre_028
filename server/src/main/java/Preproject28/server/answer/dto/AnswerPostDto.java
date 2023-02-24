@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class AnswerPostDto {
     private long answerId;
 
-    private String content;
+    private List<String> content;
 
     private long memberId;
 }

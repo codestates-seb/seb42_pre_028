@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
@@ -62,20 +63,35 @@ public class QuestionControllerTest {
     private Gson gson;
     LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
+
+    public List<String> pBList() {
+        List<String> contentList = new ArrayList<String>();
+        contentList.add("문제");
+        contentList.add("바디");
+        contentList.add("리스트로");
+        return contentList;
+    }
+    public List<String> eBList() {
+        List<String> contentList = new ArrayList<String>();
+        contentList.add("예상");
+        contentList.add("바디");
+        contentList.add("리스트로");
+        return contentList;
+    }
     @Test
     @DisplayName("PostQuestionTest")
     public void postQuestionTest() throws Exception{
         QuestionPostDto mockPost = new QuestionPostDto(1L,
                 "질문 1",
-                "문제 바디",
-                "에상 바디",
+                pBList(),
+                eBList(),
                 1);
 
         String content = gson.toJson(mockPost);
         QuestionResponseDto response = new QuestionResponseDto(1L,
                 "질문 1",
-                "문제 바디",
-                "에상 바디",
+                pBList(),
+                eBList(),
                 now,
                 modified,
                 1,
@@ -101,8 +117,8 @@ public class QuestionControllerTest {
                                 List.of(
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                        fieldWithPath("problemBody").type(JsonFieldType.STRING).description("문제본문"),
-                                        fieldWithPath("expectingBody").type(JsonFieldType.STRING).description("예상본문"),
+                                        fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("문제본문리스트"),
+                                        fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문리스트"),
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디")
                                 )
                         ),
@@ -110,14 +126,18 @@ public class QuestionControllerTest {
                                 List.of(
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                        fieldWithPath("problemBody").type(JsonFieldType.STRING).description("문제본문"),
-                                        fieldWithPath("expectingBody").type(JsonFieldType.STRING).description("예상본문"),
+                                        fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("문제본문"),
+                                        fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문"),
                                         fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
                                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
                                         fieldWithPath("viewCount").type(JsonFieldType.NUMBER).description("조회수"),
                                         fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수"),
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
-                                        fieldWithPath("answerId").type(JsonFieldType.STRING).description("답 아이디 리스트")
+                                        fieldWithPath("answerId").type(JsonFieldType.STRING).description("답 아이디 리스트"),
+
+                                        fieldWithPath("data[]").type(JsonFieldType.STRING).description("정보"),
+                                        fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("문제본문").optional(),
+                                        fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문").optional()
                                 )
                         ))
                 );
@@ -128,12 +148,12 @@ public class QuestionControllerTest {
     public void patchQuestionTest() throws Exception{
         QuestionPatchDto mockPatch = new QuestionPatchDto(1L,
                 "질문 1",
-                "문제 바디",
-                "에상 바디"
+                pBList(),
+                eBList()
                 );
         QuestionResponseDto response = new QuestionResponseDto(1L,
                 "질문제목",
-                "문제 바디","예상 바디",
+                pBList(),eBList(),
                 now,
                 modified,
                 1,
@@ -162,16 +182,16 @@ public class QuestionControllerTest {
                                 List.of(
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
-                                        fieldWithPath("problemBody").type(JsonFieldType.STRING).description("질문 본문"),
-                                        fieldWithPath("expectingBody").type(JsonFieldType.STRING).description("예상본문")
+                                        fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("질문 본문"),
+                                        fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문")
                                 )
                         ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 아이디").optional(),
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목").optional(),
-                                        fieldWithPath("data.problemBody").type(JsonFieldType.STRING).description("문제본문").optional(),
-                                        fieldWithPath("data.expectingBody").type(JsonFieldType.STRING).description("예상본문").optional(),
+                                        fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("문제본문").optional(),
+                                        fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문").optional(),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("생성시간").optional(),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정시간").optional(),
                                         fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("조회수").optional(),

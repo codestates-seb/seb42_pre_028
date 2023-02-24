@@ -21,6 +21,7 @@ import java.util.List;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonManagedReference
     private Long memberId;
     private String displayName;
     @Column(unique = true)

@@ -40,7 +40,7 @@ public class AnswerController {
         AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(responseContent);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-//    @PatchMapping("/{answer-id}")
+
     @GetMapping("/{answer-id}")
     public ResponseEntity getAnswer(@PathVariable("answer-id")long answerId){
         Answer answer = answerService.findAnswer(answerId);
@@ -67,4 +67,5 @@ public class AnswerController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer)),HttpStatus.OK);
     }
+
 }

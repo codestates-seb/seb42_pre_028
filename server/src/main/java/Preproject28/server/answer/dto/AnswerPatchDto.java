@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +17,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AnswerPatchDto {
     private Long answerId;
-    private String content;
+    private List<String> content;
 
 }

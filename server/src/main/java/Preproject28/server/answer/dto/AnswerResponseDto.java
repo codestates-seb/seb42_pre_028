@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Getter
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 public class AnswerResponseDto {
     private Long answerId;
 
-    private String content;
+    private List<String> content;
 
     private int voteCount;
 
@@ -29,7 +30,7 @@ public class AnswerResponseDto {
 
     private boolean adoptStatus;
 
-    private long questionId;
+//    private long questionId;
 
     private long memberId;
 

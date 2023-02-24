@@ -4,6 +4,7 @@ package Preproject28.server.question.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Getter
@@ -13,8 +14,8 @@ import java.time.LocalDateTime;
 public class QuestionResponseDto {
     private Long questionId;
     private String title;
-    private String problemBody;
-    private String expectingBody;
+    private List<String> problemBody;
+    private List<String> expectingBody;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private int viewCount;

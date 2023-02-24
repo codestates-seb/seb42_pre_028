@@ -34,17 +34,17 @@ public class AnswerService {
         Answer updateAnswer = answerRepository.save(findAnswer);
         return updateAnswer;
     }
-    public void deleteAnswer(long QId){
-        Answer answer = findAnswer(QId);
-        answerRepository.deleteById(QId);
+    public void deleteAnswer(long AId){
+        Answer answer = findAnswer(AId);
+        answerRepository.deleteById(AId);
 
     }
     public Page<Answer> findAnswers(int page, int size){
         return answerRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
 
     }
-    public Answer findAnswer(long QId){
-        Optional<Answer> optionalQuestion = answerRepository.findById(QId);
+    public Answer findAnswer(long AId){
+        Optional<Answer> optionalQuestion = answerRepository.findById(AId);
         Answer findAnswer = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
         return findAnswer;

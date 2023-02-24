@@ -157,8 +157,8 @@ class MemberControllerTest {
         Question question = new Question();
         question.setQuestionId(1L);
         question.setTitle("질문글 제목");
-        question.setProblemBody("문제 내용");
-        question.setExpectingBody("시도 내용");
+//        question.setProblemBody("문제 내용");
+//        question.setExpectingBody("시도 내용");
         question.setCreatedAt(createdAt);
         question.setModifiedAt(createdAt);
         question.setMember(member);
