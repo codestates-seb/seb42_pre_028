@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class AnswerPostDto {
-    private long answerId;
     private String content;
+    private long questionId;
     private long memberId;
 }

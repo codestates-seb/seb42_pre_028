@@ -5,6 +5,7 @@
 :toc-title: Table of Contents
 :source-highlighter: highlightjs
 :sectlinks:
+:pdf-fontsdir: src/asciidoc/fonts
 v1.0.0, 2023.02.24
 
 '''

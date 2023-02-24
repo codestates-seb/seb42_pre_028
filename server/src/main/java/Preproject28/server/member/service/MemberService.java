@@ -70,6 +70,10 @@ public class MemberService {
     public Member findverifiedMemberByEmail(String memberEmail) {
         Optional<Member> memberOptional = memberRepository.findByEmail(memberEmail);
         return memberOptional.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
 
+    public Member findMemberByEmail(String memberEmail) {
+        Optional<Member> memberOptional = memberRepository.findByEmail(memberEmail);
+        return memberOptional.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 }

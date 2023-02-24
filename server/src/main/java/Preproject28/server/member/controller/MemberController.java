@@ -58,10 +58,14 @@ public class MemberController {
      * 회원 정보 ( 이메일 , 유저네임 , 이미지 url ) 만 확인하하는 코드.
      * @param memberId
      */
-    @GetMapping("/{member-id}/info")
-    public ResponseEntity getMemberInfo(@PathVariable("member-id") long memberId){
+    @GetMapping("/{memberEmail}/info")
+    public ResponseEntity getMemberInfo(@PathVariable("memberEmail") String  memberEmail){
         // 토큰만으로 memberId & 유저정보 돌려주는식으로 구현
-        Member findMember = memberService.findMember(memberId);
+
+
+        //로그인했을때 로그인한 Email ->
+        // 127.0.0.1:8080/members/{email}/info
+        Member findMember = memberService.findMemberByEmail(memberEmail);
         MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(findMember);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
