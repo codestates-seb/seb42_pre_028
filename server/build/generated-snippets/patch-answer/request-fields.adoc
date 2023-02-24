@@ -1,0 +1,12 @@
+|===
+|Path|Type|Description
+
+|`+answerId+`
+|`+Number+`
+|대답 아이디
+
+|`+content+`
+|`+String+`
+|대답 본문
+
+|===

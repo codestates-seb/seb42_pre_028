@@ -1,0 +1,10 @@
+[source,options="nowrap"]
+----
+{
+  "questionId" : 1,
+  "title" : "질문 1",
+  "problemBody" : "문제 바디",
+  "expectingBody" : "에상 바디",
+  "memberId" : 1
+}
+----

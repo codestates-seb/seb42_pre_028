@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/answer-vote/1/up' -i -X POST \
+    -H 'Accept: application/json' \
+    -d '_csrf=9676cb04-3fba-435d-9ea3-6d6ae5622ffa'
+----

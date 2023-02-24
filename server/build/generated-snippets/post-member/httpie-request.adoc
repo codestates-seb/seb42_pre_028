@@ -1,0 +1,10 @@
+[source,bash]
+----
+$ echo '{
+  "displayName" : "김민호",
+  "email" : "godalsgh@gmail.com",
+  "password" : "1111"
+}' | http POST 'http://localhost:8080/members?_csrf=2daf2fd7-75c4-4624-baec-e5d44ba16d67' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'
+----

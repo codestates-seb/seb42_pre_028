@@ -1,0 +1,7 @@
+[source,http,options="nowrap"]
+----
+DELETE /members/1/?_csrf=a8d73a85-1f34-4811-901d-8668a9672f94 HTTP/1.1
+Accept: application/json
+Host: localhost:8080
+
+----

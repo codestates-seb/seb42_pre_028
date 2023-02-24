@@ -1,0 +1,13 @@
+[source,options="nowrap"]
+----
+{
+  "answerId" : 1,
+  "content" : "답변 1",
+  "voteCount" : 2,
+  "createdAt" : "2023-02-24T10:12:17.561258",
+  "modifiedAt" : "2023-02-01T01:01:00",
+  "adoptStatus" : false,
+  "questionId" : 1,
+  "memberId" : 1
+}
+----

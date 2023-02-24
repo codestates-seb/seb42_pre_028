@@ -1,0 +1,7 @@
+[source,options="nowrap"]
+----
+{
+  "answerId" : 1,
+  "content" : "변경 답변"
+}
+----

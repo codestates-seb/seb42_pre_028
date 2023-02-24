@@ -1,0 +1,10 @@
+[source,bash]
+----
+$ echo '{
+  "answerId" : 1,
+  "content" : "답변 1",
+  "memberId" : 1
+}' | http POST 'http://localhost:8080/answer?_csrf=e9f89b19-220a-4766-ad1c-ed6ae2741abc' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'
+----

@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/members/1/?_csrf=a8d73a85-1f34-4811-901d-8668a9672f94' -i -X DELETE \
+    -H 'Accept: application/json'
+----
