@@ -27,7 +27,7 @@ include::{snippets}/post-question/request-fields.adoc[]
 .http-response
 include::{snippets}/post-question/http-response.adoc[]
 
-=== 질문 등록
+=== 질문 수정(패치)
 .curl-request
 include::{snippets}/patch-question/curl-request.adoc[]
 
@@ -55,5 +55,18 @@ include::{snippets}/post-answer/request-fields.adoc[]
 
 .http-response
 include::{snippets}/post-answer/http-response.adoc[]
+
+=== 답변 수정(패치)
+.curl-request
+include::{snippets}/patch-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/patch-answer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-answer/http-response.adoc[]
 // .response-headers
 // include::{snippets}/post-question/response-headers.adoc[]

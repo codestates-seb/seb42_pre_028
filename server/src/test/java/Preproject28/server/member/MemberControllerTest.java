@@ -162,7 +162,6 @@ class MemberControllerTest {
         question.setCreatedAt(createdAt);
         question.setModifiedAt(createdAt);
         question.setMember(member);
-        question.setAnswers("답변예시");
         question.setViewCount(0);
         question.setVoteCount(0);
 

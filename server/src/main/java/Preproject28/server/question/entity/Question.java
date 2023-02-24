@@ -1,5 +1,6 @@
 package Preproject28.server.question.entity;
 
+import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
@@ -24,6 +25,8 @@ public class Question {
     private String problemBody;
 
     private String expectingBody;
+    //리스트로 변경.
+
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
@@ -38,7 +41,12 @@ public class Question {
     @JsonBackReference
     private Member member;
 
-    private String answers;
+    @ManyToOne
+    @JoinColumn(name = "answer_id")
+    @JsonBackReference
+    private Answer answers;
+
+    //문자열 배열로 태그 구현
 
 //    @OneToMany(mappedBy = "question")
 //    @JsonManagedReference
