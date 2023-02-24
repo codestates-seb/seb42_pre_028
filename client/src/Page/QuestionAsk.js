@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState /*, useEffect*/ } from 'react';
 import styled from 'styled-components';
-// import Footer from '../Component/Footer';
+import Footer from '../Component/Footer';
+import { useNavigate } from 'react-router-dom';
+//import { useSelector /*, useDispatch*/ } from 'react-redux';
+// import Editor from '../Component/Editor';
 
 const Container = styled.div`
   padding: 0px 24px 24px;
@@ -18,10 +21,14 @@ const Content = styled.div`
 
 const TitleContainer = styled.div`
   margin: 0px 0px 12px;
+  height: 125px;
+  display: flex;
+  align-items: center;
 `;
 
 const H1 = styled.h1`
   margin: 24px 0px 27px;
+  font-size: 27px;
 `;
 
 const CreatBox = styled.div`
@@ -34,27 +41,31 @@ const CreatBox = styled.div`
 
 const NoticeContainer = styled.div`
   padding: 24px;
-  background-color: #ebf5ff;
+  background-color: #ebf4fb;
   border: 1px solid #a0d1f7;
   border-radius: 3px;
   max-width: 70rem;
-  padding: 16px;
 `;
 
-const NoticeTitle = styled.h3`
-  font-size: 22px;
-  font-weight: 370;
+const NoticeTitle = styled.h2`
+  margin: 0px 0px 8px;
+  font-size: 15px;
   margin-bottom: 12px;
+`;
+const NoticeDescriptionTop = styled.p`
+  font-size: 15px;
+  margin: 0px;
 `;
 
 const NoticeDescription = styled.p`
-  font-size: 14px;
-  margin-bottom: 0px;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
 `;
 
 const NoticeList = styled.h5`
-  font-size: 16px;
-  margin-bottom: 8px;
+  font-size: 13px;
+  margin: 0px 0px 8px;
 `;
 
 const NoticeContent = styled.li`
@@ -64,49 +75,23 @@ const NoticeContent = styled.li`
   margin-left: 20px;
 `;
 
-const Maincontent = styled.main``;
-
-const Button = styled.button`
-  background-color: #0a95ff;
-  color: white;
-  border: none;
-  padding: 10px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
-  &:hover {
-    background-color: #0A6ECD;
-  }
-  &:active {
-    border-color #96C7ED;
-    background-color: #0064CD;
-    box-shadow: 0 0 0 0.3em 	#E0EBFF;
-    }
-`;
+const MainContent = styled.main``;
 
 const Input = styled.input`
-  width: 100%;
-  margin: 0;
-  padding: 0.6em 0.7em;
-  border: 1.5px solid #dcdcdc;
-  border-radius: 3px;
-  margin-bottom: 8px;
-  margin-top: 8px;
-  outline: none;
-  &:focus {
-    border-color #96C7ED;
-    box-shadow: 0 0 0 0.3em 	#E8F5FF;
-    }
-  }
+width: 100%;
+margin: 0;
+padding: 0.6em 0.7em;
+border: 1.5px solid #dcdcdc;
+border-radius: 3px;
+margin-bottom: 8px;
+margin-top: 8px;
+outline: none;
+&:focus {
+  border-color #96C7ED;
+  box-shadow: 0 0 0 0.3em 	#E8F5FF;
+}
+}
 `;
-
-/*const Label = styled.label`
-  font-size: 12px;
-  font-weight: 400;
-  margin-bottom: 8px;
-`;*/
 
 const LabelBox = styled.div``;
 
@@ -114,7 +99,10 @@ const InputBox = styled.div``;
 
 const LabelAndDescription = styled.div``;
 
-const MainLabel = styled.label``;
+const MainLabel = styled.label`
+  padding: 0px 2px;
+  font-weight: bold;
+`;
 
 const MainDescription = styled.p`
   font-size: 12px;
@@ -124,7 +112,7 @@ const MainDescription = styled.p`
 
 const MainInput = styled.textarea`
 width: 100%;
-height:100px; 
+height: 170px; 
 margin: 0;
 padding: 6px 12px 12px;
 border: 1.5px solid #dcdcdc;
@@ -136,32 +124,92 @@ resize: vertical;
 &:focus {
   border-color #96C7ED;
   box-shadow: 0 0 0 0.3em 	#E8F5FF;
-  }
+}
 }`;
 
-const SubmitAndClear = styled.div``;
+const SubmitAndClear = styled.div`
+  dispaly: flex;
+`;
+
+const Button = styled.button`
+background-color: #0a95ff;
+  margin: 0px 8px;
+  color: white;
+  border: none;
+  padding: 10.4px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  &:hover {
+    background-color: #0A6ECD;
+  }
+  &:active {
+    border-color #96C7ED;
+    background-color: #0064CD;
+    box-shadow: 0 0 0 0.3em 	#E0EBFF;
+    }
+`;
 
 const ClearButton = styled.button`
 background-color: #ffffff;
 color: #d22e32;
 border: none;
-padding: 10px 10px;
+padding: 10.4px;
 border-radius: 5px;
-cursor: pointer;
-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 position: relative;
 overflow: hidden;
+cursor: pointer;
 &:hover {
-  background-color: #0A6ECD;
+  background-color: #FFF0F5;
 }
 &:active {
-  border-color #96C7ED;
-  background-color: #0064CD;
-  box-shadow: 0 0 0 0.3em 	#E0EBFF;
+  border-color #c22e32;
+  background-color: #f9d2d3;
+  box-shadow: 0 0 0 0.3em 	#FFDFDC;
   }
 `;
 
 function QuestionAsk() {
+  const [title, setTitle] = useState('');
+  const [problemBody, setProblemBody] = useState('');
+  const [expectingBody, setExpectingBody] = useState('');
+  const navigate = useNavigate();
+  //const dispatch = useDispatch();
+  //const state = useSelector((state) => state.log);
+
+  const questionHandler = () => {
+    /*useEffect(() => {
+      if (state === false) {
+        navigate('/login');
+      }
+    });*/
+    const url = 'http://13.125.1.215:8080/question';
+
+    const questionData = {
+      title: title,
+      problemBody: problemBody,
+      expectingBody: expectingBody,
+      memberId: 1, // 쿠키에서 멤버 아이디 가져오기   쿠키.memberId
+    };
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(questionData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        navigate(`/questions/${data.questionId}`); // 서버로부터 받은 응답 데이터 출력
+      })
+      .catch((error) => {
+        console.error(error); // 에러 처리
+      });
+  };
+
   return (
     <React.Fragment>
       <Container>
@@ -171,10 +219,10 @@ function QuestionAsk() {
           </TitleContainer>
           <NoticeContainer>
             <NoticeTitle>Writing a good question</NoticeTitle>
-            <NoticeDescription>
+            <NoticeDescriptionTop>
               You’re ready to ask a programming-related question and this form
               will help guide you through the process.
-            </NoticeDescription>
+            </NoticeDescriptionTop>
             <NoticeDescription>
               Looking to ask a non-programming question? See the topics here to
               find a relevant site.
@@ -195,7 +243,7 @@ function QuestionAsk() {
               Review your question and post it to the site.
             </NoticeContent>
           </NoticeContainer>
-          <Maincontent>
+          <MainContent>
             <CreatBox>
               <InputBox>
                 <LabelBox>
@@ -209,8 +257,10 @@ function QuestionAsk() {
                 </LabelBox>
                 <Input
                   id="title-create"
-                  type="text"
+                  type="string"
                   placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 ></Input>
               </InputBox>
               <Button>Next</Button>
@@ -227,7 +277,35 @@ function QuestionAsk() {
                     </MainDescription>
                   </LabelAndDescription>
                 </LabelBox>
-                <MainInput></MainInput>
+                <MainInput
+                  id="problemBody-create"
+                  type="string"
+                  value={problemBody}
+                  onChange={(e) => setProblemBody(e.target.value)}
+                ></MainInput>
+              </InputBox>
+              <Button>Next</Button>
+            </CreatBox>
+
+            <CreatBox>
+              <InputBox>
+                <LabelBox>
+                  <LabelAndDescription>
+                    <MainLabel>
+                      What did you try and what were you expecting?
+                    </MainLabel>
+                    <MainDescription>
+                      Describe what you tried, what you expected to happen, and
+                      what actually resulted. Minimum 20 characters.
+                    </MainDescription>
+                  </LabelAndDescription>
+                </LabelBox>
+                <MainInput
+                  id="expectingBody-create"
+                  type="string"
+                  value={expectingBody}
+                  onChange={(e) => setExpectingBody(e.target.value)}
+                ></MainInput>
               </InputBox>
               <Button>Next</Button>
             </CreatBox>
@@ -251,12 +329,13 @@ function QuestionAsk() {
             </CreatBox>
 
             <SubmitAndClear>
-              <Button>Post your question</Button>
+              <Button onClick={questionHandler}>Post your question</Button>
               <ClearButton>Discard draft</ClearButton>
             </SubmitAndClear>
-          </Maincontent>
+          </MainContent>
         </Content>
       </Container>
+      <Footer />
     </React.Fragment>
   );
 }
