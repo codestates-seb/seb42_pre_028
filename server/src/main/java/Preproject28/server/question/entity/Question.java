@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -46,10 +47,9 @@ public class Question {
     @JsonBackReference
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "answer_id")
-    @JsonBackReference
-    private Answer answers;
+    @OneToMany(mappedBy = "question")
+    @JsonManagedReference
+    private List<Answer> answers = new ArrayList<>();
 
 
 

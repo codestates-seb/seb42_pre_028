@@ -14,4 +14,5 @@ public class MemberInfoResponseDto {
     private String displayName;
     private String email;
     private LocalDateTime createdAt;
+//    private String iconImageUrl;
 }

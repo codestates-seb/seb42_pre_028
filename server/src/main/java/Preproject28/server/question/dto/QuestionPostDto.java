@@ -15,7 +15,5 @@ public class QuestionPostDto {
     private String title;
     private List<String> problemBody;
     private List<String> expectingBody;
-    private long memberId;
     private List<String> tag;
-
 }

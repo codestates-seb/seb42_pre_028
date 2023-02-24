@@ -1,6 +1,9 @@
 package Preproject28.server.question.dto;
 
 
+import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.member.dto.MemberQuestionResponseDto;
+import Preproject28.server.member.entity.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,7 +23,7 @@ public class QuestionResponseDto {
     private LocalDateTime modifiedAt;
     private int viewCount;
     private int voteCount;
-    private long memberId;
-    private String answerId;
+    private MemberQuestionResponseDto member;
+    private List<Answer> answer;
     private List<String> tag;
 }

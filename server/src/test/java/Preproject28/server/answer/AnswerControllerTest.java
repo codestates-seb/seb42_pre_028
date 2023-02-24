@@ -115,14 +115,14 @@ public class AnswerControllerTest {
                 requestFields(
                         List.of(
                                 fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 아이디"),
-                                fieldWithPath("data[].content").type(JsonFieldType.ARRAY).description("답변내용"),
+                                fieldWithPath("content").type(JsonFieldType.ARRAY).description("답변내용"),
                                 fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디")
                         )
                 ),
                 responseFields(
                         List.of(
                                 fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("답변 아이디"),
-                                fieldWithPath("data[].content").type(JsonFieldType.ARRAY).description("답변내용"),
+                                fieldWithPath("content").type(JsonFieldType.ARRAY).description("답변내용"),
                                 fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
                                 fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
                                 fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
@@ -174,7 +174,7 @@ public class AnswerControllerTest {
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 아이디"),
-                                        fieldWithPath("data[].content").type(JsonFieldType.ARRAY).description("제목"),
+                                        fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("제목"),
                                         fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("생성시간"),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
