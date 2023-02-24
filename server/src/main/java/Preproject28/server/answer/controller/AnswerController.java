@@ -23,14 +23,12 @@ import java.util.List;
 @RequestMapping("/answer")
 @RequiredArgsConstructor
 public class AnswerController {
-//    private final QuestionService questionService;
-//    private final QuestionMapper questionMapper;
     private final MemberService memberService;
     private final AnswerMapper answerMapper;
     private final AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
+    public ResponseEntity<?> postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
 
         Answer answer = answerMapper.answerPostDtoToAnswer(answerPostDto);
         Member member = memberService.findMember(answerPostDto.getMemberId());
@@ -40,27 +38,26 @@ public class AnswerController {
         AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(responseContent);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-//    @PatchMapping("/{answer-id}")
     @GetMapping("/{answer-id}")
-    public ResponseEntity getAnswer(@PathVariable("answer-id")long answerId){
+    public ResponseEntity<?> getAnswer(@PathVariable("answer-id")long answerId){
         Answer answer = answerService.findAnswer(answerId);
         return new ResponseEntity<>(new SingleResponseDto<>
                 (answerMapper.answerToAnswerResponseDto(answer)),HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getAnswers(@RequestParam int page, @RequestParam int size){
+    public ResponseEntity<?> getAnswers(@RequestParam int page, @RequestParam int size){
         Page<Answer> pageAnswers = answerService.findAnswers(page,size);
         List<Answer> answers = pageAnswers.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(answerMapper.answerToAnswerResponseDtos(answers),pageAnswers),HttpStatus.OK);
     }
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id")long AId) {
+    public ResponseEntity<?> deleteAnswer(@PathVariable("answer-id")long AId) {
         answerService.deleteAnswer(AId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PatchMapping("/{answer-id}")
-    public ResponseEntity patchAnswer(@PathVariable("answer-id") long AId, @RequestBody AnswerPatchDto answerPatchDto){
+    public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long AId, @RequestBody AnswerPatchDto answerPatchDto){
         answerPatchDto.setAnswerId(AId);
         Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
 

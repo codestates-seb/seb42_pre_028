@@ -60,13 +60,6 @@ public class AnswerControllerTest {
     private AnswerService answerService;
     @MockBean
     private AnswerMapper answerMapper;
-//
-//    @MockBean
-//    private Question question;
-//
-//    @MockBean
-//    private Member member;
-
 
     LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);

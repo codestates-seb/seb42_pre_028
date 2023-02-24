@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AnswerPostDto {
     private long answerId;
-
     private String content;
-
     private long memberId;
 }
