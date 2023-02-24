@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { Link } from 'react-router-dom';
 const Ul = styled.ul`
   display: flex;
   justify-content: center;
@@ -17,49 +17,46 @@ const Button = styled.button`
 
 // props type 에러 : props 타입을 검사하여 안전한 props 인지 확인하라는 오류
 // eslint-disable-next-line react/prop-types
-function Pagination({ size, pageCnt, currentPage, setCurrentPage }) {
+function Pagination({ size, pageCnt, currentPage }) {
   let totalPage = Math.ceil(size / pageCnt); // 전체 Page 개수
   let arr = [];
   for (let i = 1; i <= totalPage; i++) arr.push(i);
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(--currentPage);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPage) {
-      setCurrentPage(++currentPage);
-    }
-  };
-
-  const handleChangePage = (e) => {
-    setCurrentPage(e.target.value);
-  };
-
   return (
     <Ul>
-      <Li>
-        <button onClick={handlePrevPage}>{'< prev'}</button>
-      </Li>
+      <Link
+        to={`/questions/${
+          currentPage > 1 ? Number(currentPage) - 1 : currentPage
+        }/${pageCnt}`}
+      >
+        <Li>
+          <button>{'< prev'}</button>
+        </Li>
+      </Link>
 
       {arr.map((el, index) => {
         return (
-          <Li key={index}>
-            <Button
-              value={el}
-              seleted={el === currentPage ? '#f38225' : null}
-              onClick={handleChangePage}
-            >
-              {el}
-            </Button>
-          </Li>
+          <Link key={index} to={`/questions/${el}/${pageCnt}`}>
+            <Li>
+              <Button
+                value={el}
+                seleted={el === Number(currentPage) ? '#f38225' : null}
+              >
+                {el}
+              </Button>
+            </Li>
+          </Link>
         );
       })}
-      <Li>
-        <button onClick={handleNextPage}>{'next >'}</button>
-      </Li>
+      <Link
+        to={`/questions/${
+          currentPage < totalPage ? Number(currentPage) + 1 : currentPage
+        }/${pageCnt}`}
+      >
+        <Li>
+          <button>{'next >'}</button>
+        </Li>
+      </Link>
     </Ul>
   );
 }

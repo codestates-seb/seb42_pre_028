@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const QuestionLikeContainer = styled.div`
   display: flex;
@@ -8,39 +10,45 @@ const QuestionLikeContainer = styled.div`
 `;
 
 // eslint-disable-next-line react/prop-types
-function AnswerLike({ vote }) {
-  const voteUpHandler = (e) => {
-    fetch('URL/answer/up', {
+function AnswerLike({ vote, id }) {
+  const [curVote, setCurVote] = useState(vote);
+  const accessToken = localStorage.getItem('Authorization');
+  const voteUpHandler = () => {
+    fetch(`https://8b90-112-156-175-230.jp.ngrok.io/answer-vote/${id}/up`, {
       credentials: 'include',
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        setCurVote(data.answerVoteTotalCount);
       });
   };
 
-  const voteDownHandler = (e) => {
-    fetch('URL/answer/down', {
+  const voteDownHandler = () => {
+    fetch(`https://8b90-112-156-175-230.jp.ngrok.io/answer-vote/${id}/down`, {
       credentials: 'include',
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        setCurVote(data.answerVoteTotalCount);
       });
   };
 
   return (
     <QuestionLikeContainer>
       <button onClick={voteUpHandler}>上</button>
-      <div>{vote}</div>
+      <div>{curVote}</div>
       <button onClick={voteDownHandler}>下</button>
       <button>B</button>
       <button>A</button>

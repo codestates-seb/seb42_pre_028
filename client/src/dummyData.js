@@ -1,18 +1,27 @@
 import { dummyAnswerData } from './dummyAnswerData';
 export const dummyData = [
   {
+    // question 고유 아이디
     id: 0,
+    // question 추천 수
     vote: 1,
+    // question 조회수
     views: 18,
+    // question 제목
     title: 'how redirect user with stripe react component and django',
+    // question_List에 보이는 제목
     body: 'I would like to redirect my user after he has made a payment (successful or failed) to a page automatically. Currently, the payment is going well, the update is a success on stripe and I manage to ...',
+    // question 태그's
     tags: ['python', 'reactjs', 'django', 'abcdefg'],
+    // question 작성자 정보
     author: {
       name: 'yuting',
       answered: 635,
       avatar: 'Img',
     },
+    // question 작성 시간
     time: new Date(),
+    // question detail 내용
     content: [
       `I would like to redirect my user after he has made a payment (successful or failed) to a page automatically.`,
       `Currently, the payment is going well, the update is a success on stripe and I manage to retrieve the necessary information with my django view.`,
@@ -38,6 +47,7 @@ export const dummyData = [
       `    >`,
       `    </stripe-pricing-table>`,
     ],
+    // 답변 관련 정보
     answer: dummyAnswerData,
   },
   {

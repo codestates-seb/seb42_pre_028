@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import Question from '../Component/Question';
-import { useState } from 'react';
 import Pagination from '../Component/Pagination';
 import { dummyData } from '../dummyData';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Footer from '../Component/Footer';
 import useGetFetch from '../Util/useGetFetch';
 
@@ -111,28 +110,21 @@ const PagingButton = styled.button`
   cursor: pointer;
 `;
 
-function Questions_List() {
-  const [question, isPending, error] = useGetFetch(
-    `url/questions/?page=1&&pageSize=5`
+function Questions_Page() {
+  const { page, pageCnt } = useParams();
+
+  const [paginQuestion, isPending, error] = useGetFetch(
+    `url/questions?page=${page}&&pageSize=${pageCnt}`
   );
-  // allQuestionSize
-  // const size = question.allQuestionSize;
 
   const size = dummyData.length;
-  const [pageCnt, setPageCnt] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  let start = (currentPage - 1) * pageCnt,
-    end = currentPage * pageCnt;
+  let start = (page - 1) * pageCnt,
+    end = page * pageCnt;
 
   const renderData = dummyData.filter((el) => el.id >= start && el.id < end);
 
   const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered', 'More'];
-
-  const pageHandler = (e) => {
-    setPageCnt(e.target.value);
-    setCurrentPage(1);
-  };
 
   return (
     <div>
@@ -164,12 +156,8 @@ function Questions_List() {
               </QuestionDiv>
             </MainComponent>
             <RowWrapDiv>
-              <Pagination
-                size={size}
-                pageCnt={pageCnt}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
+              {/*Pagination : api 문서 완료시 수정 예정 */}
+              <Pagination size={size} currentPage={page} pageCnt={pageCnt} />
               <RowDiv>
                 <Link to={`/questions/1/5`}>
                   <PagingButton>5</PagingButton>
@@ -193,4 +181,4 @@ function Questions_List() {
   );
 }
 
-export default Questions_List;
+export default Questions_Page;

@@ -13,6 +13,7 @@ import MySettings from './Page/MyPages/My_Settings';
 import QuestionDetail from './Page/Question_Detail';
 import DeleteProfile from './Page/MyPages/Delete_Profile';
 import EditProfile from './Page/MyPages/Edit_Profile';
+import QuestionsPage from './Page/Questions_Page';
 // import Footer from './Component/Footer';
 
 function App() {
@@ -32,6 +33,10 @@ function App() {
           <Route path="/mypage/setting" element={<MySettings />}></Route>
           <Route path="/mypage/userdelete" element={<DeleteProfile />}></Route>
           <Route path="/mypage/useredit" element={<EditProfile />}></Route>
+          <Route
+            path="/questions/:page/:pageCnt"
+            element={<QuestionsPage />}
+          ></Route>
           {/* <Route path="/search" element={<Search />}></Route> */}
         </Routes>
       </div>

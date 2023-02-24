@@ -118,6 +118,7 @@ const AnswerContainer = styled.div`
   padding-bottom: 1rem;
   border-bottom: 0.5px solid gray;
 `;
+
 const AnswerRowContainer = styled.div`
   width: 100%;
   display: flex;
@@ -153,12 +154,15 @@ const YourAnswerContainer = styled.div`
 `;
 
 function Question_Detail() {
-  const [question, isPendingQ, errorQ] = useGetFetch('url');
-  const [answer, isPendingA, errorA] = useGetFetch('url');
+  const { id } = useParams(); // questionId
+  const [question, isPending, error] = useGetFetch(`url/question/${id}`);
+  console.log(question);
 
   const log = useSelector((state) => state.log.value);
-  const { id } = useParams();
   const [content, setContent] = useState('');
+
+  const answerSize = 1; // question.answer.length;
+  const question_memberId = 3; // question.author.id;
 
   const keyDownHandler = (e) => {
     let prevText = e.target.value.slice(0, e.target.selectionStart);
@@ -209,7 +213,9 @@ function Question_Detail() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        splitContent,
+        answerId: answerSize + 1,
+        content: splitContent,
+        memberId: question_memberId,
       }),
     })
       .then((res) => res.json())
@@ -240,15 +246,29 @@ function Question_Detail() {
               </div>
             </TitleStateContainer>
             <QuestionContainer>
-              <Like vote={dummyData[id].vote} />
+              <Like
+                vote={
+                  dummyData[id].vote
+                  //question.vote
+                }
+              />
               <QuestionContentContainer>
-                <ContentRender qContent={dummyData[id].content} />
+                <ContentRender
+                  qContent={
+                    dummyData[id].content
+                    //question.content
+                  }
+                />
                 <TagContainer>
-                  {dummyData[id].tags.map((el, index) => {
-                    return <TagSpan key={index}>{el}</TagSpan>;
-                  })}
+                  {
+                    //question.tags
+                    dummyData[id].tags.map((el, index) => {
+                      return <TagSpan key={index}>{el}</TagSpan>;
+                    })
+                  }
                 </TagContainer>
                 <Author
+                  //question.author
                   name={dummyData[id].author.name}
                   answered={dummyData[id].author.answered}
                   avatar={dummyData[id].author.avatar}
@@ -256,22 +276,31 @@ function Question_Detail() {
               </QuestionContentContainer>
             </QuestionContainer>
             <AnswerContainer>
-              <p>{dummyData[id].answer.length} Answer</p>
-              {dummyData[id].answer.map((el, index) => {
-                return (
-                  <AnswerColumContainer key={index}>
-                    <AnswerRowContainer>
-                      <AnswerLike vote={el.vote} />
-                      <ContentRender qContent={el.answerContent} />
-                    </AnswerRowContainer>
-                    <Author
-                      name={el.author.name}
-                      answered={el.author.answered}
-                      avatar={el.author.avatar}
-                    />
-                  </AnswerColumContainer>
-                );
-              })}
+              <p>
+                {
+                  //answerSize
+                  dummyData[id].answer.length
+                }{' '}
+                Answer
+              </p>
+              {
+                // question.answer.map
+                dummyData[id].answer.map((el, index) => {
+                  return (
+                    <AnswerColumContainer key={index}>
+                      <AnswerRowContainer>
+                        <AnswerLike id={el.id} vote={el.vote} />
+                        <ContentRender qContent={el.answerContent} />
+                      </AnswerRowContainer>
+                      <Author
+                        name={el.author.name}
+                        answered={el.author.answered}
+                        avatar={el.author.avatar}
+                      />
+                    </AnswerColumContainer>
+                  );
+                })
+              }
             </AnswerContainer>
             {log ? (
               <YourAnswerContainer>
