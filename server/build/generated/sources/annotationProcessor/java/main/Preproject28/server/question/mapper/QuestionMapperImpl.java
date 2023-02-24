@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-23T16:00:57+0900",
+    date = "2023-02-24T10:14:04+0900",
     comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.jar, environment: Java 11.0.17 (Azul Systems, Inc.)"
 )
 @Component
@@ -45,11 +45,6 @@ public class QuestionMapperImpl implements QuestionMapper {
         question.setTitle( questionPatchDto.getTitle() );
         question.setProblemBody( questionPatchDto.getProblemBody() );
         question.setExpectingBody( questionPatchDto.getExpectingBody() );
-        question.setCreatedAt( questionPatchDto.getCreatedAt() );
-        question.setModifiedAt( questionPatchDto.getModifiedAt() );
-        question.setViewCount( questionPatchDto.getViewCount() );
-        question.setVoteCount( questionPatchDto.getVoteCount() );
-        question.setAnswers( questionPatchDto.getAnswers() );
 
         return question;
     }
@@ -68,9 +63,8 @@ public class QuestionMapperImpl implements QuestionMapper {
         questionResponseDto.expectingBody( question.getExpectingBody() );
         questionResponseDto.createdAt( question.getCreatedAt() );
         questionResponseDto.modifiedAt( question.getModifiedAt() );
-        questionResponseDto.viewCount( question.getViewCount() );
-        questionResponseDto.voteCount( question.getVoteCount() );
-        questionResponseDto.answers( question.getAnswers() );
+        questionResponseDto.viewCount( (int) question.getViewCount() );
+        questionResponseDto.voteCount( (int) question.getVoteCount() );
 
         return questionResponseDto.build();
     }

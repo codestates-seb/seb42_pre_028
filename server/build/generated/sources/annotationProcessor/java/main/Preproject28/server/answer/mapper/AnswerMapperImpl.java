@@ -4,10 +4,6 @@ import Preproject28.server.answer.dto.AnswerPatchDto;
 import Preproject28.server.answer.dto.AnswerPostDto;
 import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.member.dto.MemberResponseDto;
-import Preproject28.server.member.entity.Member;
-import Preproject28.server.question.dto.QuestionResponseDto;
-import Preproject28.server.question.entity.Question;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -15,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-23T16:00:57+0900",
+    date = "2023-02-24T09:54:53+0900",
     comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.jar, environment: Java 11.0.17 (Azul Systems, Inc.)"
 )
 @Component
@@ -29,6 +25,7 @@ public class AnswerMapperImpl implements AnswerMapper {
 
         Answer answer = new Answer();
 
+        answer.setAnswerId( answerPostDto.getAnswerId() );
         answer.setContent( answerPostDto.getContent() );
 
         return answer;
@@ -44,8 +41,6 @@ public class AnswerMapperImpl implements AnswerMapper {
 
         answer.setAnswerId( answerPatchDto.getAnswerId() );
         answer.setContent( answerPatchDto.getContent() );
-        answer.setCreatedAt( answerPatchDto.getCreatedAt() );
-        answer.setModifiedAt( answerPatchDto.getModifiedAt() );
 
         return answer;
     }
@@ -60,10 +55,10 @@ public class AnswerMapperImpl implements AnswerMapper {
 
         answerResponseDto.answerId( answer.getAnswerId() );
         answerResponseDto.content( answer.getContent() );
+        answerResponseDto.voteCount( answer.getVoteCount() );
         answerResponseDto.createdAt( answer.getCreatedAt() );
         answerResponseDto.modifiedAt( answer.getModifiedAt() );
-        answerResponseDto.member( memberToMemberResponseDto( answer.getMember() ) );
-        answerResponseDto.question( questionToQuestionResponseDto( answer.getQuestion() ) );
+        answerResponseDto.adoptStatus( answer.isAdoptStatus() );
 
         return answerResponseDto.build();
     }
@@ -80,39 +75,5 @@ public class AnswerMapperImpl implements AnswerMapper {
         }
 
         return list;
-    }
-
-    protected MemberResponseDto memberToMemberResponseDto(Member member) {
-        if ( member == null ) {
-            return null;
-        }
-
-        MemberResponseDto memberResponseDto = new MemberResponseDto();
-
-        memberResponseDto.setMemberId( member.getMemberId() );
-        memberResponseDto.setDisplayName( member.getDisplayName() );
-        memberResponseDto.setEmail( member.getEmail() );
-
-        return memberResponseDto;
-    }
-
-    protected QuestionResponseDto questionToQuestionResponseDto(Question question) {
-        if ( question == null ) {
-            return null;
-        }
-
-        QuestionResponseDto.QuestionResponseDtoBuilder questionResponseDto = QuestionResponseDto.builder();
-
-        questionResponseDto.questionId( question.getQuestionId() );
-        questionResponseDto.title( question.getTitle() );
-        questionResponseDto.problemBody( question.getProblemBody() );
-        questionResponseDto.expectingBody( question.getExpectingBody() );
-        questionResponseDto.createdAt( question.getCreatedAt() );
-        questionResponseDto.modifiedAt( question.getModifiedAt() );
-        questionResponseDto.viewCount( question.getViewCount() );
-        questionResponseDto.voteCount( question.getVoteCount() );
-        questionResponseDto.answers( question.getAnswers() );
-
-        return questionResponseDto.build();
     }
 }

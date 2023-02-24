@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
+//@ToString
 public class QuestionResponseDto {
     private Long questionId;
     private String title;
@@ -17,8 +17,8 @@ public class QuestionResponseDto {
     private String expectingBody;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private long viewCount;
-    private long voteCount;
+    private int viewCount;
+    private int voteCount;
     private long memberId;
-    private String answers;
+    private String answerId;
 }
