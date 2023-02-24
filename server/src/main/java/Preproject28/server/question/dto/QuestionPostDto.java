@@ -12,17 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionPostDto {
     private Long questionId;
-
-
     private String title;
-
-
     private List<String> problemBody;
-
-
     private List<String> expectingBody;
-
-
     private long memberId;
+    private List<String> tag;
 
 }

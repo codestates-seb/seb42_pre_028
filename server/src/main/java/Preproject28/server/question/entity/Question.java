@@ -39,6 +39,8 @@ public class Question {
 
     private long voteCount;
 
+    private List<String> tag;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     @JsonBackReference
@@ -49,7 +51,7 @@ public class Question {
     @JsonBackReference
     private Answer answers;
 
-    //문자열 배열로 태그 구현
+
 
 //    @OneToMany(mappedBy = "question")
 //    @JsonManagedReference

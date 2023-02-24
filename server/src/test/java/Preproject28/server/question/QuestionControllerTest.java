@@ -78,6 +78,14 @@ public class QuestionControllerTest {
         contentList.add("리스트로");
         return contentList;
     }
+
+    public List<String> tagList() {
+        List<String> contentList = new ArrayList<String>();
+        contentList.add("tags");
+        contentList.add("to");
+        contentList.add("list");
+        return contentList;
+    }
     @Test
     @DisplayName("PostQuestionTest")
     public void postQuestionTest() throws Exception{
@@ -85,7 +93,7 @@ public class QuestionControllerTest {
                 "질문 1",
                 pBList(),
                 eBList(),
-                1);
+                1,tagList());
 
         String content = gson.toJson(mockPost);
         QuestionResponseDto response = new QuestionResponseDto(1L,
@@ -96,7 +104,7 @@ public class QuestionControllerTest {
                 modified,
                 1,
                 1,
-                1, "답 아이디 리스트");
+                1, "답 아이디 리스트",tagList());
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(mapper.questionPostDtoToQuestion(any())).thenReturn(new Question());
@@ -119,25 +127,23 @@ public class QuestionControllerTest {
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("문제본문리스트"),
                                         fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문리스트"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디")
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
+                                        fieldWithPath("data[].tagList").type(JsonFieldType.NUMBER).description("멤버 아이디")
                                 )
                         ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                        fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("문제본문"),
-                                        fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문"),
+                                        fieldWithPath("data.data[].problemBody").type(JsonFieldType.STRING).description("문제본문"),
+                                        fieldWithPath("data.data[].expectingBody").type(JsonFieldType.STRING).description("예상본문"),
                                         fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
                                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
                                         fieldWithPath("viewCount").type(JsonFieldType.NUMBER).description("조회수"),
                                         fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수"),
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
                                         fieldWithPath("answerId").type(JsonFieldType.STRING).description("답 아이디 리스트"),
-
-                                        fieldWithPath("data[]").type(JsonFieldType.STRING).description("정보"),
-                                        fieldWithPath("data[].problemBody").type(JsonFieldType.STRING).description("문제본문").optional(),
-                                        fieldWithPath("data[].expectingBody").type(JsonFieldType.STRING).description("예상본문").optional()
+                                        fieldWithPath("data[].tagList").type(JsonFieldType.NUMBER).description("멤버 아이디")
                                 )
                         ))
                 );
@@ -147,7 +153,7 @@ public class QuestionControllerTest {
     @DisplayName("patchQuestionTest")
     public void patchQuestionTest() throws Exception{
         QuestionPatchDto mockPatch = new QuestionPatchDto(1L,
-                "질문 1",
+                tagList(),"질문 1",
                 pBList(),
                 eBList()
                 );
@@ -158,7 +164,7 @@ public class QuestionControllerTest {
                 modified,
                 1,
                 1,
-                1L,"답 아이디 리스트");
+                1L,"답 아이디 리스트",tagList());
         String patchJson = gson.toJson(mockPatch);
 
         long questionId = 1L;

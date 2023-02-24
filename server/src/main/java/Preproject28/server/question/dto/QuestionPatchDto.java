@@ -12,14 +12,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class QuestionPatchDto {
-
     private Long questionId;
-
-
+    private List<String> tag;
     private String title;
-
     private List<String> problemBody;
-
     private List<String> expectingBody;
 
 //

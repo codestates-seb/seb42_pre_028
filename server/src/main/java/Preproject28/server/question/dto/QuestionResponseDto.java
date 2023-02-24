@@ -22,4 +22,5 @@ public class QuestionResponseDto {
     private int voteCount;
     private long memberId;
     private String answerId;
+    private List<String> tag;
 }
