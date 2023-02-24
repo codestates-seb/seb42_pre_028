@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../features/log/logSlice';
 
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
@@ -51,7 +53,11 @@ const DeleteBtn = styled.button`
 
 function DeleteProfile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [boxChecked, setBoxChecked] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const memberIdState = useSelector((state) => state.userData.memberId);
+  const state = useSelector((state) => state.log);
 
   const CheckedHandler = () => {
     setBoxChecked(!boxChecked);
@@ -59,26 +65,27 @@ function DeleteProfile() {
 
   const deleteHandler = () => {
     const accessToken = localStorage.getItem('Authorization');
-    const refreshToken = localStorage.getItem('Refresh');
+    //const refreshToken = localStorage.getItem('Refresh');
 
     // members/memeber_id 형태이므로 나중엔
     // 로그인 시 member_id를 받아 상태에 보관해두고 주소에 적용하도록 구현해야 함!
-    fetch(`http://13.125.1.215:8080/members/5`, {
+    fetch(`http://13.125.1.215:8080/members/${memberIdState.memberId}`, {
       credentials: 'include',
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: accessToken,
-        Refresh: refreshToken,
+        //Refresh: refreshToken,
       },
     })
       .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        console.log(res.data);
-        alert('회원정보를 삭제하였습니다.');
-        navigate('/');
+        if (res.ok) {
+          localStorage.setItem('Authorization', '');
+          localStorage.setItem('Refresh', null);
+          dispatch(logout(state));
+          alert('회원정보를 삭제하고 로그아웃하였습니다.');
+          navigate('/');
+        }
       })
       .catch(() => alert('에러 발생'));
   };

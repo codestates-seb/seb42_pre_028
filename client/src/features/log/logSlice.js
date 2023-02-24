@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 export const logSlice = createSlice({
   name: 'log',
   initialState: {
-    value: false,
+    value: Number(localStorage.getItem('Login')),
   },
   reducers: {
     login: (state) => {
-      state.value = true;
+      state.value = 1;
     },
     logout: (state) => {
-      state.value = false;
+      state.value = 0;
     },
   },
 });

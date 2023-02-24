@@ -1,6 +1,6 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
@@ -42,6 +42,42 @@ const Title = styled.div`
 `;
 
 function EditProfile() {
+  const [displayName, setDisplayName] = useState(null);
+  const [password, setPassword] = useState(null);
+  const memberIdState = useSelector((state) => state.userData.memberId);
+
+  const submitHandler = () => {
+    const editData = {
+      displayName: displayName,
+      password: password,
+    };
+
+    console.log(editData);
+    console.log(memberIdState.memberId);
+
+    fetch(
+      // 질문 2 : editData의 일부 key의 값이 null로 들어간다면 서버에는 데이터가 어떻게 저장되는가?
+      // ㄴ 테스트 결과 : 빈 데이터는 edit 객체에 포함시키지 않도록 구현해야함
+      `http://13.125.1.215:8080/members/${memberIdState.memberId}`,
+      {
+        credentials: 'include',
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editData),
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          alert('회원정보를 변경하였습니다.');
+        } else {
+          alert('회원정보 변경 실패');
+        }
+      })
+      .catch(() => alert('에러 발생'));
+  };
+
   return (
     <React.Fragment>
       <Container>
@@ -54,7 +90,21 @@ function EditProfile() {
               <Title>
                 <H1>Edit your Profile</H1>
               </Title>
-              <div>미완성 페이지</div>
+              <div>
+                <label>
+                  <div>Display name</div>
+                  <input onChange={(e) => setDisplayName(e.target.value)} />
+                </label>
+              </div>
+              <div>
+                <label>
+                  <div>Password</div>
+                  <input onChange={(e) => setPassword(e.target.value)} />
+                </label>
+              </div>
+              <div>
+                <button onClick={submitHandler}>Submit</button>
+              </div>
             </Main>
           </MainContainer>
         </Content>

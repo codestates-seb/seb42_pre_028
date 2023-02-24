@@ -4,6 +4,7 @@ import Menu from './Menu';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../features/log/logSlice';
+import { deleteData } from '../features/userData/userDataSlice';
 
 const Container = styled.header`
   padding: 4px;
@@ -52,6 +53,7 @@ const Input = styled.input`
 
 function Header() {
   const log = useSelector((state) => state.log.value);
+  console.log(log);
   const [menuflag, setMenuFlag] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -65,6 +67,8 @@ function Header() {
     // 로그아웃은 프론트엔드에서만 처리하기로 함
     localStorage.setItem('Authorization', null);
     localStorage.setItem('Refresh', null);
+    localStorage.setItem('Login', 0);
+    dispatch(deleteData(state));
     dispatch(logout(state));
     alert('로그아웃 성공!');
     navigate('/');

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../features/log/logSlice';
+// eslint-disable-next-line no-unused-vars
+import { saveData } from '../features/userData/userDataSlice';
 
 const Content = styled.div`
   display: flex;
@@ -192,6 +194,7 @@ function LogIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.log);
+  const userDataState = useSelector((state) => state.userData);
 
   const loginHandler = () => {
     const loginData = {
@@ -219,16 +222,28 @@ function LogIn() {
       .then((res) => {
         if (res.ok) {
           let accessToken = res.headers.get('Authorization');
-          let refreshToken = res.headers.get('Refresh');
+          //let refreshToken = res.headers.get('Refresh');
           localStorage.setItem('Authorization', accessToken);
-          localStorage.setItem('Refresh', refreshToken);
+          // localStorage.setItem('Refresh', refreshToken);
 
-          console.log(
-            `localStorage.Authorization : ${localStorage.Authorization}`
-          );
-          console.log(`refreshToken : ${refreshToken}`);
-          console.log(`localStorage.Refresh : ${localStorage.Refresh}`);
+          fetch(`http://13.125.1.215:8080/members/${userEmail}/info`, {
+            credentials: 'include',
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+            .then((res) => {
+              return res.json();
+            })
+            .then((data) => {
+              console.log(data.memberId);
+              console.log(userDataState);
+              dispatch(saveData(userDataState, data.memberId));
+              console.log(userDataState);
+            });
 
+          localStorage.setItem('Login', 1);
           dispatch(login(state));
           alert('로그인 성공!!');
           navigate('/mypage/activity', { replace: true });
