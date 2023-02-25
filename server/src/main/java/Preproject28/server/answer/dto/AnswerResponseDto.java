@@ -2,14 +2,8 @@ package Preproject28.server.answer.dto;
 
 
 import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.member.entity.Member;
-import Preproject28.server.question.entity.Question;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Builder
