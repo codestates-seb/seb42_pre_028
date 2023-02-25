@@ -27,9 +27,26 @@ include::{snippets}/post-question/request-fields.adoc[]
 .http-response
 include::{snippets}/post-question/http-response.adoc[]
 
+=== 질문 조회
+.curl-request
+include::{snippets}/get-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-question/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-question/response-fields.adoc[]
+
+
+
+
+
 ***
 == AnswerController
-=== 질문 등록
+=== 답변 등록
 .curl-request
 include::{snippets}/post-answer/curl-request.adoc[]
 
@@ -41,5 +58,40 @@ include::{snippets}/post-answer/request-fields.adoc[]
 
 .http-response
 include::{snippets}/post-answer/http-response.adoc[]
+
+=== 답변 조회
+
+.curl-request
+include::{snippets}/get-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-answer/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-answer/response-fields.adoc[]
+
+
+=== 답변들 조회
+
+.curl-request
+include::{snippets}/get-answers/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-answers/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-answers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-answers/response-fields.adoc[]
+
+
+
+
+
+
 // .response-headers
 // include::{snippets}/post-question/response-headers.adoc[]
