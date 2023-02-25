@@ -35,10 +35,7 @@ public class QuestionVote {
 
     public enum VoteStatus{
         UP,
-
         NONE,
-
-        DOWN;
-
+        DOWN
     }
 }

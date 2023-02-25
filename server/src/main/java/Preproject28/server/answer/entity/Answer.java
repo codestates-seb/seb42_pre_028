@@ -23,29 +23,25 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
-
     private String content;
-
     @Column
     @ColumnDefault("0")
-    private int voteCount;
-
+    private long voteCount;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime modifiedAt;
-
-    @Column
-    @ColumnDefault("False")
-    private boolean adoptStatus;
-
+    @Enumerated(EnumType.STRING)
+    private AdoptStatus adoptStatus;
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     @JsonBackReference
     private Member member;
-
+    public enum AdoptStatus{
+        TRUE,
+        FALSE
+    }
 }

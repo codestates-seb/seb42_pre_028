@@ -1,0 +1,12 @@
+[source,bash]
+----
+$ echo '{
+  "questionId" : 1,
+  "title" : "질문 1",
+  "problemBody" : "문제 바디",
+  "expectingBody" : "에상 바디",
+  "memberId" : 1
+}' | http POST 'http://localhost:8080/question?_csrf=d0ee8623-8c6b-4586-9b64-7fd7180285b5' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'
+----

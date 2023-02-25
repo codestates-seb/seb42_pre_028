@@ -1,0 +1,10 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/members/1?_csrf=808b0882-7612-4e44-b92d-3441d3bd471b' -i -X PATCH \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -d '{
+  "displayName" : "김민호",
+  "password" : "1111"
+}'
+----

@@ -1,20 +1,14 @@
 package Preproject28.server.questionVote.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import Preproject28.server.questionVote.entity.QuestionVote;
+import lombok.*;
 
 @Getter @Setter
-@AllArgsConstructor
-@Builder
+@AllArgsConstructor @NoArgsConstructor
 public class QuestionVoteResponseDto {
-    private Long questionVoteId;
-
-    private String answerStatus;
-
+    private QuestionVote.VoteStatus voteStatus;
     private Long questionId;
-
     private Long memberId;
+    private Long questionVoteTotalCount;
 
 }

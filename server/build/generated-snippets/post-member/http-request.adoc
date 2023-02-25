@@ -1,0 +1,14 @@
+[source,http,options="nowrap"]
+----
+POST /members?_csrf=2daf2fd7-75c4-4624-baec-e5d44ba16d67 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 90
+Host: localhost:8080
+
+{
+  "displayName" : "김민호",
+  "email" : "godalsgh@gmail.com",
+  "password" : "1111"
+}
+----

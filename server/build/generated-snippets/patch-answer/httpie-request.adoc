@@ -1,0 +1,9 @@
+[source,bash]
+----
+$ echo '{
+  "answerId" : 1,
+  "content" : "변경 답변"
+}' | http PATCH 'http://localhost:8080/answer/1?_csrf=363c845f-5af1-498e-9831-5155a5359d36' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'
+----

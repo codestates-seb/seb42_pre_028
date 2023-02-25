@@ -1,0 +1,28 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 297
+
+{
+  "questionId" : 1,
+  "title" : "질문 1",
+  "problemBody" : "문제 바디",
+  "expectingBody" : "에상 바디",
+  "createdAt" : "2023-02-24T10:12:26.366385",
+  "modifiedAt" : "2023-02-01T01:01:00",
+  "viewCount" : 1,
+  "voteCount" : 1,
+  "memberId" : 1,
+  "answers" : "리스트로 대체"
+}
+----

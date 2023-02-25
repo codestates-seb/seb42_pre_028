@@ -1,0 +1,9 @@
+[source,options="nowrap"]
+----
+{
+  "memberId" : 1,
+  "displayName" : "김민호",
+  "email" : "godalsgh@gmail.com",
+  "createdAt" : "2023-02-24T10:16:35.075973"
+}
+----

@@ -43,8 +43,8 @@ public class AnswerService {
         return answerRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
 
     }
-    public Answer findAnswer(long QId){
-        Optional<Answer> optionalQuestion = answerRepository.findById(QId);
+    public Answer findAnswer(long answerId){
+        Optional<Answer> optionalQuestion = answerRepository.findById(answerId);
         Answer findAnswer = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
         return findAnswer;

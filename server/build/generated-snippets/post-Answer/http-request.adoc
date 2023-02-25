@@ -1,0 +1,14 @@
+[source,http,options="nowrap"]
+----
+POST /answer?_csrf=e9f89b19-220a-4766-ad1c-ed6ae2741abc HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 64
+Host: localhost:8080
+
+{
+  "answerId" : 1,
+  "content" : "답변 1",
+  "memberId" : 1
+}
+----

@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+삭제완료
+----
