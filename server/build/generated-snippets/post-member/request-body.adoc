@@ -1,8 +1,0 @@
-[source,options="nowrap"]
-----
-{
-  "displayName" : "김민호",
-  "email" : "godalsgh@gmail.com",
-  "password" : "1111"
-}
-----

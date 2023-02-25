@@ -1,6 +1,0 @@
-[source,bash]
-----
-$ http --form POST 'http://localhost:8080/question-vote/1/up' \
-    'Accept:application/json' \
-    '_csrf=9a634103-3d9d-4e35-9761-6b5b42ab764b'
-----

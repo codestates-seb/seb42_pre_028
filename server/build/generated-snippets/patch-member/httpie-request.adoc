@@ -1,9 +1,0 @@
-[source,bash]
-----
-$ echo '{
-  "displayName" : "김민호",
-  "password" : "1111"
-}' | http PATCH 'http://localhost:8080/members/1?_csrf=808b0882-7612-4e44-b92d-3441d3bd471b' \
-    'Content-Type:application/json;charset=UTF-8' \
-    'Accept:application/json'
-----

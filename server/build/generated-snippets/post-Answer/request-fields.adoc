@@ -1,10 +1,6 @@
 |===
 |Path|Type|Description
 
-|`+answerId+`
-|`+Number+`
-|질문 아이디
-
 |`+content+`
 |`+String+`
 |답변내용
@@ -12,5 +8,9 @@
 |`+memberId+`
 |`+Number+`
 |멤버 아이디
+
+|`+questionId+`
+|`+Number+`
+|질문 아이디
 
 |===

@@ -4,9 +4,9 @@
   "answerId" : 1,
   "content" : "답변 1",
   "voteCount" : 2,
-  "createdAt" : "2023-02-24T10:12:17.561258",
+  "createdAt" : "2023-02-26T00:06:24.232162",
   "modifiedAt" : "2023-02-01T01:01:00",
-  "adoptStatus" : false,
+  "adoptStatus" : "FALSE",
   "questionId" : 1,
   "memberId" : 1
 }

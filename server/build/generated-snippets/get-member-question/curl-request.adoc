@@ -1,6 +1,0 @@
-[source,bash]
-----
-$ curl 'http://localhost:8080/members/1/question' -i -X GET \
-    -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Accept: application/json'
-----

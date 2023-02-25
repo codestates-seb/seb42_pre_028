@@ -73,22 +73,16 @@ public class AnswerControllerTest {
     private AnswerService answerService;
     @MockBean
     private AnswerMapper mapper;
-//
-//    @MockBean
-//    private Question question;
-//
-//    @MockBean
-//    private Member member;
 
 
     LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
 
     @Test
-    @DisplayName("PostAnswerTest")
+    @DisplayName("질문 등록 테스트")
     public void postAnswerTest() throws Exception{
-        AnswerPostDto mockPost = new AnswerPostDto(1L,
-                "답변 1",1L
+        AnswerPostDto mockPost = new AnswerPostDto("답변내용",
+                1,1
             );
 
         String content = gson.toJson(mockPost);
@@ -97,7 +91,7 @@ public class AnswerControllerTest {
                 2,
                 now,
                 modified,
-                false,
+                Answer.AdoptStatus.FALSE,
                 1L,
                 1L);
 
@@ -119,9 +113,9 @@ public class AnswerControllerTest {
                 getResponsePreProcessor(),
                 requestFields(
                         List.of(
-                                fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 아이디"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("답변내용"),
-                                fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디")
+                                fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
+                                fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디")
                         )
                 ),
                 responseFields(
@@ -131,7 +125,7 @@ public class AnswerControllerTest {
                                 fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
                                 fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
                                 fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
-                                fieldWithPath("adoptStatus").type(JsonFieldType.BOOLEAN).description("조회수"),
+                                fieldWithPath("adoptStatus").type(JsonFieldType.STRING).description("채택여부"),
                                 fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 엔티티"),
                                 fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 엔티티")
                         )
@@ -149,7 +143,7 @@ public class AnswerControllerTest {
                 3,
                 now,
                 modified,
-                false,
+                Answer.AdoptStatus.FALSE,
                 1L,
                 1L);
         String patchJson = gson.toJson(answerPatchDto);
@@ -206,7 +200,7 @@ public class AnswerControllerTest {
                 3,
                 now,
                 modified,
-                false,
+                Answer.AdoptStatus.FALSE,
                 1L,
                 1L);
 
@@ -280,7 +274,7 @@ public class AnswerControllerTest {
                 3,
                 now,
                 modified,
-                false,
+                Answer.AdoptStatus.FALSE,
                 1L,
                 1L
         );
@@ -291,7 +285,7 @@ public class AnswerControllerTest {
                 2,
                 now,
                 modified,
-                false,
+                Answer.AdoptStatus.FALSE,
                 2L,
                 2L
         );

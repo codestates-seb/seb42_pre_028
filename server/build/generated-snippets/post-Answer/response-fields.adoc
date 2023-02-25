@@ -22,8 +22,8 @@
 |수정시간
 
 |`+adoptStatus+`
-|`+Boolean+`
-|조회수
+|`+String+`
+|채택여부
 
 |`+questionId+`
 |`+Number+`

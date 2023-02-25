@@ -1,8 +1,8 @@
 [source,options="nowrap"]
 ----
 {
-  "answerId" : 1,
-  "content" : "답변 1",
+  "content" : "답변내용",
+  "questionId" : 1,
   "memberId" : 1
 }
 ----
