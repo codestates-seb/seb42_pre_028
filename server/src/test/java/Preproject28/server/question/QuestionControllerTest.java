@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,6 +23,8 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -34,9 +37,12 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = QuestionController.class)
@@ -124,6 +130,67 @@ public class QuestionControllerTest {
     public void patchQuestionTest() throws Exception{
         long memberId = 1L;
 
+    }
+
+    @Test
+    @DisplayName("getQuestionTest")
+    public void getQuestionTest() throws Exception{
+
+        //given
+        long questionId = 1L;
+
+        QuestionResponseDto response = new QuestionResponseDto(1L,
+                "질문 1",
+                "문제 바디",
+                "예상 바디",
+                now,
+                modified,
+                1,
+                1,
+                1,
+                "리스트로 대체");
+
+        when(questionService.findQuestion(Mockito.anyLong())).thenReturn(new Question());
+        when(mapper.questionToQuestionResponseDto(Mockito.any(Question.class))).thenReturn(response);
+
+
+
+
+        //when
+
+
+        ResultActions actions = mockMvc.perform(
+                get("/question/{question-id}", questionId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf()));
+
+
+
+        //then
+
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("data.questionId").value(questionId))
+                .andDo(document(
+                        "get-Question",
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("question-id").description("조회한 질문 번호")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
+                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
+                                        fieldWithPath("data.problemBody").type(JsonFieldType.STRING).description("문제본문"),
+                                        fieldWithPath("data.expectingBody").type(JsonFieldType.STRING).description("예상본문"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("생성시간"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
+                                        fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("조회수"),
+                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("추천수"),
+                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
+                                        fieldWithPath("data.answers").type(JsonFieldType.STRING).description("답 아이디 리스트")
+                                )
+                        )
+                ));
     }
 
 
