@@ -45,11 +45,11 @@ public class MemberService {
     }
 
     public boolean deleteMember(long memberId) {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+        String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
 
         Member findMember = findverifiedMember(memberId);
 
-        if(Objects.equals(findMember.getEmail(), name)) { // 토큰의 아이디, 삭제요청 id 확인해서 일치할때만 삭제가능하게
+        if(Objects.equals(findMember.getEmail(), loginEmail)) { // 토큰의 아이디, 삭제요청 id 확인해서 일치할때만 삭제가능하게
             memberRepository.deleteById(memberId);
         } else {
             throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION); //에러 새로 추가해야함

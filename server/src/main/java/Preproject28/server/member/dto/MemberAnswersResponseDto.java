@@ -1,7 +1,6 @@
 package Preproject28.server.member.dto;
 
-import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.question.entity.Question;
+import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +12,6 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class MemberAnswersResponseDto {
-    private List<Answer> answers = new ArrayList<>();
+    private List<AnswerInfoResponseDto> answers = new ArrayList<>();
 
 }

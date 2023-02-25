@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class Answer {

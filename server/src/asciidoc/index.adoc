@@ -71,7 +71,29 @@ include::{snippets}/get-member-question/response-fields.adoc[]
 include::{snippets}/get-member-question/response-body.adoc[]
 
 === 내가쓴 답변글 조회
-
+.curl-request
+include::{snippets}/get-member-answer/curl-request.adoc[]
+.http-request
+include::{snippets}/get-member-answer/http-request.adoc[]
+.request-body
+include::{snippets}/get-member-answer/request-body.adoc[]
+.http-response
+include::{snippets}/get-member-answer/http-response.adoc[]
+.response-fields
+include::{snippets}/get-member-answer/response-fields.adoc[]
+.response-body
+include::{snippets}/get-member-answer/response-body.adoc[]
+=== 회원 탈퇴
+.curl-request
+include::{snippets}/delete-member/curl-request.adoc[]
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+.request-body
+include::{snippets}/delete-member/request-body.adoc[]
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
+.response-body
+include::{snippets}/delete-member/response-body.adoc[]
 
 == 질문글
 === 질문글 등록
@@ -105,9 +127,44 @@ include::{snippets}/patch-question/http-response.adoc[]
 include::{snippets}/patch-question/response-fields.adoc[]
 .response-body
 include::{snippets}/patch-question/response-body.adoc[]
-=== 질문글 조회(전체조회 - 질문글(작성자정보포함) + 페이지정보(전체쪽,현재쪽등등)
-=== 질문글 조회(1건조회 - 질문글(작성자정보포함) + 질문글에 달린 답변들(작성자정보포함)
+=== 질문글 전체조회 (질문리스트용 페이지네이션 & 답변은 제외)
+.curl-request
+include::{snippets}/get-questions/curl-request.adoc[]
+.http-request
+include::{snippets}/get-questions/http-request.adoc[]
+.request-body
+include::{snippets}/get-questions/request-body.adoc[]
+.http-response
+include::{snippets}/get-questions/http-response.adoc[]
+.response-fields
+include::{snippets}/get-questions/response-fields.adoc[]
+.response-body
+include::{snippets}/get-questions/response-body.adoc[]
+=== 질문글 1건 조회 (질문글 페이지용)
+.curl-request
+include::{snippets}/get-question/curl-request.adoc[]
+.http-request
+include::{snippets}/get-question/http-request.adoc[]
+.request-body
+include::{snippets}/get-question/request-body.adoc[]
+.http-response
+include::{snippets}/get-question/http-response.adoc[]
+.response-fields
+include::{snippets}/get-question/response-fields.adoc[]
+.response-body
+include::{snippets}/get-question/response-body.adoc[]
 === 질문글 삭제
+.curl-request
+include::{snippets}/delete-question/curl-request.adoc[]
+.http-request
+include::{snippets}/delete-question/http-request.adoc[]
+.request-body
+include::{snippets}/delete-question/request-body.adoc[]
+.http-response
+include::{snippets}/delete-question/http-response.adoc[]
+.response-body
+include::{snippets}/delete-question/response-body.adoc[]
+
 
 == 답변글
 === 답변 등록
@@ -142,6 +199,16 @@ include::{snippets}/patch-answer/response-fields.adoc[]
 include::{snippets}/patch-answer/response-body.adoc[]
 === 답변 수정 (필요없을듯?)
 === 답변 삭제
+.curl-request
+include::{snippets}/delete-answer/curl-request.adoc[]
+.http-request
+include::{snippets}/delete-answer/http-request.adoc[]
+.request-body
+include::{snippets}/delete-answer/request-body.adoc[]
+.http-response
+include::{snippets}/delete-answer/http-response.adoc[]
+.response-body
+include::{snippets}/delete-answer/response-body.adoc[]
 == 추천기능
 === 질문글 추천 UP
 .curl-request

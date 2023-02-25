@@ -25,7 +25,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity postMember(@RequestBody @Valid MemberPostDto requestBody) {
+    public ResponseEntity<?> postMember(@RequestBody @Valid MemberPostDto requestBody) {
         Member member = mapper.memberPostDtoToMember(requestBody);
         Member createdMember = memberService.createMember(member);
         MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(createdMember);
@@ -33,7 +33,7 @@ public class MemberController {
     }
 
     @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@RequestBody @Valid MemberPatchDto requestBody, @PathVariable("member-id") long memberId) {
+    public ResponseEntity<?> patchMember(@RequestBody @Valid MemberPatchDto requestBody, @PathVariable("member-id") long memberId) {
         Member member = mapper.memberPatchDtoToMember(requestBody);
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);
@@ -43,11 +43,9 @@ public class MemberController {
 
     /**
      * 본인만 삭제가능 & 삭제후 확인과정 추가
-     * @param memberId
-     * @return
      */
     @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(@PathVariable("member-id") long memberId) {
+    public ResponseEntity<?> deleteMember(@PathVariable("member-id") long memberId) {
 
         boolean deleteStatus = memberService.deleteMember(memberId);
 
@@ -57,11 +55,10 @@ public class MemberController {
 
     /**
      * 회원 정보 ( 이메일 , 유저네임 , 이미지 url ) 만 확인하하는 코드.
-     * @param memberId
      */
     @GetMapping("/{memberEmail}/info")
-    public ResponseEntity getMemberInfo(@PathVariable("memberEmail") String  memberEmail){
-        // 토큰만으로 memberId & 유저정보 돌려주는식으로 구현
+    public ResponseEntity<?> getMemberInfo(@PathVariable("memberEmail") String  memberEmail){
+        //토큰만으로 memberId & 유저정보 돌려주는식으로 구현
         //로그인했을때 로그인한 Email ->
         // 127.0.0.1:8080/members/{email}/info
         Member findMember = memberService.findMemberByEmail(memberEmail);
@@ -71,11 +68,9 @@ public class MemberController {
 
     /**
      * 내가 쓴 글 조회
-     * @param memberId
-     * @return
      */
     @GetMapping("/{member-id}/question")
-    public ResponseEntity getMemberQuestion(@PathVariable("member-id") long memberId) {
+    public ResponseEntity<?> getMemberQuestion(@PathVariable("member-id") long memberId) {
         Member findMember = memberService.findMember(memberId);
         MemberQuestionResponseDto response = mapper.memberToMemberQuestionResponse(findMember);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -83,11 +78,9 @@ public class MemberController {
 
     /**
      * 내가 쓴 답변 조회
-     * @param memberId
-     * @return
      */
     @GetMapping("/{member-id}/answer")
-    public ResponseEntity getMemberAnswer(@PathVariable("member-id") long memberId) {
+    public ResponseEntity<?> getMemberAnswer(@PathVariable("member-id") long memberId) {
         Member findMember = memberService.findMember(memberId);
         MemberAnswersResponseDto response = mapper.memberToMemberAnswerResponse(findMember);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);

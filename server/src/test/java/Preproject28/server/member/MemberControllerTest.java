@@ -1,16 +1,16 @@
 package Preproject28.server.member;
 
+import Preproject28.server.answer.dto.AnswerInfoResponseDto;
+import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.member.controller.MemberController;
-import Preproject28.server.member.dto.MemberInfoResponseDto;
-import Preproject28.server.member.dto.MemberPatchDto;
-import Preproject28.server.member.dto.MemberPostDto;
-import Preproject28.server.member.dto.MemberQuestionResponseDto;
+import Preproject28.server.member.dto.*;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.entity.Question;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,6 @@ import java.util.List;
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -47,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 @WithMockUser
-class MemberControllerTest {
+public class MemberControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -56,22 +55,18 @@ class MemberControllerTest {
     private MemberMapper mapper;
     @Autowired
     private Gson gson;
-    LocalDateTime createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
-    public List<String> questionProblemBody() {
-        List<String> contentList = new ArrayList<>();
-        contentList.add("질문글 List 문제 예시 1번");
-        contentList.add("질문글 List 문제 예시 2번");
-        contentList.add("질문글 List 문제 예시 3번");
-        return contentList;
+    private final List<String> contentList = new ArrayList<>();
+
+
+    @BeforeEach
+    public void init() {
+        contentList.add("본문 List 형식예시 (1)");
+        contentList.add("본문 List 형식예시 (2)");
+        contentList.add("본문 List 형식예시 (3)");
     }
-    public List<String> questionExpectingBody() {
-        List<String> contentList = new ArrayList<>();
-        contentList.add("질문글 List 도전 예시 1번");
-        contentList.add("질문글 List 도전 예시 2번");
-        contentList.add("질문글 List 도전 예시 3번");
-        return contentList;
-    }
+
     @Test
     @DisplayName("회원가입 테스트")
     public void postMemberTest() throws Exception {
@@ -79,7 +74,7 @@ class MemberControllerTest {
         MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
 
-        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com",createdAt);
+        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com", timeSample);
 
         when(mapper.memberPostDtoToMember(any())).thenReturn(new Member());
         when(memberService.createMember(any())).thenReturn(new Member());
@@ -101,7 +96,7 @@ class MemberControllerTest {
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("회원 이름").optional(),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("회원 비밀번호")
                                 )
@@ -124,7 +119,7 @@ class MemberControllerTest {
         String requestJson = gson.toJson(requestPatch);
 
         long memberId = 1L;
-        MemberInfoResponseDto response = new MemberInfoResponseDto(memberId, "홍길동", "ghdrlfehd@gmail.com",createdAt);
+        MemberInfoResponseDto response = new MemberInfoResponseDto(memberId, "홍길동", "ghdrlfehd@gmail.com", timeSample);
 
         when(mapper.memberPatchDtoToMember(any())).thenReturn(new Member());
         when(memberService.updateMember(any())).thenReturn(new Member());
@@ -146,7 +141,7 @@ class MemberControllerTest {
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("회원 이름").optional(),
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("회원 비밀번호")
                                 )
                         ),
@@ -172,10 +167,10 @@ class MemberControllerTest {
         Question question = new Question();
         question.setQuestionId(1L);
         question.setTitle("질문글 제목");
-        question.setProblemBody(questionProblemBody());
-        question.setExpectingBody(questionExpectingBody());
-        question.setCreatedAt(createdAt);
-        question.setModifiedAt(createdAt);
+        question.setProblemBody(contentList);
+        question.setExpectingBody(contentList);
+        question.setCreatedAt(timeSample);
+        question.setModifiedAt(timeSample);
         question.setMember(member);
         question.setViewCount(0);
         question.setVoteCount(0);
@@ -200,14 +195,14 @@ class MemberControllerTest {
 
                         responseFields(
                                 List.of(
-                                        fieldWithPath("data.questions.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
-                                        fieldWithPath("data.questions.[].title").type(JsonFieldType.STRING).description("질문 제목"),
-                                        fieldWithPath("data.questions.[].problemBody").type(JsonFieldType.ARRAY).description("질문 본문 - 문제점(LIST)"),
-                                        fieldWithPath("data.questions.[].expectingBody").type(JsonFieldType.ARRAY).description("질문 본문 - 해결시(LIST)"),
-                                        fieldWithPath("data.questions.[].createdAt").type(JsonFieldType.STRING).description("생성 시간"),
-                                        fieldWithPath("data.questions.[].modifiedAt").type(JsonFieldType.STRING).description("수정 시간"),
-                                        fieldWithPath("data.questions.[].viewCount").type(JsonFieldType.NUMBER).description("조회수"),
-                                        fieldWithPath("data.questions.[].voteCount").type(JsonFieldType.NUMBER).description("추천수"),
+                                        fieldWithPath("data.questions.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("data.questions.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("data.questions.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("data.questions.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("data.questions.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성 시간"),
+                                        fieldWithPath("data.questions.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정 시간"),
+                                        fieldWithPath("data.questions.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                        fieldWithPath("data.questions.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
                                         fieldWithPath("data.questions.[].answers").type(JsonFieldType.ARRAY).description("질문에 달린 답변"),
                                         fieldWithPath("data.questions.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
                                 )
@@ -217,10 +212,50 @@ class MemberControllerTest {
     //내가쓴 답변 조회
     @Test
     @DisplayName("내가쓴 답변글 조회 테스트")
-    public void getMemberAnswerTest(){
+    public void getMemberAnswerTest() throws Exception {
         //given
+        Member member = new Member();
+        member.setMemberId(1L);
+
+        AnswerInfoResponseDto answer = new AnswerInfoResponseDto();
+        answer.setAnswerId(1L);
+        answer.setQuestionId(1L);
+        answer.setContent(contentList);
+        answer.setVoteCount(0);
+        answer.setCreatedAt(timeSample);
+        answer.setModifiedAt(timeSample);
+        answer.setAdoptStatus(Answer.AdoptStatus.FALSE);
+
+        MemberAnswersResponseDto response = new MemberAnswersResponseDto();
+        response.setAnswers(List.of(answer));
+        when(memberService.findMember(anyInt())).thenReturn(new Member());
+        when(mapper.memberToMemberAnswerResponse(any())).thenReturn(response);
         //when
+        ResultActions actions = mockMvc.perform(
+                get("/members/{member-id}/answer", member.getMemberId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON));
         //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "get-member-answer",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
+                                        fieldWithPath("data.answers.[].content").type(JsonFieldType.ARRAY).description("답변글 본문"),
+                                        fieldWithPath("data.answers.[].voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
+                                        fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
+                                        fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
+                                        fieldWithPath("data.answers.[].adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부")
+                                )
+                        )
+                ));
     }
     //내 정보 조회
     @Test
@@ -229,14 +264,14 @@ class MemberControllerTest {
         //given
         MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
-        long memberId = 1;
-        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "godalsgh@gmail.com",createdAt);
+        String memberEmail = "ghdrlfehd@gmail.com";
+        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "godalsgh@gmail.com", timeSample);
 
-        when(memberService.findMember(anyInt())).thenReturn(new Member());
+        when(memberService.findMemberByEmail(anyString())).thenReturn(new Member());
         when(mapper.memberToMemberInfoResponse(any())).thenReturn(response);
         //when
         ResultActions actions = mockMvc.perform(
-                get("/members/{member-id}/info", memberId)
+                get("/members/{member-email}/info", memberEmail)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson));
@@ -248,7 +283,6 @@ class MemberControllerTest {
                         "get-member-info",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
-
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),

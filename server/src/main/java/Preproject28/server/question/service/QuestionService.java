@@ -3,6 +3,7 @@ package Preproject28.server.question.service;
 
 import Preproject28.server.error.exception.BusinessLogicException;
 import Preproject28.server.error.exception.ExceptionCode;
+import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.entity.Question;
 import Preproject28.server.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -30,33 +32,34 @@ public class QuestionService {
     public Question updateQuestion(Question question){
         Question findQuestion = findQuestion(question.getQuestionId());
         Optional.ofNullable(question.getAnswers())
-                .ifPresent(answers -> findQuestion.setAnswers(answers));
+                .ifPresent(findQuestion::setAnswers);
         Optional.ofNullable(question.getTitle())
-                .ifPresent(title -> findQuestion.setTitle(title));
+                .ifPresent(findQuestion::setTitle);
         Optional.ofNullable(question.getProblemBody())
-                .ifPresent(problemBody -> findQuestion.setProblemBody(problemBody));
+                .ifPresent(findQuestion::setProblemBody);
         Optional.ofNullable(question.getExpectingBody())
-                .ifPresent(expectingBody -> findQuestion.setExpectingBody(expectingBody));
-        Optional.of(question.getViewCount())
-                .ifPresent(viewCount -> findQuestion.setViewCount(viewCount));
-        Optional.of(question.getVoteCount())
-                .ifPresent(voteCount ->findQuestion.setVoteCount(voteCount));
+                .ifPresent(findQuestion::setExpectingBody);
         return findQuestion;
     }
-    public void deleteQuestion(long questionId){
-        Question question = findQuestion(questionId);
-        questionRepository.deleteById(questionId);
-
+    public boolean deleteQuestion(long questionId, Member member){
+        //내가쓴 질문글중에 지워야하는 게시글 id가 있으면 삭제
+        List<Question> questions = member.getQuestions();
+        for(Question question: questions) {
+            long findQuestionId = question.getQuestionId();
+            if(findQuestionId == questionId) questionRepository.deleteById(findQuestionId);
+        }
+        //질문글 검색해서 값이 없으면 성공
+        Optional<Question> deleteQuestion = questionRepository.findById(questionId);
+        return deleteQuestion.isEmpty();
     }
     public Page<Question> findQuestions(int page, int size){
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
 
     }
-    public Question findQuestion(long QId){
-        Optional<Question> optionalQuestion = questionRepository.findById(QId);
-        Question findQuestion = optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+    public Question findQuestion(long questionId){
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
-        return findQuestion;
+        return optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
 

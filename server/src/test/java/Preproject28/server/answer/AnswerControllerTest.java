@@ -32,16 +32,15 @@ import java.util.List;
 
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import com.google.gson.Gson;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -184,6 +183,28 @@ public class AnswerControllerTest {
                                 )
                         )
                 ));
-
+    }
+    @Test
+    @DisplayName("답변글 삭제")
+    public void deleteAnswerTest() throws Exception {
+        //given
+        long answerId = 1;
+        boolean deleteStatus = true;
+        when(memberService.findMemberByEmail(anyString())).thenReturn(new Member());
+        when(answerService.deleteAnswer(anyLong(),any())).thenReturn(deleteStatus);
+        //when
+        ResultActions actions = mockMvc.perform(
+                delete("/answer/{answer-id}/", answerId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(csrf()));
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "delete-answer",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor()
+                ));
     }
 }

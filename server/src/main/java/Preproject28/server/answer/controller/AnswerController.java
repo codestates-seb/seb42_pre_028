@@ -54,8 +54,11 @@ public class AnswerController {
     }
     @DeleteMapping("/{answer-id}")
     public ResponseEntity<?> deleteAnswer(@PathVariable("answer-id")long answerId) {
-        answerService.deleteAnswer(answerId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+        Member member = memberService.findMemberByEmail(loginEmail);
+        boolean deleteStatus = answerService.deleteAnswer(answerId, member);
+        return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
+        //다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
     }
     @PatchMapping("/{answer-id}")
     public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long answerId, @RequestBody AnswerPatchDto answerPatchDto){
