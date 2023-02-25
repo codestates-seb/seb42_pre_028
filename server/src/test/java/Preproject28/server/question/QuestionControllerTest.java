@@ -1,8 +1,6 @@
 package Preproject28.server.question;
 
-import Preproject28.server.answer.dto.AnswerPatchDto;
-import Preproject28.server.answer.dto.AnswerResponseDto;
-import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.member.dto.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.controller.QuestionController;
@@ -61,50 +59,57 @@ public class QuestionControllerTest {
     private QuestionMapper mapper;
     @Autowired
     private Gson gson;
-    LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
+    LocalDateTime createAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    LocalDateTime modified = LocalDateTime.of(2023,2,1,1,1);
 
-    public List<String> pBList() {
-        List<String> contentList = new ArrayList<String>();
-        contentList.add("문제");
-        contentList.add("바디");
-        contentList.add("리스트로");
+    public List<String> questionProblemBody() {
+        List<String> contentList = new ArrayList<>();
+        contentList.add("질문글 List 문제 예시 1번");
+        contentList.add("질문글 List 문제 예시 2번");
+        contentList.add("질문글 List 문제 예시 3번");
         return contentList;
     }
-    public List<String> eBList() {
-        List<String> contentList = new ArrayList<String>();
-        contentList.add("예상");
-        contentList.add("바디");
-        contentList.add("리스트로");
+    public List<String> questionExpectingBody() {
+        List<String> contentList = new ArrayList<>();
+        contentList.add("질문글 List 도전 예시 1번");
+        contentList.add("질문글 List 도전 예시 2번");
+        contentList.add("질문글 List 도전 예시 3번");
         return contentList;
     }
 
     public List<String> tagList() {
-        List<String> contentList = new ArrayList<String>();
-        contentList.add("tags");
-        contentList.add("to");
-        contentList.add("list");
-        return contentList;
+        List<String> tagList = new ArrayList<>();
+        tagList.add("tag List 예시 1번");
+        tagList.add("tag List 예시 2번");
+        tagList.add("tag List 예시 3번");
+        return tagList;
     }
     @Test
-    @DisplayName("PostQuestionTest")
-    public void postQuestionTest() throws Exception{
+    @DisplayName("질문글 등록 테스트")
+    public void postQuestionTest() throws Exception {
         QuestionPostDto mockPost = new QuestionPostDto(1L,
-                "질문 1",
-                pBList(),
-                eBList()
+                "질문 제목",
+                questionProblemBody(),
+                questionExpectingBody()
                 ,tagList());
 
         String content = gson.toJson(mockPost);
         QuestionResponseDto response = new QuestionResponseDto(1L,
-                "질문 1",
-                pBList(),
-                eBList(),
-                now,
+                "질문 제목",
+                questionProblemBody(),
+                questionExpectingBody(),
+                createAt,
                 modified,
                 1,
                 1,
-                1, "답 아이디 리스트",tagList());
+                new MemberInfoResponseDto(
+                        1L,
+                        "김민호",
+                        "godalsgh@gmail.com",
+                        createAt
+                ),
+                new ArrayList<>(),
+                tagList());
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(mapper.questionPostDtoToQuestion(any())).thenReturn(new Question());
@@ -118,53 +123,63 @@ public class QuestionControllerTest {
                 .content(content)
                 .with(csrf()));
 
-        actions.andExpect(status().isCreated()).andDo(document("post-Question",
+        actions.andExpect(status().isCreated()).andDo(document("post-question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
-                                        fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                        fieldWithPath("problemBody").type(JsonFieldType.ARRAY).description("문제본문리스트"),
-                                        fieldWithPath("expectingBody").type(JsonFieldType.ARRAY).description("예상본문리스트"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
-                                        fieldWithPath("tag").type(JsonFieldType.ARRAY).description("멤버 아이디")
+                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
                                 )
                         ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
-                                        fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                        fieldWithPath("problemBody").type(JsonFieldType.ARRAY).description("문제본문"),
-                                        fieldWithPath("expectingBody").type(JsonFieldType.ARRAY).description("예상본문"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
-                                        fieldWithPath("viewCount").type(JsonFieldType.NUMBER).description("조회수"),
-                                        fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
-                                        fieldWithPath("answerId").type(JsonFieldType.STRING).description("답 아이디 리스트"),
-                                        fieldWithPath("tag").type(JsonFieldType.ARRAY).description("태그 아이디")
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("data.problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("data.expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("질문글 생성 시간"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문글 수정 시간"),
+                                        fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("회원 이름"),
+                                        fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("질문글에 달린 답변글(LIST)"),
+                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
                                 )
                         ))
                 );
 
     }
     @Test
-    @DisplayName("patchQuestionTest")
-    public void patchQuestionTest() throws Exception{
+    @DisplayName("질문글 수정 테스트")
+    public void patchQuestionTest() throws Exception {
         QuestionPatchDto mockPatch = new QuestionPatchDto(1L,
-                tagList(),"질문 1",
-                pBList(),
-                eBList()
+                tagList(),"질문 제목수정",
+                questionProblemBody(),
+                questionExpectingBody()
                 );
         QuestionResponseDto response = new QuestionResponseDto(1L,
-                "질문제목",
-                pBList(),eBList(),
-                now,
+                "질문 제목수정",
+                questionProblemBody(),
+                questionExpectingBody(),
+                createAt,
                 modified,
                 1,
                 1,
-                1L,"답 아이디 리스트",tagList());
+                new MemberInfoResponseDto(
+                        1L,
+                        "김민호",
+                        "godalsgh@gmail.com",
+                        createAt
+                ),
+                new ArrayList<>(),
+                tagList());
         String patchJson = gson.toJson(mockPatch);
 
         long questionId = 1L;
@@ -186,26 +201,29 @@ public class QuestionControllerTest {
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 아이디"),
-                                        fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
-                                        fieldWithPath("problemBody").type(JsonFieldType.ARRAY).description("질문 본문"),
-                                        fieldWithPath("expectingBody").type(JsonFieldType.ARRAY).description("예상본문"),
-                                        fieldWithPath("tag").type(JsonFieldType.ARRAY).description("태그 아이디")
+                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
                                 )
                         ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 아이디").optional(),
-                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목").optional(),
-                                        fieldWithPath("data.problemBody").type(JsonFieldType.ARRAY).description("문제본문").optional(),
-                                        fieldWithPath("data.expectingBody").type(JsonFieldType.ARRAY).description("예상본문").optional(),
-                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("생성시간").optional(),
-                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정시간").optional(),
-                                        fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("조회수").optional(),
-                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("추천수").optional(),
-                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("멤버 아이디").optional(),
-                                        fieldWithPath("data.answerId").type(JsonFieldType.STRING).description("답 아이디 리스트").optional(),
-                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그 아이디")
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("data.problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("data.expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("질문글 생성 시간"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문글 수정 시간"),
+                                        fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("회원 이름"),
+                                        fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("질문글에 달린 답변글(LIST)"),
+                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
                                 )
                         )
                 ));

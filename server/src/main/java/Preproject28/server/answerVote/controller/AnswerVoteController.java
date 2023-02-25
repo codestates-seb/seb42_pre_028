@@ -7,6 +7,7 @@ import Preproject28.server.answerVote.dto.AnswerVoteResponseDto;
 import Preproject28.server.answerVote.entity.AnswerVote;
 import Preproject28.server.answerVote.mapper.AnswerVoteMapper;
 import Preproject28.server.answerVote.service.AnswerVoteService;
+import Preproject28.server.util.dto.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +25,15 @@ public class AnswerVoteController {
     public ResponseEntity<?> answerVoteUpPost(@PathVariable("answer-id") long answerId) {
         AnswerVote answerVote = answerVoteService.answerVoteUp(answerId);
         Answer answer = answerService.findAnswer(answerVote.getAnswer().getAnswerId());
-        AnswerVoteResponseDto response = answerVoteMapper.questionVoteToQuestionResponseDto(answerVote, answer);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        AnswerVoteResponseDto response = answerVoteMapper.answerVoteToAnswerResponseDto(answerVote, answer);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @PostMapping("/{answer-id}/down")
     public ResponseEntity<?> answerVoteDownPost(@PathVariable("answer-id") long answerId) {
         AnswerVote answerVote = answerVoteService.answerVoteDown(answerId);
         Answer answer = answerService.findAnswer(answerVote.getAnswer().getAnswerId());
-        AnswerVoteResponseDto response = answerVoteMapper.questionVoteToQuestionResponseDto(answerVote, answer);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        AnswerVoteResponseDto response = answerVoteMapper.answerVoteToAnswerResponseDto(answerVote, answer);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 }

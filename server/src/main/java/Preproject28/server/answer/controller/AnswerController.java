@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,12 +32,12 @@ public class AnswerController {
     public ResponseEntity<?> postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
 
         Answer answer = answerMapper.answerPostDtoToAnswer(answerPostDto);
-        Member member = memberService.findMember(answerPostDto.getMemberId());
+        String loginMemberId = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+        answer.setMember(memberService.findMemberByEmail(loginMemberId));
 
-        answer.setMember(member);
         Answer responseContent = answerService.createAnswer(answer);
         AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(responseContent);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
     @GetMapping("/{answer-id}")
     public ResponseEntity<?> getAnswer(@PathVariable("answer-id")long answerId){
@@ -52,13 +53,13 @@ public class AnswerController {
         return new ResponseEntity<>(new MultiResponseDto<>(answerMapper.answerToAnswerResponseDtos(answers),pageAnswers),HttpStatus.OK);
     }
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity<?> deleteAnswer(@PathVariable("answer-id")long AId) {
-        answerService.deleteAnswer(AId);
+    public ResponseEntity<?> deleteAnswer(@PathVariable("answer-id")long answerId) {
+        answerService.deleteAnswer(answerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PatchMapping("/{answer-id}")
-    public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long AId, @RequestBody AnswerPatchDto answerPatchDto){
-        answerPatchDto.setAnswerId(AId);
+    public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long answerId, @RequestBody AnswerPatchDto answerPatchDto){
+        answerPatchDto.setAnswerId(answerId);
         Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
 
         return new ResponseEntity<>(

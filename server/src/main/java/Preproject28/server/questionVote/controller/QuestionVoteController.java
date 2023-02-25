@@ -6,6 +6,7 @@ import Preproject28.server.questionVote.dto.QuestionVoteResponseDto;
 import Preproject28.server.questionVote.entity.QuestionVote;
 import Preproject28.server.questionVote.mapper.QuestionVoteMapper;
 import Preproject28.server.questionVote.service.QuestionVoteService;
+import Preproject28.server.util.dto.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class QuestionVoteController {
         Question question = questionService.findQuestion(questionVote.getQuestion().getQuestionId());
         QuestionVoteResponseDto response = questionVoteMapper.questionVoteToQuestionResponseDto(questionVote, question);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @PostMapping("/{question-id}/down")
@@ -39,7 +40,7 @@ public class QuestionVoteController {
         Question question = questionService.findQuestion(questionVote.getQuestion().getQuestionId());
         QuestionVoteResponseDto response = questionVoteMapper.questionVoteToQuestionResponseDto(questionVote, question);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
 

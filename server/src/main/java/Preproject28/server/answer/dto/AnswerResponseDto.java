@@ -1,6 +1,8 @@
 package Preproject28.server.answer.dto;
 
 
+import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.member.dto.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.entity.Question;
 import lombok.*;
@@ -28,11 +30,9 @@ public class AnswerResponseDto {
 
     private LocalDateTime modifiedAt;
 
-    private boolean adoptStatus;
+    private Answer.AdoptStatus adoptStatus;
 
-//    private long questionId;
-
-    private long memberId;
+    private MemberInfoResponseDto member;
 
 
 }

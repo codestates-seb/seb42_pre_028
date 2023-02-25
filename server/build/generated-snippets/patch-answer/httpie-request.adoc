@@ -2,8 +2,8 @@
 ----
 $ echo '{
   "answerId" : 1,
-  "content" : "변경 답변"
-}' | http PATCH 'http://localhost:8080/answer/1?_csrf=6ec856d7-a23c-4bae-a214-4848cba99106' \
+  "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
+}' | http PATCH 'http://localhost:8080/answer/1?_csrf=88270234-da35-4026-a9d8-d3664b432216' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json'
 ----

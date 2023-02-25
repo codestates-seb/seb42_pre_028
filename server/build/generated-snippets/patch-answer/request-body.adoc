@@ -2,6 +2,6 @@
 ----
 {
   "answerId" : 1,
-  "content" : "변경 답변"
+  "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
 }
 ----

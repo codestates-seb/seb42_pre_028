@@ -2,15 +2,7 @@
 |Path|Type|Description
 
 |`+content+`
-|`+String+`
-|답변내용
-
-|`+memberId+`
-|`+Number+`
-|멤버 아이디
-
-|`+questionId+`
-|`+Number+`
-|질문 아이디
+|`+Array+`
+|답변글 본문(LIST)
 
 |===

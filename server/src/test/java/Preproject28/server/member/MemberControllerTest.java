@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
@@ -56,14 +57,29 @@ class MemberControllerTest {
     @Autowired
     private Gson gson;
     LocalDateTime createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+
+    public List<String> questionProblemBody() {
+        List<String> contentList = new ArrayList<>();
+        contentList.add("질문글 List 문제 예시 1번");
+        contentList.add("질문글 List 문제 예시 2번");
+        contentList.add("질문글 List 문제 예시 3번");
+        return contentList;
+    }
+    public List<String> questionExpectingBody() {
+        List<String> contentList = new ArrayList<>();
+        contentList.add("질문글 List 도전 예시 1번");
+        contentList.add("질문글 List 도전 예시 2번");
+        contentList.add("질문글 List 도전 예시 3번");
+        return contentList;
+    }
     @Test
     @DisplayName("회원가입 테스트")
     public void postMemberTest() throws Exception {
         //given
-        MemberPostDto requestPost = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
+        MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
 
-        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "김민호", "godalsgh@gmail.com",createdAt);
+        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com",createdAt);
 
         when(mapper.memberPostDtoToMember(any())).thenReturn(new Member());
         when(memberService.createMember(any())).thenReturn(new Member());
@@ -85,17 +101,17 @@ class MemberControllerTest {
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름").optional(),
-                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("회원 이름").optional(),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("password").type(JsonFieldType.STRING).description("회원 비밀번호")
                                 )
                         ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름"),
-                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
+                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("회원 이름"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
                                 )
                 )
                 ));
@@ -104,11 +120,11 @@ class MemberControllerTest {
     @DisplayName("멤버 수정테스트")
     public void patchMemberTest() throws Exception {
         //given
-        MemberPatchDto requestPatch = new MemberPatchDto("김민호", "1111");
+        MemberPatchDto requestPatch = new MemberPatchDto("홍길동", "1111");
         String requestJson = gson.toJson(requestPatch);
 
         long memberId = 1L;
-        MemberInfoResponseDto response = new MemberInfoResponseDto(memberId, "김민호", "godalsgh@gmail.com",createdAt);
+        MemberInfoResponseDto response = new MemberInfoResponseDto(memberId, "홍길동", "ghdrlfehd@gmail.com",createdAt);
 
         when(mapper.memberPatchDtoToMember(any())).thenReturn(new Member());
         when(memberService.updateMember(any())).thenReturn(new Member());
@@ -123,7 +139,6 @@ class MemberControllerTest {
         //then
         actions
                 .andExpect(status().isOk())
-//                .andExpect(header().string("Location", is(startsWith("/members"))))
                 .andDo(print())
                 .andDo(document(
                         "patch-member",
@@ -131,16 +146,16 @@ class MemberControllerTest {
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름").optional(),
-                                        fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
+                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("회원 이름").optional(),
+                                        fieldWithPath("password").type(JsonFieldType.STRING).description("회원 비밀번호")
                                 )
                         ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
+                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("회원 이름"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
                                 )
                         )
                 ));
@@ -157,8 +172,8 @@ class MemberControllerTest {
         Question question = new Question();
         question.setQuestionId(1L);
         question.setTitle("질문글 제목");
-//        question.setProblemBody("문제 내용");
-//        question.setExpectingBody("시도 내용");
+        question.setProblemBody(questionProblemBody());
+        question.setExpectingBody(questionExpectingBody());
         question.setCreatedAt(createdAt);
         question.setModifiedAt(createdAt);
         question.setMember(member);
@@ -185,15 +200,16 @@ class MemberControllerTest {
 
                         responseFields(
                                 List.of(
-                                        fieldWithPath("questions[]questionId").type(JsonFieldType.NUMBER).description("내가쓴 질문글 ID"),
-                                        fieldWithPath("questions[]title").type(JsonFieldType.STRING).description("질문글 제목"),
-                                        fieldWithPath("questions[]problemBody").type(JsonFieldType.STRING).description("문제 내용"),
-                                        fieldWithPath("questions[]expectingBody").type(JsonFieldType.STRING).description("시도 내용"),
-                                        fieldWithPath("questions[]createdAt").type(JsonFieldType.STRING).description("작성시간"),
-                                        fieldWithPath("questions[]modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
-                                        fieldWithPath("questions[]viewCount").type(JsonFieldType.NUMBER).description("조회수"),
-                                        fieldWithPath("questions[]voteCount").type(JsonFieldType.NUMBER).description("추천수"),
-                                        fieldWithPath("questions[]answers").type(JsonFieldType.STRING).description("답변")
+                                        fieldWithPath("data.questions.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                        fieldWithPath("data.questions.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                        fieldWithPath("data.questions.[].problemBody").type(JsonFieldType.ARRAY).description("질문 본문 - 문제점(LIST)"),
+                                        fieldWithPath("data.questions.[].expectingBody").type(JsonFieldType.ARRAY).description("질문 본문 - 해결시(LIST)"),
+                                        fieldWithPath("data.questions.[].createdAt").type(JsonFieldType.STRING).description("생성 시간"),
+                                        fieldWithPath("data.questions.[].modifiedAt").type(JsonFieldType.STRING).description("수정 시간"),
+                                        fieldWithPath("data.questions.[].viewCount").type(JsonFieldType.NUMBER).description("조회수"),
+                                        fieldWithPath("data.questions.[].voteCount").type(JsonFieldType.NUMBER).description("추천수"),
+                                        fieldWithPath("data.questions.[].answers").type(JsonFieldType.ARRAY).description("질문에 달린 답변"),
+                                        fieldWithPath("data.questions.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
                                 )
                         )
                 ));
@@ -211,10 +227,10 @@ class MemberControllerTest {
     @DisplayName("내 정보 조회")
     public void getMemberInfoTest() throws Exception {
         //given
-        MemberPostDto requestPost = new MemberPostDto("김민호", "godalsgh@gmail.com", "1111");
+        MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
         long memberId = 1;
-        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "김민호", "godalsgh@gmail.com",createdAt);
+        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "godalsgh@gmail.com",createdAt);
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(mapper.memberToMemberInfoResponse(any())).thenReturn(response);
@@ -235,10 +251,10 @@ class MemberControllerTest {
 
                         responseFields(
                                 List.of(
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("이름"),
-                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
+                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
                                 )
                         )
                 ));

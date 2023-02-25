@@ -1,8 +1,6 @@
 [source,options="nowrap"]
 ----
 {
-  "content" : "답변내용",
-  "questionId" : 1,
-  "memberId" : 1
+  "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
 }
 ----

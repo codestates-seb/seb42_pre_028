@@ -23,6 +23,7 @@ public class QuestionService {
 
     public Question createQuestion(Question question){
         //if 토큰에서 멤버 아이디 받아오기
+
         return questionRepository.save(question);
     }
 
@@ -42,9 +43,9 @@ public class QuestionService {
                 .ifPresent(voteCount ->findQuestion.setVoteCount(voteCount));
         return findQuestion;
     }
-    public void deleteQuestion(long QId){
-        Question question = findQuestion(QId);
-        questionRepository.deleteById(QId);
+    public void deleteQuestion(long questionId){
+        Question question = findQuestion(questionId);
+        questionRepository.deleteById(questionId);
 
     }
     public Page<Question> findQuestions(int page, int size){

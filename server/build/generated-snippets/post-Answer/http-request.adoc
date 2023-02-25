@@ -1,14 +1,12 @@
 [source,http,options="nowrap"]
 ----
-POST /answer?_csrf=2907defa-512f-46f4-ba84-614847b4fb1e HTTP/1.1
+POST /answer?_csrf=fee070db-1bf9-4fcf-9800-f244f83bf719 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 70
+Content-Length: 131
 Host: localhost:8080
 
 {
-  "content" : "답변내용",
-  "questionId" : 1,
-  "memberId" : 1
+  "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
 }
 ----

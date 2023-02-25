@@ -2,6 +2,7 @@ package Preproject28.server.question.dto;
 
 
 import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.member.dto.MemberInfoResponseDto;
 import Preproject28.server.member.dto.MemberQuestionResponseDto;
 import Preproject28.server.member.entity.Member;
 import lombok.*;
@@ -23,7 +24,7 @@ public class QuestionResponseDto {
     private LocalDateTime modifiedAt;
     private int viewCount;
     private int voteCount;
-    private MemberQuestionResponseDto member;
-    private List<Answer> answer;
+    private MemberInfoResponseDto member;
+    private List<Answer> answers;
     private List<String> tag;
 }

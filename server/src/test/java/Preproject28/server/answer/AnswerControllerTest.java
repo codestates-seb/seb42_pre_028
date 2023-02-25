@@ -8,6 +8,7 @@ import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
+import Preproject28.server.member.dto.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,40 +62,34 @@ public class AnswerControllerTest {
     private AnswerService answerService;
     @MockBean
     private AnswerMapper answerMapper;
-//
-//    @MockBean
-//    private Question question;
-//
-//    @MockBean
-//    private Member member;
 
 
+    LocalDateTime createAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    LocalDateTime modifiedAt = LocalDateTime.of(2023,2,1,1,1);
 
     public List<String> contentList() {
-        List<String> contentList = new ArrayList<String>();
-        contentList.add("컨텐트");
-        contentList.add("이름");
-        contentList.add("리스트로");
+        List<String> contentList = new ArrayList<>();
+        contentList.add("답변글 내용 List 예시 1번");
+        contentList.add("답변글 내용 List 예시 2번");
+        contentList.add("답변글 내용 List 예시 3번");
         return contentList;
     }
-
-    LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    LocalDateTime modified = LocalDateTime.of(2023,02,1,1,1);
-
     @Test
-    @DisplayName("PostAnswerTest")
+    @DisplayName("답변글 등록 테스트")
     public void postAnswerTest() throws Exception{
-        AnswerPostDto mockPost = new AnswerPostDto(1L, contentList(),1L
-            );
+        AnswerPostDto mockPost = new AnswerPostDto(contentList());
 
         String content = gson.toJson(mockPost);
-        AnswerResponseDto response = new AnswerResponseDto(1L
-              ,contentList(),
+        AnswerResponseDto response = new AnswerResponseDto(1L,
+                contentList(),
                 2,
-                now,
-                modified,
-                false,
-                1L);
+                createAt,
+                modifiedAt,
+                Answer.AdoptStatus.FALSE,
+                new MemberInfoResponseDto(1L,
+                        "홍길동",
+                        "ghdrlfehd@gmail.com",
+                        createAt));
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(answerMapper.answerPostDtoToAnswer(any())).thenReturn(new Answer());
@@ -109,43 +104,46 @@ public class AnswerControllerTest {
                 .with(csrf())
         );
 
-        actions.andExpect(status().isCreated()).andDo(document("post-Answer",
+        actions.andExpect(status().isCreated()).andDo(document("post-answer",
                 getRequestPreProcessor(),
                 getResponsePreProcessor(),
                 requestFields(
                         List.of(
-                                fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 아이디"),
-                                fieldWithPath("content").type(JsonFieldType.ARRAY).description("답변내용"),
-                                fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디")
+                                fieldWithPath("content").type(JsonFieldType.ARRAY).description("답변글 본문(LIST)")
                         )
                 ),
                 responseFields(
                         List.of(
-                                fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("답변 아이디"),
-                                fieldWithPath("content").type(JsonFieldType.ARRAY).description("답변내용"),
-                                fieldWithPath("voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
-                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
-                                fieldWithPath("adoptStatus").type(JsonFieldType.BOOLEAN).description("조회수"),
-//                                fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 엔티티"),
-                                fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 엔티티")
+                                fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변글 본문(LIST)"),
+                                fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
+                                fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
+                                fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
+                                fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
+                                fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("회원 이름"),
+                                fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
                         )
                 ))
         );
 
     }
     @Test
-    @DisplayName("patchAnswerTest")
+    @DisplayName("답변글 수정 테스트")
     public void patchAnswerTest() throws Exception{
         AnswerPatchDto answerPatchDto = new AnswerPatchDto(1L,
                 contentList());
         AnswerResponseDto response = new AnswerResponseDto(1L,
                 contentList(),
                 3,
-                now,
-                modified,
-                false,
-                1L);
+                createAt,
+                modifiedAt,
+                Answer.AdoptStatus.FALSE,
+                new MemberInfoResponseDto(1L,
+                        "홍길동",
+                        "ghdrlfehd@gmail.com",
+                        createAt));
         String patchJson = gson.toJson(answerPatchDto);
 
         long answerId = 1L;
@@ -167,24 +165,24 @@ public class AnswerControllerTest {
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("대답 아이디"),
-                                        fieldWithPath("content").type(JsonFieldType.ARRAY).description("대답 본문")
+                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                        fieldWithPath("content").type(JsonFieldType.ARRAY).description("답변글 본문(LIST)")
                                 )
                         ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 아이디"),
-                                        fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("제목"),
-                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("추천수->엔티티로 대체"),
-                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
-                                        fieldWithPath("data.adoptStatus").type(JsonFieldType.BOOLEAN).description("조회수"),
-//                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 ID"),
-                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("작성자 ID")
+                                        fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                        fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변글 본문(LIST)"),
+                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
+                                        fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("회원 이름"),
+                                        fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
                                 )
                         )
-
-
                 ));
 
     }

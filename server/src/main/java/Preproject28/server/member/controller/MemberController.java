@@ -4,6 +4,7 @@ import Preproject28.server.member.dto.*;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
+import Preproject28.server.util.dto.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class MemberController {
         Member member = mapper.memberPostDtoToMember(requestBody);
         Member createdMember = memberService.createMember(member);
         MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(createdMember);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{member-id}")
@@ -37,7 +38,7 @@ public class MemberController {
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);
         MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(updateMember);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     /**
@@ -61,13 +62,11 @@ public class MemberController {
     @GetMapping("/{memberEmail}/info")
     public ResponseEntity getMemberInfo(@PathVariable("memberEmail") String  memberEmail){
         // 토큰만으로 memberId & 유저정보 돌려주는식으로 구현
-
-
         //로그인했을때 로그인한 Email ->
         // 127.0.0.1:8080/members/{email}/info
         Member findMember = memberService.findMemberByEmail(memberEmail);
         MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(findMember);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     /**
@@ -79,7 +78,7 @@ public class MemberController {
     public ResponseEntity getMemberQuestion(@PathVariable("member-id") long memberId) {
         Member findMember = memberService.findMember(memberId);
         MemberQuestionResponseDto response = mapper.memberToMemberQuestionResponse(findMember);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     /**
@@ -91,6 +90,6 @@ public class MemberController {
     public ResponseEntity getMemberAnswer(@PathVariable("member-id") long memberId) {
         Member findMember = memberService.findMember(memberId);
         MemberAnswersResponseDto response = mapper.memberToMemberAnswerResponse(findMember);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 }

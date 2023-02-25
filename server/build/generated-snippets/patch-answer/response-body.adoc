@@ -3,13 +3,17 @@
 {
   "data" : {
     "answerId" : 1,
-    "content" : "답변변경",
+    "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ],
     "voteCount" : 3,
-    "createdAt" : "2023-02-26T00:06:24.27737",
+    "createdAt" : "2023-02-26T02:27:59.192112",
     "modifiedAt" : "2023-02-01T01:01:00",
     "adoptStatus" : "FALSE",
-    "questionId" : 1,
-    "memberId" : 1
+    "member" : {
+      "memberId" : 1,
+      "displayName" : "홍길동",
+      "email" : "ghdrlfehd@gmail.com",
+      "createdAt" : "2023-02-26T02:27:59.192112"
+    }
   }
 }
 ----

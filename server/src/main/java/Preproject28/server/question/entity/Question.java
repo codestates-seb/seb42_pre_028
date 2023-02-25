@@ -25,10 +25,10 @@ public class Question {
     private Long questionId;
 
     private String title;
-
-    private List<String> problemBody;
-
-    private List<String> expectingBody;
+    @Embedded
+    private List<String> problemBody = new ArrayList<>();
+    @Embedded
+    private List<String> expectingBody = new ArrayList<>();
     //리스트로 변경.
 
     @CreatedDate
@@ -40,7 +40,8 @@ public class Question {
 
     private long voteCount;
 
-    private List<String> tag;
+    @Embedded
+    private List<String> tag = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -50,14 +51,6 @@ public class Question {
     @OneToMany(mappedBy = "question")
     @JsonManagedReference
     private List<Answer> answers = new ArrayList<>();
-
-
-
-//    @OneToMany(mappedBy = "question")
-//    @JsonManagedReference
-//    private List<Answer> answers = new ArrayList<>();
-
-
 
 
 }

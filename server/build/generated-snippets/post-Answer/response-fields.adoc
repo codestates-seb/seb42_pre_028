@@ -1,36 +1,44 @@
 |===
 |Path|Type|Description
 
-|`+answerId+`
+|`+data.answerId+`
 |`+Number+`
-|답변 아이디
+|답변글 식별자
 
-|`+content+`
-|`+String+`
-|제목
+|`+data.content+`
+|`+Array+`
+|답변글 본문(LIST)
 
-|`+voteCount+`
+|`+data.voteCount+`
 |`+Number+`
-|추천수->엔티티로 대체
+|답변글 추천수
 
-|`+createdAt+`
+|`+data.createdAt+`
 |`+String+`
-|생성시간
+|답변글 생성 시간
 
-|`+modifiedAt+`
+|`+data.modifiedAt+`
 |`+String+`
-|수정시간
+|답변글 수정 시간
 
-|`+adoptStatus+`
+|`+data.adoptStatus+`
 |`+String+`
-|채택여부
+|답변글 채택여부
 
-|`+questionId+`
+|`+data.member.memberId+`
 |`+Number+`
-|질문 엔티티
+|회원 식별자
 
-|`+memberId+`
-|`+Number+`
-|멤버 엔티티
+|`+data.member.displayName+`
+|`+String+`
+|회원 이름
+
+|`+data.member.email+`
+|`+String+`
+|회원 이메일
+
+|`+data.member.createdAt+`
+|`+String+`
+|회원가입 시간
 
 |===

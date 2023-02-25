@@ -52,7 +52,7 @@ public class MemberService {
         if(Objects.equals(findMember.getEmail(), name)) { // 토큰의 아이디, 삭제요청 id 확인해서 일치할때만 삭제가능하게
             memberRepository.deleteById(memberId);
         } else {
-            throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+            throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION); //에러 새로 추가해야함
         }
         Optional<Member> deleteMember = memberRepository.findById(memberId); //지워졌는지 확인
         return deleteMember.isEmpty(); //지워졌으면 true
@@ -65,11 +65,6 @@ public class MemberService {
     }
     private String passwordEncoding(String password) {
         return passwordEncoder.encode(password);
-    }
-
-    public Member findverifiedMemberByEmail(String memberEmail) {
-        Optional<Member> memberOptional = memberRepository.findByEmail(memberEmail);
-        return memberOptional.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public Member findMemberByEmail(String memberEmail) {

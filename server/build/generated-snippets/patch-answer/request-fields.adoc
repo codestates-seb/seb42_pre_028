@@ -3,10 +3,10 @@
 
 |`+answerId+`
 |`+Number+`
-|대답 아이디
+|답변글 식별자
 
 |`+content+`
-|`+String+`
-|대답 본문
+|`+Array+`
+|답변글 본문(LIST)
 
 |===
