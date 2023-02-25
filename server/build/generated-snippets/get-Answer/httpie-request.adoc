@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ http GET 'http://localhost:8080/answer/1?_csrf=7e1e4f98-9daf-40bb-816a-db5f407978d9' \
+    'Accept:application/json'
+----

@@ -1,0 +1,8 @@
+.+/answer/{answer-id}+
+|===
+|Parameter|Description
+
+|`+answer-id+`
+|조회한 답변 번호
+
+|===

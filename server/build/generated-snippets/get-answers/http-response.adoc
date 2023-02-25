@@ -1,0 +1,43 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 589
+
+{
+  "data" : [ {
+    "answerId" : 1,
+    "content" : "answer1",
+    "voteCount" : 3,
+    "createdAt" : "2023-02-26T00:06:22.559989",
+    "modifiedAt" : "2023-02-01T01:01:00",
+    "adoptStatus" : "FALSE",
+    "questionId" : 1,
+    "memberId" : 1
+  }, {
+    "answerId" : 2,
+    "content" : "answer2",
+    "voteCount" : 2,
+    "createdAt" : "2023-02-26T00:06:22.559989",
+    "modifiedAt" : "2023-02-01T01:01:00",
+    "adoptStatus" : "FALSE",
+    "questionId" : 2,
+    "memberId" : 2
+  } ],
+  "pageInfo" : {
+    "page" : 2,
+    "size" : 15,
+    "totalElements" : 17,
+    "totalPages" : 2
+  }
+}
+----
