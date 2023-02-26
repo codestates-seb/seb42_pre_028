@@ -499,7 +499,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/members?_csrf=04c1fdfe-a67a-4fa9-b126-5235889a860f' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/members?_csrf=c60ded98-4135-48ea-8869-ca90b3e16cb7' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -512,7 +512,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /members?_csrf=04c1fdfe-a67a-4fa9-b126-5235889a860f HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /members?_csrf=c60ded98-4135-48ea-8869-ca90b3e16cb7 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 91
@@ -588,7 +588,7 @@ Content-Length: 157
     "memberId" : 1,
     "displayName" : "홍길동",
     "email" : "ghdrlfehd@gmail.com",
-    "createdAt" : "2023-02-26T04:56:01.403307"
+    "createdAt" : "2023-02-26T17:11:21.460786"
   }
 }</code></pre>
 </div>
@@ -638,7 +638,7 @@ Content-Length: 157
     "memberId" : 1,
     "displayName" : "홍길동",
     "email" : "ghdrlfehd@gmail.com",
-    "createdAt" : "2023-02-26T04:56:01.403307"
+    "createdAt" : "2023-02-26T17:11:21.460786"
   }
 }</code></pre>
 </div>
@@ -649,7 +649,7 @@ Content-Length: 157
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/members/1?_csrf=fa228113-b112-4a32-86a0-a5edf2be318f' -i -X PATCH \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/members/1?_csrf=b7e931b2-9056-4109-afa1-645c46fc1927' -i -X PATCH \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -661,7 +661,7 @@ Content-Length: 157
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /members/1?_csrf=fa228113-b112-4a32-86a0-a5edf2be318f HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /members/1?_csrf=b7e931b2-9056-4109-afa1-645c46fc1927 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 56
@@ -730,7 +730,7 @@ Content-Length: 157
     "memberId" : 1,
     "displayName" : "홍길동",
     "email" : "ghdrlfehd@gmail.com",
-    "createdAt" : "2023-02-26T05:16:28.383534"
+    "createdAt" : "2023-02-26T17:11:19.711025"
   }
 }</code></pre>
 </div>
@@ -780,7 +780,7 @@ Content-Length: 157
     "memberId" : 1,
     "displayName" : "홍길동",
     "email" : "ghdrlfehd@gmail.com",
-    "createdAt" : "2023-02-26T05:16:28.383534"
+    "createdAt" : "2023-02-26T17:11:19.711025"
   }
 }</code></pre>
 </div>
@@ -841,14 +841,14 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 156
+Content-Length: 155
 
 {
   "data" : {
     "memberId" : 1,
     "displayName" : "홍길동",
     "email" : "godalsgh@gmail.com",
-    "createdAt" : "2023-02-26T04:56:01.387386"
+    "createdAt" : "2023-02-26T17:11:21.44278"
   }
 }</code></pre>
 </div>
@@ -898,7 +898,7 @@ Content-Length: 156
     "memberId" : 1,
     "displayName" : "홍길동",
     "email" : "godalsgh@gmail.com",
-    "createdAt" : "2023-02-26T04:56:01.387386"
+    "createdAt" : "2023-02-26T17:11:21.44278"
   }
 }</code></pre>
 </div>
@@ -943,7 +943,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 544
+Content-Length: 571
 
 {
   "data" : {
@@ -952,12 +952,13 @@ Content-Length: 544
       "title" : "질문글 제목",
       "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
       "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "createdAt" : "2023-02-26T04:56:01.506358",
-      "modifiedAt" : "2023-02-26T04:56:01.506358",
+      "createdAt" : "2023-02-26T17:11:21.580851",
+      "modifiedAt" : "2023-02-26T17:11:21.580851",
       "viewCount" : 0,
       "voteCount" : 0,
       "tag" : [ ],
-      "answers" : [ ]
+      "answers" : [ ],
+      "adoptAnswerId" : 0
     } ]
   }
 }</code></pre>
@@ -1028,6 +1029,11 @@ Content-Length: 544
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">태그(LIST)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.questions.[].adoptAnswerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">질문글 채택되있는 답변 ID</p></td>
+</tr>
 </tbody>
 </table>
 <div class="listingblock">
@@ -1040,12 +1046,13 @@ Content-Length: 544
       "title" : "질문글 제목",
       "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
       "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "createdAt" : "2023-02-26T04:56:01.506358",
-      "modifiedAt" : "2023-02-26T04:56:01.506358",
+      "createdAt" : "2023-02-26T17:11:21.580851",
+      "modifiedAt" : "2023-02-26T17:11:21.580851",
       "viewCount" : 0,
       "voteCount" : 0,
       "tag" : [ ],
-      "answers" : [ ]
+      "answers" : [ ],
+      "adoptAnswerId" : 0
     } ]
   }
 }</code></pre>
@@ -1091,17 +1098,18 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 366
+Content-Length: 388
 
 {
   "data" : {
     "answers" : [ {
       "answerId" : 1,
       "questionId" : 1,
+      "memberId" : 1,
       "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
       "voteCount" : 0,
-      "createdAt" : "2023-02-26T04:56:01.368496",
-      "modifiedAt" : "2023-02-26T04:56:01.368496",
+      "createdAt" : "2023-02-26T17:11:21.420772",
+      "modifiedAt" : "2023-02-26T17:11:21.420772",
       "adoptStatus" : "FALSE"
     } ]
   }
@@ -1132,6 +1140,11 @@ Content-Length: 366
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.answers.[].questionId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">답변의 질문글 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.answers.[].memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변작성 회원 식별자</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.answers.[].content</code></p></td>
@@ -1168,10 +1181,11 @@ Content-Length: 366
     "answers" : [ {
       "answerId" : 1,
       "questionId" : 1,
+      "memberId" : 1,
       "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
       "voteCount" : 0,
-      "createdAt" : "2023-02-26T04:56:01.368496",
-      "modifiedAt" : "2023-02-26T04:56:01.368496",
+      "createdAt" : "2023-02-26T17:11:21.420772",
+      "modifiedAt" : "2023-02-26T17:11:21.420772",
       "adoptStatus" : "FALSE"
     } ]
   }
@@ -1184,14 +1198,14 @@ Content-Length: 366
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/members/1/?_csrf=af207557-a3d0-49fa-b4ab-14d9b962407d' -i -X DELETE \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/members/1/?_csrf=cc3280a1-9ef6-4099-9b34-f0b6644932fc' -i -X DELETE \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /members/1/?_csrf=af207557-a3d0-49fa-b4ab-14d9b962407d HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /members/1/?_csrf=cc3280a1-9ef6-4099-9b34-f0b6644932fc HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1238,7 +1252,7 @@ X-Frame-Options: DENY
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/question?_csrf=ddcf0486-3cd7-4a29-92f2-5ada48de417c' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/question?_csrf=061e78d8-fafd-4cd7-bfe6-31ef71a0acbd' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -1253,7 +1267,7 @@ X-Frame-Options: DENY
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /question?_csrf=ddcf0486-3cd7-4a29-92f2-5ada48de417c HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /question?_csrf=061e78d8-fafd-4cd7-bfe6-31ef71a0acbd HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 390
@@ -1344,15 +1358,15 @@ Content-Length: 724
     "title" : "질문제목",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }
@@ -1450,15 +1464,15 @@ Content-Length: 724
     "title" : "질문제목",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }
@@ -1471,7 +1485,7 @@ Content-Length: 724
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/question/1?_csrf=38482d87-2039-4a8a-8bce-3231ce64294e' -i -X PATCH \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/question/1?_csrf=7495e99a-8245-4496-8eee-d1bdc74514fe' -i -X PATCH \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -1486,7 +1500,7 @@ Content-Length: 724
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /question/1?_csrf=38482d87-2039-4a8a-8bce-3231ce64294e HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /question/1?_csrf=7495e99a-8245-4496-8eee-d1bdc74514fe HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 396
@@ -1569,7 +1583,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1720
+Content-Length: 1768
 
 {
   "data" : {
@@ -1577,42 +1591,44 @@ Content-Length: 1720
     "title" : "질문 제목 수정",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "answers" : [ {
       "answerId" : 1,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     }, {
       "answerId" : 2,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     } ],
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }
@@ -1705,6 +1721,11 @@ Content-Length: 1720
 <td class="tableblock halign-left valign-top"><p class="tableblock">질문글에 달린 답변글 식별자</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.answers.[].questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변의 질문글 식별자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.answers.[].content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">질문글에 달린 답변글 본문</p></td>
@@ -1760,42 +1781,44 @@ Content-Length: 1720
     "title" : "질문 제목 수정",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "answers" : [ {
       "answerId" : 1,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     }, {
       "answerId" : 2,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     } ],
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }
@@ -1850,15 +1873,15 @@ Content-Length: 1539
     "title" : "질문제목",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }, {
@@ -1866,15 +1889,15 @@ Content-Length: 1539
     "title" : "질문제목",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   } ],
@@ -1998,15 +2021,15 @@ Content-Length: 1539
     "title" : "질문제목",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }, {
@@ -2014,15 +2037,15 @@ Content-Length: 1539
     "title" : "질문제목",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   } ],
@@ -2075,7 +2098,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1720
+Content-Length: 1768
 
 {
   "data" : {
@@ -2083,42 +2106,44 @@ Content-Length: 1720
     "title" : "질문 제목 수정",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "answers" : [ {
       "answerId" : 1,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     }, {
       "answerId" : 2,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     } ],
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }
@@ -2211,6 +2236,11 @@ Content-Length: 1720
 <td class="tableblock halign-left valign-top"><p class="tableblock">질문글에 달린 답변글 식별자</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.answers.[].questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변의 질문글 식별자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.answers.[].content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">질문글에 달린 답변글 본문</p></td>
@@ -2266,42 +2296,44 @@ Content-Length: 1720
     "title" : "질문 제목 수정",
     "problemBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
     "expectingBody" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-    "createdAt" : "2023-02-26T06:37:10.206701",
-    "modifiedAt" : "2023-02-26T06:37:10.206701",
+    "createdAt" : "2023-02-26T17:33:20.929499",
+    "modifiedAt" : "2023-02-26T17:33:20.929499",
     "viewCount" : 1,
     "voteCount" : 1,
     "member" : {
       "memberId" : 1,
       "displayName" : "홍길동",
       "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T06:37:10.206701"
+      "createdAt" : "2023-02-26T17:33:20.929499"
     },
     "answers" : [ {
       "answerId" : 1,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     }, {
       "answerId" : 2,
-      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
-      "voteCount" : 1,
-      "createdAt" : "2023-02-26T06:37:10.206701",
-      "modifiedAt" : "2023-02-26T06:37:10.206701",
-      "adoptStatus" : "FALSE",
+      "questionId" : 1,
       "member" : {
         "memberId" : 1,
         "displayName" : "홍길동",
         "email" : "ghdrlfehd@gmail.com",
-        "createdAt" : "2023-02-26T06:37:10.206701"
-      }
+        "createdAt" : "2023-02-26T17:33:20.929499"
+      },
+      "content" : [ "본문 List 형식예시 (1)", "본문 List 형식예시 (2)", "본문 List 형식예시 (3)" ],
+      "voteCount" : 1,
+      "createdAt" : "2023-02-26T17:33:20.929499",
+      "modifiedAt" : "2023-02-26T17:33:20.929499",
+      "adoptStatus" : "FALSE"
     } ],
     "tag" : [ "Tag List 형식예시 (1)", "Tag List 형식예시 (2)", "Tag List 형식예시 (3)" ]
   }
@@ -2314,14 +2346,14 @@ Content-Length: 1720
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/question/1/?_csrf=80f7de41-eae6-4e43-9e30-b0b1c1b97be2' -i -X DELETE \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/question/1/?_csrf=6b38425e-22e4-4c3e-9001-0aadb07029a8' -i -X DELETE \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /question/1/?_csrf=80f7de41-eae6-4e43-9e30-b0b1c1b97be2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /question/1/?_csrf=6b38425e-22e4-4c3e-9001-0aadb07029a8 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -2368,10 +2400,11 @@ X-Frame-Options: DENY
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer?_csrf=fee070db-1bf9-4fcf-9800-f244f83bf719' -i -X POST \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer?_csrf=f3a8d984-8da9-4118-9f3b-5300181a545a' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
+  "questionId" : 1,
   "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
 }'</code></pre>
 </div>
@@ -2379,13 +2412,14 @@ X-Frame-Options: DENY
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /answer?_csrf=fee070db-1bf9-4fcf-9800-f244f83bf719 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /answer?_csrf=f3a8d984-8da9-4118-9f3b-5300181a545a HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 131
+Content-Length: 151
 Host: localhost:8080
 
 {
+  "questionId" : 1,
   "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
 }</code></pre>
 </div>
@@ -2406,6 +2440,11 @@ Host: localhost:8080
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변작성하는 질문글 식별자</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">답변글 본문(LIST)</p></td>
@@ -2416,6 +2455,7 @@ Host: localhost:8080
 <div class="title">request-body</div>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "questionId" : 1,
   "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
 }</code></pre>
 </div>
@@ -2434,22 +2474,18 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 479
+Content-Length: 359
 
 {
   "data" : {
     "answerId" : 1,
+    "questionId" : 1,
+    "memberId" : 1,
     "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ],
-    "voteCount" : 2,
-    "createdAt" : "2023-02-26T02:27:57.302148",
-    "modifiedAt" : "2023-02-01T01:01:00",
-    "adoptStatus" : "FALSE",
-    "member" : {
-      "memberId" : 1,
-      "displayName" : "홍길동",
-      "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T02:27:57.302148"
-    }
+    "voteCount" : 1,
+    "createdAt" : "2023-02-26T17:08:16.639099",
+    "modifiedAt" : "2023-02-26T17:08:16.639099",
+    "adoptStatus" : "FALSE"
   }
 }</code></pre>
 </div>
@@ -2500,24 +2536,14 @@ Content-Length: 479
 <td class="tableblock halign-left valign-top"><p class="tableblock">답변글 채택여부</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.memberId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변작성 회원 식별자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.displayName</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이름</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이메일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원가입 시간</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변달린 질문글 식별자</p></td>
 </tr>
 </tbody>
 </table>
@@ -2527,17 +2553,13 @@ Content-Length: 479
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
   "data" : {
     "answerId" : 1,
+    "questionId" : 1,
+    "memberId" : 1,
     "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ],
-    "voteCount" : 2,
-    "createdAt" : "2023-02-26T02:27:57.302148",
-    "modifiedAt" : "2023-02-01T01:01:00",
-    "adoptStatus" : "FALSE",
-    "member" : {
-      "memberId" : 1,
-      "displayName" : "홍길동",
-      "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T02:27:57.302148"
-    }
+    "voteCount" : 1,
+    "createdAt" : "2023-02-26T17:08:16.639099",
+    "modifiedAt" : "2023-02-26T17:08:16.639099",
+    "adoptStatus" : "FALSE"
   }
 }</code></pre>
 </div>
@@ -2548,7 +2570,7 @@ Content-Length: 479
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer/1?_csrf=88270234-da35-4026-a9d8-d3664b432216' -i -X PATCH \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer/1?_csrf=38e47a4d-9398-4f2d-ba11-a650d89cf40b' -i -X PATCH \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
@@ -2560,7 +2582,7 @@ Content-Length: 479
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /answer/1?_csrf=88270234-da35-4026-a9d8-d3664b432216 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /answer/1?_csrf=38e47a4d-9398-4f2d-ba11-a650d89cf40b HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 149
@@ -2622,22 +2644,18 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 479
+Content-Length: 359
 
 {
   "data" : {
     "answerId" : 1,
+    "questionId" : 1,
+    "memberId" : 1,
     "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ],
-    "voteCount" : 3,
-    "createdAt" : "2023-02-26T02:27:59.192112",
-    "modifiedAt" : "2023-02-01T01:01:00",
-    "adoptStatus" : "FALSE",
-    "member" : {
-      "memberId" : 1,
-      "displayName" : "홍길동",
-      "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T02:27:59.192112"
-    }
+    "voteCount" : 1,
+    "createdAt" : "2023-02-26T17:08:16.639099",
+    "modifiedAt" : "2023-02-26T17:08:16.639099",
+    "adoptStatus" : "FALSE"
   }
 }</code></pre>
 </div>
@@ -2688,24 +2706,14 @@ Content-Length: 479
 <td class="tableblock halign-left valign-top"><p class="tableblock">답변글 채택여부</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.memberId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 식별자</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변작성 회원 식별자</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.displayName</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이름</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 이메일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.member.createdAt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원가입 시간</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답변달린 질문글 식별자</p></td>
 </tr>
 </tbody>
 </table>
@@ -2715,17 +2723,13 @@ Content-Length: 479
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
   "data" : {
     "answerId" : 1,
+    "questionId" : 1,
+    "memberId" : 1,
     "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ],
-    "voteCount" : 3,
-    "createdAt" : "2023-02-26T02:27:59.192112",
-    "modifiedAt" : "2023-02-01T01:01:00",
-    "adoptStatus" : "FALSE",
-    "member" : {
-      "memberId" : 1,
-      "displayName" : "홍길동",
-      "email" : "ghdrlfehd@gmail.com",
-      "createdAt" : "2023-02-26T02:27:59.192112"
-    }
+    "voteCount" : 1,
+    "createdAt" : "2023-02-26T17:08:16.639099",
+    "modifiedAt" : "2023-02-26T17:08:16.639099",
+    "adoptStatus" : "FALSE"
   }
 }</code></pre>
 </div>
@@ -2740,14 +2744,14 @@ Content-Length: 479
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer/1/?_csrf=67454462-5465-4b53-a05f-1edecbb991b9' -i -X DELETE \
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer/1/?_csrf=7ac594d8-9ac2-4615-9512-d0212c78278a' -i -X DELETE \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /answer/1/?_csrf=67454462-5465-4b53-a05f-1edecbb991b9 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /answer/1/?_csrf=7ac594d8-9ac2-4615-9512-d0212c78278a HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -3007,7 +3011,7 @@ Content-Length: 122
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer-vote/1/up' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
-    -d '_csrf=c55c8f83-554f-422a-8ce2-c9f030e25d94'</code></pre>
+    -d '_csrf=22a62e0c-7e55-4f8d-810e-8e194d0bc9a2'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3018,7 +3022,7 @@ Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080
 
-_csrf=c55c8f83-554f-422a-8ce2-c9f030e25d94</code></pre>
+_csrf=22a62e0c-7e55-4f8d-810e-8e194d0bc9a2</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3112,7 +3116,7 @@ Content-Length: 116
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'http://localhost:8080/answer-vote/1/down' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
-    -d '_csrf=38e353cb-0b8b-4445-81ec-3f6cbe4f2f8e'</code></pre>
+    -d '_csrf=f5dc6b10-8055-49b7-8f63-3b5c56637ff0'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3123,7 +3127,7 @@ Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080
 
-_csrf=38e353cb-0b8b-4445-81ec-3f6cbe4f2f8e</code></pre>
+_csrf=f5dc6b10-8055-49b7-8f63-3b5c56637ff0</code></pre>
 </div>
 </div>
 <div class="listingblock">

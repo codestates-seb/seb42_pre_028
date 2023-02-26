@@ -55,7 +55,8 @@ public class MemberControllerTest {
     private MemberMapper mapper;
     @Autowired
     private Gson gson;
-    LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    private final LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    private final MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com", timeSample);
 
     private final List<String> contentList = new ArrayList<>();
 
@@ -74,11 +75,9 @@ public class MemberControllerTest {
         MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
 
-        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com", timeSample);
-
         when(mapper.memberPostDtoToMember(any())).thenReturn(new Member());
         when(memberService.createMember(any())).thenReturn(new Member());
-        when(mapper.memberToMemberInfoResponse(any())).thenReturn(response);
+        when(mapper.memberToMemberInfoResponse(any())).thenReturn(memberInfoResponseDto);
         //when
 
         ResultActions actions = mockMvc.perform(post("/members")
@@ -204,7 +203,8 @@ public class MemberControllerTest {
                                         fieldWithPath("data.questions.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
                                         fieldWithPath("data.questions.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
                                         fieldWithPath("data.questions.[].answers").type(JsonFieldType.ARRAY).description("질문에 달린 답변"),
-                                        fieldWithPath("data.questions.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
+                                        fieldWithPath("data.questions.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
+                                        fieldWithPath("data.questions.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글 채택되있는 답변 ID")
                                 )
                         )
                 ));
@@ -220,6 +220,7 @@ public class MemberControllerTest {
         AnswerInfoResponseDto answer = new AnswerInfoResponseDto();
         answer.setAnswerId(1L);
         answer.setQuestionId(1L);
+        answer.setMember(memberInfoResponseDto);
         answer.setContent(contentList);
         answer.setVoteCount(0);
         answer.setCreatedAt(timeSample);
@@ -248,6 +249,7 @@ public class MemberControllerTest {
                                 List.of(
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
                                         fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
+                                        fieldWithPath("data.answers.[].memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.ARRAY).description("답변글 본문"),
                                         fieldWithPath("data.answers.[].voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),

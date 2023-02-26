@@ -1,5 +1,6 @@
 package Preproject28.server.answer.controller;
 
+import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.question.service.QuestionService;
 import Preproject28.server.util.dto.MultiResponseDto;
 import Preproject28.server.util.dto.SingleResponseDto;
@@ -33,27 +34,37 @@ public class AnswerController {
     @PostMapping
     public ResponseEntity<?> postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto){
 
-        Answer answer = answerMapper.answerPostDtoToAnswer(answerPostDto);
+        Answer postDtoToAnswer = answerMapper.answerPostDtoToAnswer(answerPostDto);
         String loginMemberId = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
-        answer.setMember(memberService.findMemberByEmail(loginMemberId));
-        answer.setQuestion(questionService.findQuestion(answerPostDto.getQuestionId()));
+        postDtoToAnswer.setMember(memberService.findMemberByEmail(loginMemberId));
+        postDtoToAnswer.setQuestion(questionService.findQuestion(answerPostDto.getQuestionId()));
 
-        Answer responseContent = answerService.createAnswer(answer);
-        AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(responseContent);
+        Answer answer = answerService.createAnswer(postDtoToAnswer);
+        AnswerInfoResponseDto response = answerMapper.answerToAnswerInfoResponseDto(answer);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
+
+    @PatchMapping("/{answer-id}")
+    public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long answerId, @RequestBody AnswerPatchDto answerPatchDto) {
+        answerPatchDto.setAnswerId(answerId);
+        Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
+        AnswerInfoResponseDto response = answerMapper.answerToAnswerInfoResponseDto(answer);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
     @GetMapping("/{answer-id}")
-    public ResponseEntity<?> getAnswer(@PathVariable("answer-id")long answerId){
+    public ResponseEntity<?> getAnswer(@PathVariable("answer-id")long answerId) {
         Answer answer = answerService.findAnswer(answerId);
-        return new ResponseEntity<>(new SingleResponseDto<>
-                (answerMapper.answerToAnswerResponseDto(answer)),HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer)),HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<?> getAnswers(@RequestParam int page, @RequestParam int size){
         Page<Answer> pageAnswers = answerService.findAnswers(page,size);
         List<Answer> answers = pageAnswers.getContent();
-        return new ResponseEntity<>(new MultiResponseDto<>(answerMapper.answerToAnswerResponseDtos(answers),pageAnswers),HttpStatus.OK);
+        List<AnswerResponseDto> response = answerMapper.answerToAnswerResponseDtos(answers);
+        return new ResponseEntity<>(new MultiResponseDto<>(response, pageAnswers),HttpStatus.OK);
     }
     @DeleteMapping("/{answer-id}")
     public ResponseEntity<?> deleteAnswer(@PathVariable("answer-id")long answerId) {
@@ -62,13 +73,5 @@ public class AnswerController {
         boolean deleteStatus = answerService.deleteAnswer(answerId, member);
         return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
         //다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
-    }
-    @PatchMapping("/{answer-id}")
-    public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long answerId, @RequestBody AnswerPatchDto answerPatchDto){
-        answerPatchDto.setAnswerId(answerId);
-        Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer)),HttpStatus.OK);
     }
 }

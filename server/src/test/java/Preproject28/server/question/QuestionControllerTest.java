@@ -1,7 +1,9 @@
 package Preproject28.server.question;
 
+import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.dto.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
@@ -61,15 +63,16 @@ public class QuestionControllerTest {
     @MockBean
     private MemberService memberService;
     @MockBean
+    private AnswerService answerService;
+    @MockBean
     private QuestionMapper questionMapper;
     @Autowired
     private Gson gson;
     private static final LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     private static final List<String> contentList = new ArrayList<>();
     private static final List<String> tagList = new ArrayList<>();
-
     private static final MemberInfoResponseDto member = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com", timeSample);
-    private static final List<AnswerResponseDto> answers = new ArrayList<>();
+    private static final List<AnswerInfoResponseDto> answers = new ArrayList<>();
     private static final QuestionResponseDto response = new QuestionResponseDto();
     private static final QuestionInfoResponseDto infoResponse = new QuestionInfoResponseDto();
 
@@ -82,10 +85,8 @@ public class QuestionControllerTest {
         tagList.add("Tag List 형식예시 (2)");
         tagList.add("Tag List 형식예시 (3)");
         //답변샘플
-        answers.add(new AnswerResponseDto(1L, contentList, 1, timeSample, timeSample, Answer.AdoptStatus.FALSE,
-                member));
-        answers.add(new AnswerResponseDto(2L, contentList, 1, timeSample, timeSample, Answer.AdoptStatus.FALSE,
-               member));
+        answers.add(new AnswerInfoResponseDto(1L, 1L, member, contentList, 1, timeSample, timeSample, Answer.AdoptStatus.FALSE));
+        answers.add(new AnswerInfoResponseDto(2L, 1L, member, contentList, 1, timeSample, timeSample, Answer.AdoptStatus.FALSE));
         //질문글 샘플 - 답변 까지 보이는것
         response.setQuestionId(1L);
         response.setTitle("질문제목");
@@ -210,6 +211,7 @@ public class QuestionControllerTest {
                                         fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("질문글에 달린 답변글 식별자"),
+                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.ARRAY).description("질문글에 달린 답변글 본문"),
                                         fieldWithPath("data.answers.[].voteCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변글 추천수"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("질문글에 달린 답변글 생성시간"),
@@ -258,6 +260,7 @@ public class QuestionControllerTest {
                                         fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("질문글에 달린 답변글 식별자"),
+                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.ARRAY).description("질문글에 달린 답변글 본문"),
                                         fieldWithPath("data.answers.[].voteCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변글 추천수"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("질문글에 달린 답변글 생성시간"),
@@ -272,8 +275,8 @@ public class QuestionControllerTest {
                 ));
     }
     @Test
-    @DisplayName("질문글 삭제 테스트")
-    public void deleteQuestionTest() throws Exception {
+    @DisplayName("질문글 전체 조회 테스트")
+    public void getQuestionsTest() throws Exception {
 
         List<QuestionInfoResponseDto> responses = new ArrayList<>();
         responses.add(infoResponse);
@@ -324,7 +327,7 @@ public class QuestionControllerTest {
     }
     @Test
     @DisplayName("질문글 삭제")
-    public void deleteQuestionsTest() throws Exception {
+    public void deleteQuestionTest() throws Exception {
         //given
         long questionId = 1;
         boolean deleteStatus = true;

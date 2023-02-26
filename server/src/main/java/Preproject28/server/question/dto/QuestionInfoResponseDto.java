@@ -2,16 +2,12 @@ package Preproject28.server.question.dto;
 
 
 import Preproject28.server.member.dto.MemberInfoResponseDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class QuestionInfoResponseDto {
     private Long questionId;

@@ -1,6 +1,7 @@
 package Preproject28.server.question.dto;
 
 
+import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.member.dto.MemberInfoResponseDto;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,6 @@ public class QuestionResponseDto {
     private int viewCount;
     private int voteCount;
     private MemberInfoResponseDto member;
-    private List<AnswerResponseDto> answers;
+    private List<AnswerInfoResponseDto> answers;
     private List<String> tag;
 }

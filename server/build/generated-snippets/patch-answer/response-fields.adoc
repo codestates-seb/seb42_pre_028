@@ -25,20 +25,12 @@
 |`+String+`
 |답변글 채택여부
 
-|`+data.member.memberId+`
+|`+data.memberId+`
 |`+Number+`
-|회원 식별자
+|답변작성 회원 식별자
 
-|`+data.member.displayName+`
-|`+String+`
-|회원 이름
-
-|`+data.member.email+`
-|`+String+`
-|회원 이메일
-
-|`+data.member.createdAt+`
-|`+String+`
-|회원가입 시간
+|`+data.questionId+`
+|`+Number+`
+|답변달린 질문글 식별자
 
 |===
