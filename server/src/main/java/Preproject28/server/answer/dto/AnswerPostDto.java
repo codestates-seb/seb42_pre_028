@@ -13,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerPostDto {
+    private long questionId;
     private List<String> content;
 }

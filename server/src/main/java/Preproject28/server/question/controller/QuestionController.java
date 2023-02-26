@@ -1,5 +1,7 @@
 package Preproject28.server.question.controller;
 
+import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.dto.QuestionInfoResponseDto;
 import Preproject28.server.util.dto.MultiResponseDto;
@@ -30,6 +32,7 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
     private final MemberService memberService;
+    private final AnswerService answerService;
 
     @PostMapping
     public ResponseEntity<?> postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){
@@ -56,6 +59,7 @@ public class QuestionController {
     @GetMapping("/{question-id}")
     public ResponseEntity<?> getQuestion(@PathVariable("question-id") long questionId){
         Question question = questionService.findQuestion(questionId);
+        questionService.setViewCount(question);        //조회 1번당 1씩 올라가게 (임시)
         QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -77,5 +81,22 @@ public class QuestionController {
 
         return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
         //다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
+    }
+
+    @PostMapping("{question-id}/adopt-answer/{answer-id}")
+    public ResponseEntity<?> adoptAnswer(@PathVariable("question-id") long questionId, @PathVariable("answer-id") long answerId) {
+        //질문글 등록한사람 본인이 답변채택 할수있어야함.
+        //질문자 확인
+        //답변채택
+        //질문에 답변 id 변경
+        //답변에 상태값변경
+        String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+        Member member = memberService.findMemberByEmail(loginEmail);
+        Answer answer = answerService.findAnswer(answerId);
+        Question question = questionService.adoptAnswer(questionId, answer, member);
+        QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+
     }
 }

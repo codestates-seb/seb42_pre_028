@@ -29,7 +29,6 @@ public class Question {
     private List<String> problemBody = new ArrayList<>();
     @Embedded
     private List<String> expectingBody = new ArrayList<>();
-    //리스트로 변경.
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -51,6 +50,8 @@ public class Question {
     @OneToMany(mappedBy = "question")
     @JsonManagedReference
     private List<Answer> answers = new ArrayList<>();
+
+    private long adoptAnswerId;
 
 
 }

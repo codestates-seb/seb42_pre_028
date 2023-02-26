@@ -17,22 +17,4 @@ public class QuestionPatchDto {
     private String title;
     private List<String> problemBody;
     private List<String> expectingBody;
-
-//
-//    private LocalDateTime createdAt;
-//
-//
-//    private LocalDateTime modifiedAt;
-//
-//
-//    private long viewCount;
-//
-//
-//    private long voteCount;
-//
-//
-//    private long memberId;
-//
-//
-//    private String answers;
 }

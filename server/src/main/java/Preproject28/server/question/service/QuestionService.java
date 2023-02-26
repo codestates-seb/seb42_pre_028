@@ -1,6 +1,8 @@
 package Preproject28.server.question.service;
 
 
+import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.error.exception.BusinessLogicException;
 import Preproject28.server.error.exception.ExceptionCode;
 import Preproject28.server.member.entity.Member;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final AnswerService answerService;
 
     public Question createQuestion(Question question){
         //if 토큰에서 멤버 아이디 받아오기
@@ -39,7 +42,7 @@ public class QuestionService {
                 .ifPresent(findQuestion::setProblemBody);
         Optional.ofNullable(question.getExpectingBody())
                 .ifPresent(findQuestion::setExpectingBody);
-        return findQuestion;
+        return questionRepository.save(findQuestion);
     }
     public boolean deleteQuestion(long questionId, Member member){
         //내가쓴 질문글중에 지워야하는 게시글 id가 있으면 삭제
@@ -62,5 +65,32 @@ public class QuestionService {
         return optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
+    public void setViewCount(Question question) {
+        question.setViewCount(question.getViewCount() + 1);
+        questionRepository.save(question);
+    }
+    public Question adoptAnswer(long questionId, Answer answer, Member member){
+        //질문글 등록한사람 본인이 답변채택 할수있어야함.
+        //질문자 확인
+        //답변채택
+        //질문에 답변 id 변경
+        //답변에 상태값변경
+        List<Question> questions = member.getQuestions();
 
+        for(Question question: questions) {
+            long findQuestionId = question.getQuestionId();
+            if (findQuestionId == questionId) { //게시글쓴사람이 맞으면
+                //다른 채택된것 있었는지 확인
+                if(question.getAdoptAnswerId() != 0L && question.getAdoptAnswerId() != answer.getAnswerId()) { // 채택되있는게 있었으면 바꿔줌
+                    Answer oldAdoptAnswer = answerService.findAnswer(question.getAdoptAnswerId());
+                    oldAdoptAnswer.setAdoptStatus(Answer.AdoptStatus.FALSE);
+                } else if (question.getAdoptAnswerId() != answer.getAnswerId()) { // 채택두번 누르면 취소되는것
+                    question.setAdoptAnswerId(answer.getAnswerId());
+                    answer.setAdoptStatus(Answer.AdoptStatus.TRUE);
+                }
+                return questionRepository.save(question);
+            }
+        }
+        throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
+    }
 }

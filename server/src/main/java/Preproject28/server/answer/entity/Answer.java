@@ -35,7 +35,7 @@ public class Answer {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
     @Enumerated(EnumType.STRING)
-    private AdoptStatus adoptStatus;
+    private AdoptStatus adoptStatus = AdoptStatus.FALSE;
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;

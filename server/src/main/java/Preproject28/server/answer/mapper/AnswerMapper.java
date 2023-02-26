@@ -14,7 +14,6 @@ public interface AnswerMapper {
 Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto);
 Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto);
 AnswerResponseDto answerToAnswerResponseDto(Answer answer);
-//수동변경 -> 멤버정보
 List<AnswerResponseDto> answerToAnswerResponseDtos(List<Answer> answers);
 List<AnswerInfoResponseDto> answerToAnswerInfoResponseDtos(List<Answer> answers);
 }

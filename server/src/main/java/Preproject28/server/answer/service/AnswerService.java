@@ -35,7 +35,7 @@ public class AnswerService {
                 .ifPresent(findAnswer::setContent);
         return answerRepository.save(findAnswer);
     }
-    public boolean deleteAnswer(long answerId, Member member){
+    public boolean deleteAnswer(long answerId, Member member) {
         //내가쓴 답변글중 지워야하는 게시글 id가 있으면 삭제
         List<Answer> answers = member.getAnswers();
         for(Answer answer: answers) {
@@ -46,15 +46,19 @@ public class AnswerService {
         Optional<Answer> deleteQuestion = answerRepository.findById(answerId);
         return deleteQuestion.isEmpty();
     }
-    public Page<Answer> findAnswers(int page, int size){
+    public Page<Answer> findAnswers(int page, int size) {
         return answerRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
 
     }
-    public Answer findAnswer(long answerId){
+    public Answer findAnswer(long answerId) {
         Optional<Answer> optionalQuestion = answerRepository.findById(answerId);
 
         return optionalQuestion.orElseThrow(()-> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
+    public void adoptAnswer(long answerId) {
+        Answer answer = findAnswer(answerId);
+
+    }
 
 }

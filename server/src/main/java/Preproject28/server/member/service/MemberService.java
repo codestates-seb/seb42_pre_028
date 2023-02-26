@@ -37,7 +37,7 @@ public class MemberService {
         Optional.ofNullable(member.getPassword()).ifPresent(password-> findMember.setPassword(passwordEncoding(password)));
         Optional.ofNullable(member.getIconImageUrl()).ifPresent(findMember::setIconImageUrl);
 
-        return findMember;
+        return memberRepository.save(findMember);
     }
 
     public Member findMember(long memberId) {

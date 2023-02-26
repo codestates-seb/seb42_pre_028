@@ -1,5 +1,6 @@
 package Preproject28.server.answer.controller;
 
+import Preproject28.server.question.service.QuestionService;
 import Preproject28.server.util.dto.MultiResponseDto;
 import Preproject28.server.util.dto.SingleResponseDto;
 import Preproject28.server.answer.dto.AnswerPatchDto;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnswerController {
     private final MemberService memberService;
+    private final QuestionService questionService;
     private final AnswerMapper answerMapper;
     private final AnswerService answerService;
 
@@ -34,6 +36,7 @@ public class AnswerController {
         Answer answer = answerMapper.answerPostDtoToAnswer(answerPostDto);
         String loginMemberId = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
         answer.setMember(memberService.findMemberByEmail(loginMemberId));
+        answer.setQuestion(questionService.findQuestion(answerPostDto.getQuestionId()));
 
         Answer responseContent = answerService.createAnswer(answer);
         AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(responseContent);

@@ -3,6 +3,7 @@ package Preproject28.server.answer.dto;
 
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.member.dto.MemberInfoResponseDto;
+import Preproject28.server.question.dto.QuestionInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,5 @@ public class AnswerResponseDto {
     private LocalDateTime modifiedAt;
     private Answer.AdoptStatus adoptStatus;
     private MemberInfoResponseDto member;
+    private QuestionInfoResponseDto question;
 }
