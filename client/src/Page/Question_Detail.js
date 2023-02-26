@@ -163,8 +163,10 @@ function Question_Detail() {
 
   const answerSize = 1; // question.answer.length;
   const question_memberId = 3; // question.author.id;
+  const memberId = 0;
 
   const keyDownHandler = (e) => {
+    if (e.target.selectionStart === e.target.selectionEnd) return;
     let prevText = e.target.value.slice(0, e.target.selectionStart);
     let nextText = e.target.value.slice(e.target.selectionEnd);
     let selectedText = e.target.value.slice(
@@ -269,6 +271,7 @@ function Question_Detail() {
                 </TagContainer>
                 <Author
                   //question.author
+                  memberId={memberId}
                   name={dummyData[id].author.name}
                   answered={dummyData[id].author.answered}
                   avatar={dummyData[id].author.avatar}

@@ -53,7 +53,6 @@ const Input = styled.input`
 
 function Header() {
   const log = useSelector((state) => state.log.value);
-  console.log(log);
   const [menuflag, setMenuFlag] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();

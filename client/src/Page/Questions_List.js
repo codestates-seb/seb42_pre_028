@@ -112,15 +112,14 @@ const PagingButton = styled.button`
 `;
 
 function Questions_List() {
-  const [question, isPending, error] = useGetFetch(
+  const [questions, isPending, error] = useGetFetch(
     `url/questions/?page=1&&pageSize=5`
   );
-  // allQuestionSize
-  // const size = question.allQuestionSize;
-
+  // questions.allQuestionSize : questions 전체 개수
+  // const size = questions.allQuestionSize;
   const size = dummyData.length;
-  const [pageCnt, setPageCnt] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
+  const pageCnt = 5;
+  const currentPage = 1;
 
   let start = (currentPage - 1) * pageCnt,
     end = currentPage * pageCnt;
@@ -128,11 +127,6 @@ function Questions_List() {
   const renderData = dummyData.filter((el) => el.id >= start && el.id < end);
 
   const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered', 'More'];
-
-  const pageHandler = (e) => {
-    setPageCnt(e.target.value);
-    setCurrentPage(1);
-  };
 
   return (
     <div>
@@ -168,7 +162,6 @@ function Questions_List() {
                 size={size}
                 pageCnt={pageCnt}
                 currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
               />
               <RowDiv>
                 <Link to={`/questions/1/5`}>

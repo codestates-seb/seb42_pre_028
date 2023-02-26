@@ -78,19 +78,18 @@ const NoticeContent = styled.li`
 const MainContent = styled.main``;
 
 const Input = styled.input`
-width: 100%;
-margin: 0;
-padding: 0.6em 0.7em;
-border: 1.5px solid #dcdcdc;
-border-radius: 3px;
-margin-bottom: 8px;
-margin-top: 8px;
-outline: none;
-&:focus {
-  border-color #96C7ED;
-  box-shadow: 0 0 0 0.3em 	#E8F5FF;
-}
-}
+  width: 100%;
+  margin: 0;
+  padding: 0.6em 0.7em;
+  border: 1.5px solid #dcdcdc;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  outline: none;
+  &:focus {
+    border-color: #96c7ed;
+    box-shadow: 0 0 0 0.3em #e8f5ff;
+  }
 `;
 
 const LabelBox = styled.div``;
@@ -111,28 +110,28 @@ const MainDescription = styled.p`
 `;
 
 const MainInput = styled.textarea`
-width: 100%;
-height: 170px; 
-margin: 0;
-padding: 6px 12px 12px;
-border: 1.5px solid #dcdcdc;
-border-radius: 3px;
-margin-bottom: 8px;
-margin-top: 8px;
-outline: none;
-resize: vertical;
-&:focus {
-  border-color #96C7ED;
-  box-shadow: 0 0 0 0.3em 	#E8F5FF;
-}
-}`;
+  width: 100%;
+  height: 170px;
+  margin: 0;
+  padding: 6px 12px 12px;
+  border: 1.5px solid #dcdcdc;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  outline: none;
+  resize: vertical;
+  &:focus {
+    border-color: #96c7ed;
+    box-shadow: 0 0 0 0.3em #e8f5ff;
+  }
+`;
 
 const SubmitAndClear = styled.div`
-  dispaly: flex;
+  display: flex;
 `;
 
 const Button = styled.button`
-background-color: #0a95ff;
+  background-color: #0a95ff;
   margin: 0px 8px;
   color: white;
   border: none;
@@ -142,31 +141,31 @@ background-color: #0a95ff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   &:hover {
-    background-color: #0A6ECD;
+    background-color: #0a6ecd;
   }
   &:active {
-    border-color #96C7ED;
-    background-color: #0064CD;
-    box-shadow: 0 0 0 0.3em 	#E0EBFF;
-    }
+    border-color: #96c7ed;
+    background-color: #0064cd;
+    box-shadow: 0 0 0 0.3em #e0ebff;
+  }
 `;
 
 const ClearButton = styled.button`
-background-color: #ffffff;
-color: #d22e32;
-border: none;
-padding: 10.4px;
-border-radius: 5px;
-position: relative;
-overflow: hidden;
-cursor: pointer;
-&:hover {
-  background-color: #FFF0F5;
-}
-&:active {
-  border-color #c22e32;
-  background-color: #f9d2d3;
-  box-shadow: 0 0 0 0.3em 	#FFDFDC;
+  background-color: #ffffff;
+  color: #d22e32;
+  border: none;
+  padding: 10.4px;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    background-color: #fff0f5;
+  }
+  &:active {
+    border-color: #c22e32;
+    background-color: #f9d2d3;
+    box-shadow: 0 0 0 0.3em #ffdfdc;
   }
 `;
 

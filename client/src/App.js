@@ -14,7 +14,7 @@ import QuestionDetail from './Page/Question_Detail';
 import DeleteProfile from './Page/MyPages/Delete_Profile';
 import EditProfile from './Page/MyPages/Edit_Profile';
 import QuestionsPage from './Page/Questions_Page';
-// import Footer from './Component/Footer';
+import QuestionUpdate from './Page/Question_Update';
 
 function App() {
   return (
@@ -37,6 +37,7 @@ function App() {
             path="/questions/:page/:pageCnt"
             element={<QuestionsPage />}
           ></Route>
+          <Route path="/update" element={<QuestionUpdate />} />
           {/* <Route path="/search" element={<Search />}></Route> */}
         </Routes>
       </div>
