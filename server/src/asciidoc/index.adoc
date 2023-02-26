@@ -6,7 +6,7 @@
 :source-highlighter: highlightjs
 :sectlinks:
 :pdf-fontsdir: src/asciidoc/fonts
-v2.0.0, 2023.02.26 17:00
+v3.0.0, 2023.02.26 23:00
 
 '''
 == 회원정보
