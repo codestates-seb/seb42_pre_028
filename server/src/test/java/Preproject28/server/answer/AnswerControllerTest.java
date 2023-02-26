@@ -5,7 +5,6 @@ import Preproject28.server.answer.controller.AnswerController;
 import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.dto.AnswerPatchDto;
 import Preproject28.server.answer.dto.AnswerPostDto;
-import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
@@ -14,6 +13,8 @@ import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.dto.QuestionInfoResponseDto;
 import Preproject28.server.question.service.QuestionService;
+import Preproject28.server.utils.SecurityTestConfig;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -37,14 +39,13 @@ import java.util.List;
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import com.google.gson.Gson;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,6 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @WithMockUser
 @Slf4j
+@Import(SecurityTestConfig.class)
 public class AnswerControllerTest {
 
     @Autowired
@@ -123,10 +125,11 @@ public class AnswerControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
-                .with(csrf())
         );
 
-        actions.andExpect(status().isCreated()).andDo(document("post-answer",
+        actions.andExpect(status().isCreated())
+                .andDo(print())
+                .andDo(document("post-answer",
                 getRequestPreProcessor(),
                 getResponsePreProcessor(),
                 requestFields(
@@ -143,7 +146,10 @@ public class AnswerControllerTest {
                                 fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
                                 fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
                                 fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
-                                fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
+                                fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
+                                fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변작성 회원 이름"),
+                                fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변작성 회원 이메일"),
+                                fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변작성 회원 생성 시간"),
                                 fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("답변달린 질문글 식별자")
                         )
                 ))
@@ -166,11 +172,15 @@ public class AnswerControllerTest {
                 .content(patchJson)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(csrf())
         );
 //그리고
         actions.andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("patch-answer-address",
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변글 식별자")
+                        )
+                ))
                 .andDo(document("patch-answer",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
@@ -188,7 +198,10 @@ public class AnswerControllerTest {
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
                                         fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
-                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
+                                        fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변작성 회원 이름"),
+                                        fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변작성 회원 이메일"),
+                                        fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변작성 회원 생성 시간"),
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("답변달린 질문글 식별자")
                                 )
                         )
@@ -205,12 +218,16 @@ public class AnswerControllerTest {
         //when
         ResultActions actions = mockMvc.perform(
                 delete("/answer/{answer-id}/", answerId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .with(csrf()));
+                        .accept(MediaType.APPLICATION_JSON));
         //then
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("delete-answer-address",
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변글 식별자")
+                        )
+                ))
                 .andDo(document(
                         "delete-answer",
                         getRequestPreProcessor(),

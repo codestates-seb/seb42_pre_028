@@ -25,9 +25,21 @@
 |`+String+`
 |답변글 채택여부
 
-|`+data.memberId+`
+|`+data.member.memberId+`
 |`+Number+`
 |답변작성 회원 식별자
+
+|`+data.member.displayName+`
+|`+String+`
+|답변작성 회원 이름
+
+|`+data.member.email+`
+|`+String+`
+|답변작성 회원 이메일
+
+|`+data.member.createdAt+`
+|`+String+`
+|답변작성 회원 생성 시간
 
 |`+data.questionId+`
 |`+Number+`

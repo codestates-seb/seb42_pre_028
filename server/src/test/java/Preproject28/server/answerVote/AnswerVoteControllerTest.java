@@ -7,17 +7,15 @@ import Preproject28.server.answerVote.dto.AnswerVoteResponseDto;
 import Preproject28.server.answerVote.entity.AnswerVote;
 import Preproject28.server.answerVote.mapper.AnswerVoteMapper;
 import Preproject28.server.answerVote.service.AnswerVoteService;
-import Preproject28.server.member.entity.Member;
-import Preproject28.server.member.service.MemberService;
-import com.google.gson.Gson;
+import Preproject28.server.utils.SecurityTestConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -29,18 +27,17 @@ import java.util.List;
 
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = AnswerVoteController.class)
@@ -48,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @Slf4j
 @WithMockUser
+@Import(SecurityTestConfig.class)
 public class AnswerVoteControllerTest {
 
     @Autowired
@@ -81,12 +79,16 @@ public class AnswerVoteControllerTest {
                         post("/answer-vote/{answer-id}/up",answerId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .with(csrf())
                 );
         //then
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("answer-vote-up-address",
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변글 식별자")
+                        )
+                ))
                 .andDo(document(
                         "answer-vote-up",
                         getRequestPreProcessor(),
@@ -124,12 +126,16 @@ public class AnswerVoteControllerTest {
                         post("/answer-vote/{answer-id}/down",answerId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .with(csrf())
                 );
         //then
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("answer-vote-down-address",
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변글 식별자")
+                        )
+                ))
                 .andDo(document(
                         "answer-vote-down",
                         getRequestPreProcessor(),

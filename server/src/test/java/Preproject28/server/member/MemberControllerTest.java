@@ -8,6 +8,7 @@ import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.entity.Question;
+import Preproject28.server.utils.SecurityTestConfig;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -34,9 +36,11 @@ import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,6 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 @WithMockUser
+@Import(SecurityTestConfig.class)
 public class MemberControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -84,7 +89,7 @@ public class MemberControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
-                .with(csrf()));
+        );
         //then
         actions
                 .andExpect(status().isCreated())
@@ -129,11 +134,16 @@ public class MemberControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
-                .with(csrf()));
+        );
         //then
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("patch-member-address",
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        )
+                ))
                 .andDo(document(
                         "patch-member",
                         getRequestPreProcessor(),
@@ -187,6 +197,11 @@ public class MemberControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("get-member-question-address",
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        )
+                ))
                 .andDo(document(
                         "get-member-question",
                         getRequestPreProcessor(),
@@ -240,6 +255,11 @@ public class MemberControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("get-member-answer-address",
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        )
+                ))
                 .andDo(document(
                         "get-member-answer",
                         getRequestPreProcessor(),
@@ -249,12 +269,16 @@ public class MemberControllerTest {
                                 List.of(
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
                                         fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
-                                        fieldWithPath("data.answers.[].memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.ARRAY).description("답변글 본문"),
                                         fieldWithPath("data.answers.[].voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
                                         fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
-                                        fieldWithPath("data.answers.[].adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부")
+                                        fieldWithPath("data.answers.[].adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
+                                        fieldWithPath("data.answers.[].member.memberId").type(JsonFieldType.NUMBER).description("답변의 회원 식별자"),
+                                        fieldWithPath("data.answers.[].member.displayName").type(JsonFieldType.STRING).description("답변의 회원 이름"),
+                                        fieldWithPath("data.answers.[].member.email").type(JsonFieldType.STRING).description("답변의 회원 이메일"),
+                                        fieldWithPath("data.answers.[].member.createdAt").type(JsonFieldType.STRING).description("답변의 회원 생성 시간")
+
                                 )
                         )
                 ));
@@ -281,6 +305,11 @@ public class MemberControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("get-member-info-address",
+                        pathParameters(
+                                parameterWithName("member-email").description("회원 이메일")
+                        )
+                ))
                 .andDo(document(
                         "get-member-info",
                         getRequestPreProcessor(),
@@ -307,11 +336,16 @@ public class MemberControllerTest {
         ResultActions actions = mockMvc.perform(
                 delete("/members/{member-id}/", memberId)
                         .accept(MediaType.APPLICATION_JSON)
-                        .with(csrf()));
+        );
         //then
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
+                .andDo(document("delete-member-address",
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        )
+                ))
                 .andDo(document(
                         "delete-member",
                         getRequestPreProcessor(),

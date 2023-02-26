@@ -6,7 +6,7 @@
 :source-highlighter: highlightjs
 :sectlinks:
 :pdf-fontsdir: src/asciidoc/fonts
-v1.0.0, 2023.02.24
+v2.0.0, 2023.02.26 17:00
 
 '''
 == 회원정보
@@ -29,6 +29,8 @@ include::{snippets}/post-member/response-body.adoc[]
 === 회원 정보 수정
 .curl-request
 include::{snippets}/patch-member/curl-request.adoc[]
+.path-parameters
+include::{snippets}/patch-member-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/patch-member/http-request.adoc[]
 .request-fields
@@ -45,6 +47,8 @@ include::{snippets}/patch-member/response-body.adoc[]
 === 회원 정보 조회
 .curl-request
 include::{snippets}/get-member-info/curl-request.adoc[]
+.path-parameters
+include::{snippets}/get-member-info-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/get-member-info/http-request.adoc[]
 .request-body
@@ -59,6 +63,8 @@ include::{snippets}/get-member-info/response-body.adoc[]
 === 내가쓴 질문글 조회
 .curl-request
 include::{snippets}/get-member-question/curl-request.adoc[]
+.path-parameters
+include::{snippets}/get-member-question-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/get-member-question/http-request.adoc[]
 .request-body
@@ -73,6 +79,8 @@ include::{snippets}/get-member-question/response-body.adoc[]
 === 내가쓴 답변글 조회
 .curl-request
 include::{snippets}/get-member-answer/curl-request.adoc[]
+.path-parameters
+include::{snippets}/get-member-answer-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/get-member-answer/http-request.adoc[]
 .request-body
@@ -86,6 +94,8 @@ include::{snippets}/get-member-answer/response-body.adoc[]
 === 회원 탈퇴
 .curl-request
 include::{snippets}/delete-member/curl-request.adoc[]
+.path-parameters
+include::{snippets}/delete-member-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/delete-member/http-request.adoc[]
 .request-body
@@ -115,6 +125,8 @@ include::{snippets}/post-question/response-body.adoc[]
 === 질문글 수정
 .curl-request
 include::{snippets}/patch-question/curl-request.adoc[]
+.path-parameters
+include::{snippets}/patch-question-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/patch-question/http-request.adoc[]
 .request-fields
@@ -127,7 +139,7 @@ include::{snippets}/patch-question/http-response.adoc[]
 include::{snippets}/patch-question/response-fields.adoc[]
 .response-body
 include::{snippets}/patch-question/response-body.adoc[]
-=== 질문글 전체조회 (질문리스트용 페이지네이션 & 답변은 제외)
+=== 질문글 전체조회 (질문글 리스트용)
 .curl-request
 include::{snippets}/get-questions/curl-request.adoc[]
 .http-request
@@ -143,6 +155,8 @@ include::{snippets}/get-questions/response-body.adoc[]
 === 질문글 1건 조회 (질문글 페이지용)
 .curl-request
 include::{snippets}/get-question/curl-request.adoc[]
+.path-parameters
+include::{snippets}/get-question-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/get-question/http-request.adoc[]
 .request-body
@@ -156,6 +170,8 @@ include::{snippets}/get-question/response-body.adoc[]
 === 질문글 삭제
 .curl-request
 include::{snippets}/delete-question/curl-request.adoc[]
+.path-parameters
+include::{snippets}/delete-question-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/delete-question/http-request.adoc[]
 .request-body
@@ -164,7 +180,21 @@ include::{snippets}/delete-question/request-body.adoc[]
 include::{snippets}/delete-question/http-response.adoc[]
 .response-body
 include::{snippets}/delete-question/response-body.adoc[]
-
+=== 질문글에서 답변채택
+.curl-request
+include::{snippets}/adopt-answer/curl-request.adoc[]
+.path-parameters
+include::{snippets}/adopt-answer-address/path-parameters.adoc[]
+.http-request
+include::{snippets}/adopt-answer/http-request.adoc[]
+.request-body
+include::{snippets}/adopt-answer/request-body.adoc[]
+.http-response
+include::{snippets}/adopt-answer/http-response.adoc[]
+.response-fields
+include::{snippets}/adopt-answer/response-fields.adoc[]
+.response-body
+include::{snippets}/adopt-answer/response-body.adoc[]
 
 == 답변글
 === 답변 등록
@@ -185,6 +215,8 @@ include::{snippets}/post-answer/response-body.adoc[]
 === 답변 수정
 .curl-request
 include::{snippets}/patch-answer/curl-request.adoc[]
+.path-parameters
+include::{snippets}/patch-answer-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/patch-answer/http-request.adoc[]
 .request-fields
@@ -201,6 +233,8 @@ include::{snippets}/patch-answer/response-body.adoc[]
 === 답변 삭제
 .curl-request
 include::{snippets}/delete-answer/curl-request.adoc[]
+.path-parameters
+include::{snippets}/delete-answer-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/delete-answer/http-request.adoc[]
 .request-body
@@ -213,6 +247,8 @@ include::{snippets}/delete-answer/response-body.adoc[]
 === 질문글 추천 UP
 .curl-request
 include::{snippets}/question-vote-up/curl-request.adoc[]
+.path-parameters
+include::{snippets}/question-vote-up-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/question-vote-up/http-request.adoc[]
 .request-body
@@ -226,6 +262,8 @@ include::{snippets}/question-vote-up/response-body.adoc[]
 === 질문글 추천 DOWN
 .curl-request
 include::{snippets}/question-vote-down/curl-request.adoc[]
+.path-parameters
+include::{snippets}/question-vote-down-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/question-vote-down/http-request.adoc[]
 .request-body
@@ -239,6 +277,8 @@ include::{snippets}/question-vote-down/response-body.adoc[]
 === 답변글 추천 UP
 .curl-request
 include::{snippets}/answer-vote-up/curl-request.adoc[]
+.path-parameters
+include::{snippets}/answer-vote-up-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/answer-vote-up/http-request.adoc[]
 .request-body
@@ -252,6 +292,8 @@ include::{snippets}/answer-vote-up/response-body.adoc[]
 === 답변글 추천 DOWN
 .curl-request
 include::{snippets}/answer-vote-down/curl-request.adoc[]
+.path-parameters
+include::{snippets}/answer-vote-down-address/path-parameters.adoc[]
 .http-request
 include::{snippets}/answer-vote-down/http-request.adoc[]
 .request-body

@@ -1,8 +1,9 @@
 [source,bash]
 ----
 $ echo '{
+  "questionId" : 1,
   "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
-}' | http POST 'http://localhost:8080/answer?_csrf=fee070db-1bf9-4fcf-9800-f244f83bf719' \
+}' | http POST 'http://localhost:8080/answer' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json'
 ----

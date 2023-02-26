@@ -1,6 +1,10 @@
 |===
 |Path|Type|Description
 
+|`+questionId+`
+|`+Number+`
+|답변작성하는 질문글 식별자
+
 |`+content+`
 |`+Array+`
 |답변글 본문(LIST)

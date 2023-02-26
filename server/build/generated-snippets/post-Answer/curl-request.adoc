@@ -1,9 +1,10 @@
 [source,bash]
 ----
-$ curl 'http://localhost:8080/answer?_csrf=fee070db-1bf9-4fcf-9800-f244f83bf719' -i -X POST \
+$ curl 'http://localhost:8080/answer' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -d '{
+  "questionId" : 1,
   "content" : [ "답변글 내용 List 예시 1번", "답변글 내용 List 예시 2번", "답변글 내용 List 예시 3번" ]
 }'
 ----

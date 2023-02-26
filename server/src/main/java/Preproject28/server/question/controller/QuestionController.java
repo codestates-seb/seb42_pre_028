@@ -83,8 +83,14 @@ public class QuestionController {
         //다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
     }
 
+    /**
+     * 답변 채택기능
+     * @param questionId = 질문글 식별자
+     * @param answerId = 답변글 식별자
+     * @return ResponseEntity
+     */
     @PostMapping("{question-id}/adopt-answer/{answer-id}")
-    public ResponseEntity<?> adoptAnswer(@PathVariable("question-id") long questionId, @PathVariable("answer-id") long answerId) {
+    public ResponseEntity<?> adoptAnswerToQuestion(@PathVariable("question-id") long questionId, @PathVariable("answer-id") long answerId) {
         //질문글 등록한사람 본인이 답변채택 할수있어야함.
         //질문자 확인
         //답변채택
@@ -93,7 +99,8 @@ public class QuestionController {
         String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
         Member member = memberService.findMemberByEmail(loginEmail);
         Answer answer = answerService.findAnswer(answerId);
-        Question question = questionService.adoptAnswer(questionId, answer, member);
+        questionService.adoptAnswer(questionId, answer, member);
+        Question question = questionService.findQuestion(questionId);
         QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
