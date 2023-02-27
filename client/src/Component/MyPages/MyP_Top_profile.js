@@ -1,7 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   margin: 0px;
@@ -49,6 +49,20 @@ const BtnContainer = styled.div`
 `;
 
 function MyPTProfile() {
+  const userDataState = useSelector((state) => state.userData);
+  const logState = useSelector((state) => state.log);
+
+  let today = new Date();
+  let elapsedDay;
+  if (logState.value === 1) {
+    let created = userDataState.createdAt.slice(0, 10);
+    created = new Date(created);
+    console.log(created);
+    elapsedDay = Math.trunc(
+      (today.getTime() - created.getTime()) / (1000 * 60 * 60 * 24) + 1
+    );
+  }
+
   return (
     <React.Fragment>
       <Container>
@@ -63,15 +77,25 @@ function MyPTProfile() {
             </Link>
           </ProfileImg>
           <UserData>
-            <div className="user_name">user name</div>
+            {userDataState.displayName && logState.value === 1 ? (
+              <div className="user_name">{userDataState.displayName}</div>
+            ) : (
+              <div className="user_name">user name</div>
+            )}
             <UserLogUl>
-              <UserLogLi>(icon) Member for 6 Days</UserLogLi>
+              {userDataState.createdAt && logState.value === 1 ? (
+                <UserLogLi>(icon) Member for {elapsedDay} Days</UserLogLi>
+              ) : (
+                <UserLogLi>(icon) Member for ? Days</UserLogLi>
+              )}
               <UserLogLi>(icon) Last seen this week</UserLogLi>
               <UserLogLi>(icon) Visited 4 days, 1 consecutive</UserLogLi>
             </UserLogUl>
           </UserData>
           <BtnContainer>
-            <button>Edit profile</button>
+            <Link to="/mypage/useredit">
+              <button>Edit profile</button>
+            </Link>
             <button>Network profile</button>
           </BtnContainer>
         </Content>

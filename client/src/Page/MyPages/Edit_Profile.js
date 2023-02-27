@@ -44,26 +44,28 @@ const Title = styled.div`
 function EditProfile() {
   const [displayName, setDisplayName] = useState(null);
   const [password, setPassword] = useState(null);
-  const memberIdState = useSelector((state) => state.userData.memberId);
+  const userDataState = useSelector((state) => state.userData);
 
   const submitHandler = () => {
-    const editData = {
-      displayName: displayName,
-      password: password,
-    };
-
-    console.log(editData);
-    console.log(memberIdState.memberId);
+    const accessToken = sessionStorage.getItem('Authorization');
+    const editData = {};
+    // displayName 또는 password 데이터가 입력되지 않은 경우 editData 객체에 포함시키지 않음
+    if (displayName) {
+      editData.displayName = displayName;
+    } else if (password) {
+      editData.password = password;
+    }
 
     fetch(
-      // 질문 2 : editData의 일부 key의 값이 null로 들어간다면 서버에는 데이터가 어떻게 저장되는가?
-      // ㄴ 테스트 결과 : 빈 데이터는 edit 객체에 포함시키지 않도록 구현해야함
-      `http://13.125.1.215:8080/members/${memberIdState.memberId}`,
+      // 확인하기 : 응답메시지가 오지 않음
+      // 응답메시지가 오면 userdata 상태를 업데이트 하는 코드 추가해야 함
+      `http://13.125.1.215:8080/members/${userDataState.memberId}`,
       {
         credentials: 'include',
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: accessToken,
         },
         body: JSON.stringify(editData),
       }

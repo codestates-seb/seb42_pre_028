@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../features/log/logSlice';
-// eslint-disable-next-line no-unused-vars
 import { saveData } from '../features/userData/userDataSlice';
 
 const Content = styled.div`
@@ -202,15 +201,6 @@ function LogIn() {
       password: userPW,
     };
 
-    // 테스트용 코드
-    // 로그인 버튼을 클릭하면 state의 value 값이 true로 변하고
-    // state의 value 값이 true일 경우 로그인 성공 메시지를 출력 후 마이페이지로 이동하게 함.
-    // dispatch(login(state));
-    // if (state.value === true) {
-    //   alert('로그인 성공');
-    //   navigate('/mypage/activity', { replace: true });
-    // }
-
     fetch(`http://13.125.1.215:8080/auth/login`, {
       credentials: 'include',
       method: 'POST',
@@ -237,13 +227,11 @@ function LogIn() {
               return res.json();
             })
             .then((data) => {
-              console.log(data.memberId);
-              console.log(userDataState);
-              dispatch(saveData(userDataState, data.memberId));
-              console.log(userDataState);
+              let memberdata = data.data;
+              dispatch(saveData(memberdata));
+              console.log(`userDataState : ${userDataState}`);
             });
 
-          localStorage.setItem('Login', 1);
           dispatch(login(state));
           alert('로그인 성공!!');
           navigate('/mypage/activity', { replace: true });
