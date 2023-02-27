@@ -55,6 +55,7 @@ function MyPTProfile() {
   let today = new Date();
   let elapsedDay;
   if (logState.value === 1) {
+    console.log(userDataState);
     let created = userDataState.createdAt.slice(0, 10);
     created = new Date(created);
     console.log(created);

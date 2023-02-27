@@ -230,11 +230,11 @@ function LogIn() {
               let memberdata = data.data;
               dispatch(saveData(memberdata));
               console.log(`userDataState : ${userDataState}`);
-            });
 
-          dispatch(login(state));
-          alert('로그인 성공!!');
-          navigate('/mypage/activity', { replace: true });
+              dispatch(login(state));
+              alert('로그인 성공!!');
+              navigate('/mypage/activity', { replace: true });
+            });
         } else {
           alert('아이디와 비밀번호를 확인해주세요');
         }

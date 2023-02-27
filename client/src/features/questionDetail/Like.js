@@ -8,16 +8,26 @@ const QuestionLikeContainer = styled.div`
   align-items: center;
   gap: 0.7rem;
 `;
+const UpButton = styled.button`
+  pointer-events: ${(props) => (props.bState === 'DOWN' ? 'none' : 'all')};
+  background-color: ${(props) => (props.bState === 'UP' ? '#f48224' : 'none')};
+`;
+
+const DownButton = styled.button`
+  pointer-events: ${(props) => (props.bState === 'UP' ? 'none' : 'all')};
+  background-color: ${(props) =>
+    props.bState === 'DOWN' ? '#f48224' : 'none'};
+`;
 
 // eslint-disable-next-line react/prop-types
 function Like({ vote }) {
   const { id } = useParams();
-
+  const [bState, setBstate] = useState('NONE');
   const [curVote, setCurVote] = useState(vote);
   const accessToken = localStorage.getItem('Authorization');
 
   const voteUpHandler = () => {
-    fetch(`https://8b90-112-156-175-230.jp.ngrok.io/question-vote/${id}/up`, {
+    fetch(`http://13.125.1.215:8080/question-vote/${id}/up`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -28,8 +38,8 @@ function Like({ vote }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        // window.location.reload();
-        setCurVote(data.questionVoteTotalCount);
+        setCurVote(data.data.questionVoteTotalCount);
+        setBstate(data.data.voteStatus);
       })
       .catch((err) => {
         console.log(err);
@@ -37,7 +47,7 @@ function Like({ vote }) {
   };
 
   const voteDownHandler = () => {
-    fetch(`https://8b90-112-156-175-230.jp.ngrok.io/question-vote/${id}/down`, {
+    fetch(`http://13.125.1.215:8080/question-vote/${id}/down`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -48,7 +58,8 @@ function Like({ vote }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setCurVote(data.questionVoteTotalCount);
+        setCurVote(data.data.questionVoteTotalCount);
+        setBstate(data.data.voteStatus);
       })
       .catch((err) => {
         console.log(err);
@@ -57,11 +68,13 @@ function Like({ vote }) {
 
   return (
     <QuestionLikeContainer>
-      <button onClick={voteUpHandler}>上</button>
+      <UpButton bState={bState} onClick={voteUpHandler}>
+        上
+      </UpButton>
       <div>{curVote}</div>
-      <button onClick={voteDownHandler}>下</button>
-      <button>B</button>
-      <button>A</button>
+      <DownButton bState={bState} onClick={voteDownHandler}>
+        下
+      </DownButton>
     </QuestionLikeContainer>
   );
 }

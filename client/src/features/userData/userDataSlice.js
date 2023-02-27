@@ -15,6 +15,7 @@ export const userDataSlice = createSlice({
       state.displayName = action.payload.displayName;
       state.email = action.payload.email;
       state.createdAt = action.payload.createdAt;
+
       sessionStorage.setItem('memberId', state.memberId);
       sessionStorage.setItem('displayName', state.displayName);
       sessionStorage.setItem('email', state.email);

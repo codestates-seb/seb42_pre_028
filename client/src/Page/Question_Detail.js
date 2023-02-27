@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Like from '../features/questionDetail/Like';
 import Author from '../features/questionDetail/Author';
 import Preview from '../features/questionDetail/Preview';
@@ -11,7 +10,6 @@ import ContentRender from '../features/questionDetail/ContentRender';
 import Footer from '../Component/Footer';
 import AnswerLike from '../features/questionDetail/AnswerLike';
 import useGetFetch from '../Util/useGetFetch';
-import { dummyData } from '../dummyData';
 
 const Container = styled.div`
   display: flex;
@@ -88,6 +86,7 @@ const QuestionContainer = styled.div`
 `;
 
 const QuestionContentContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -155,14 +154,44 @@ const YourAnswerContainer = styled.div`
 
 function Question_Detail() {
   const { id } = useParams(); // questionId
-  const [question, isPending, error] = useGetFetch(
-    `http://13.125.1.215:8080/question/${id}`
-  );
+  const [question, setData] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
+
   const tag = [123, 345, 5125];
-  console.log(question);
+
   const log = useSelector((state) => state.log.value);
   const [content, setContent] = useState('');
+  const [adoptedId, setAdoptedId] = useState(0);
 
+  const accessToken = localStorage.getItem('Authorization');
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(`http://13.125.1.215:8080/question/${id}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw Error('could not fetch the data for that resource');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setIsPending(false);
+          setData(data);
+          setError(null);
+          console.log(data);
+          setAdoptedId(
+            ...data.data.answers
+              .filter((answer) => answer.adoptStatus === 'TRUE')
+              .map((answer) => answer.answerId)
+          );
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }, 300);
+  }, []);
   const keyDownHandler = (e) => {
     if (e.target.selectionStart === e.target.selectionEnd) return;
     let prevText = e.target.value.slice(0, e.target.selectionStart);
@@ -203,24 +232,23 @@ function Question_Detail() {
     }
   };
 
-  const postHandler = () => {
+  const answerPostHandler = () => {
     const splitContent = content.split('\n');
-
     fetch('http://13.125.1.215:8080/answer', {
       credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
       body: JSON.stringify({
-        answerId: question.answers.length + 1,
+        questionId: question.data.questionId,
         content: splitContent,
-        memberId: question.member.memberId,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        window.location.reload();
       });
   };
   return (
@@ -251,23 +279,20 @@ function Question_Detail() {
               <QuestionContainer>
                 <Like vote={question.data.voteCount} />
                 <QuestionContentContainer>
-                  {/* qContent = question.data.problemBody */}
-                  <ContentRender qContent={['problemBody']} />
-                  {/* qContent = question.data.expectingBody */}
-                  <ContentRender qContent={['expectingBody']} />
+                  <ContentRender qContent={question.data.problemBody} />
+                  <ContentRender qContent={question.data.expectingBody} />
                   <TagContainer>
                     {
                       //question.tags
-                      tag.map((el, index) => {
+                      question.data.tag.map((el, index) => {
                         return <TagSpan key={index}>{el}</TagSpan>;
                       })
                     }
                   </TagContainer>
                   <Author
                     questionId={id}
-                    //question.author
                     memberId={question.data.member.memberId}
-                    name={question.data.member.name}
+                    name={question.data.member.displayName}
                     answered={345}
                     avatar={'img'}
                   />
@@ -277,17 +302,25 @@ function Question_Detail() {
                 <p>{question.data.answers.length} Answer</p>
                 {
                   // question.answer.map
-                  question.data.answers.map((el, index) => {
+                  question.data.answers.map((answer, index) => {
                     return (
                       <AnswerColumContainer key={index}>
                         <AnswerRowContainer>
-                          <AnswerLike id={el.id} vote={el.vote} />
-                          <ContentRender qContent={el.answerContent} />
+                          <AnswerLike
+                            adoptedId={adoptedId}
+                            setAdoptedId={setAdoptedId}
+                            memberId={question.data.member.memberId}
+                            answerId={answer.answerId}
+                            vote={answer.voteCount}
+                          />
+                          <ContentRender qContent={answer.content} />
                         </AnswerRowContainer>
                         <Author
-                          name={el.author.name}
-                          answered={el.author.answered}
-                          avatar={el.author.avatar}
+                          answerId={answer.answerId}
+                          memberId={answer.member.memberId}
+                          name={answer.member.displayName}
+                          answered={345}
+                          avatar={'img'}
                         />
                       </AnswerColumContainer>
                     );
@@ -305,7 +338,9 @@ function Question_Detail() {
                     onKeyDown={keyDownHandler}
                   />
                   <Preview content={content} />
-                  <AskButton onClick={postHandler}>Post Your Answer</AskButton>
+                  <AskButton onClick={answerPostHandler}>
+                    Post Your Answer
+                  </AskButton>
                 </YourAnswerContainer>
               ) : null}
             </Mainbar>

@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const QuestionLikeContainer = styled.div`
   display: flex;
@@ -9,12 +11,34 @@ const QuestionLikeContainer = styled.div`
   gap: 0.7rem;
 `;
 
-// eslint-disable-next-line react/prop-types
-function AnswerLike({ vote, id }) {
+const UpButton = styled.button`
+  pointer-events: ${(props) => (props.bState === 'DOWN' ? 'none' : 'all')};
+  background-color: ${(props) => (props.bState === 'UP' ? '#f48224' : 'none')};
+`;
+
+const DownButton = styled.button`
+  pointer-events: ${(props) => (props.bState === 'UP' ? 'none' : 'all')};
+  background-color: ${(props) =>
+    props.bState === 'DOWN' ? '#f48224' : 'none'};
+`;
+const AdoptButton = styled.button`
+  display: ${(props) =>
+    props.memberId === Number(sessionStorage.getItem('memberId'))
+      ? 'block'
+      : 'none'};
+  background-color: ${(props) =>
+    props.adoptedId === props.answerId ? '#437b55' : 'none'};
+  color: ${(props) => (props.adoptedId === props.answerId ? 'white' : 'none')};
+`;
+function AnswerLike({ vote, answerId, memberId, adoptedId, setAdoptedId }) {
+  const { id } = useParams();
+  const [bState, setBstate] = useState('NONE');
   const [curVote, setCurVote] = useState(vote);
+
   const accessToken = localStorage.getItem('Authorization');
+
   const voteUpHandler = () => {
-    fetch(`https://8b90-112-156-175-230.jp.ngrok.io/answer-vote/${id}/up`, {
+    fetch(`http://13.125.1.215:8080/answer-vote/${answerId}/up`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -25,12 +49,13 @@ function AnswerLike({ vote, id }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setCurVote(data.answerVoteTotalCount);
+        setCurVote(data.data.answerVoteTotalCount);
+        setBstate(data.data.voteStatus);
       });
   };
 
   const voteDownHandler = () => {
-    fetch(`https://8b90-112-156-175-230.jp.ngrok.io/answer-vote/${id}/down`, {
+    fetch(`http://13.125.1.215:8080/answer-vote/${answerId}/down`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -41,17 +66,47 @@ function AnswerLike({ vote, id }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setCurVote(data.answerVoteTotalCount);
+        setCurVote(data.data.answerVoteTotalCount);
+        setBstate(data.data.voteStatus);
+      });
+  };
+
+  const adoptHandler = () => {
+    fetch(`http://13.125.1.215:8080/question/${id}/adopt-answer/${answerId}`, {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: accessToken,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAdoptedId(
+          ...data.data.answers
+            .filter((answer) => answer.adoptStatus === 'TRUE')
+            .map((answer) => answer.answerId)
+        );
       });
   };
 
   return (
     <QuestionLikeContainer>
-      <button onClick={voteUpHandler}>上</button>
+      <UpButton bState={bState} onClick={voteUpHandler}>
+        上
+      </UpButton>
       <div>{curVote}</div>
-      <button onClick={voteDownHandler}>下</button>
-      <button>B</button>
-      <button>A</button>
+      <DownButton bState={bState} onClick={voteDownHandler}>
+        下
+      </DownButton>
+      <AdoptButton
+        answerId={answerId}
+        adoptedId={adoptedId}
+        memberId={memberId}
+        onClick={adoptHandler}
+      >
+        Adopt
+      </AdoptButton>
     </QuestionLikeContainer>
   );
 }

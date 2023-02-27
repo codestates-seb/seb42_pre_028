@@ -74,9 +74,11 @@ const AskButton = styled.button`
 `;
 
 const QuestionDiv = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
 `;
 
 const ArrayDiv = styled.div`
@@ -136,7 +138,7 @@ function Questions_Page() {
           setIsPending(false);
           setError(err.message);
         });
-    }, 500);
+    }, 300);
   }, [page, pageCnt]);
 
   const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered', 'More'];

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: left;
   padding: 1rem;
   border-top: 0.5px solid gray;
 `;
@@ -44,6 +44,12 @@ const AuthorDiv = styled.div`
   margin-bottom: 1rem;
   gap: 0.3rem;
 `;
+const AnswerBox = styled.div`
+  padding: 0.2rem;
+  border: ${(props) => (props.adopted ? '1px solid green' : 'none')};
+  color: ${(props) => (props.adopted ? 'green' : 'black')};
+  gap: 0.5rem;
+`;
 
 function Tag({ tag }) {
   return <button>{tag}</button>;
@@ -52,22 +58,22 @@ function Tag({ tag }) {
 function Question({ question }) {
   const date = new Date();
   const tag = ['123', '456', '789'];
+
   return (
     <Container>
       <ColumDiv>
         <RowDiv>
-          <span>{question.voteCount}</span>
-          <span>vote</span>
+          <span>{question.voteCount} vote</span>
         </RowDiv>
 
         <RowDiv>
-          {/* 답변 수 - 수정 예정 */}
-          <span>{0}</span>
-          <span>answer</span>
+          {/* question.adoptedAnswer */}
+          <AnswerBox adopted={1}>
+            <span>{question.answerCount} answer</span>
+          </AnswerBox>
         </RowDiv>
         <RowDiv>
-          <span>{question.viewCount}</span>
-          <span>views</span>
+          <span>{question.viewCount} views</span>
         </RowDiv>
       </ColumDiv>
 
@@ -75,8 +81,7 @@ function Question({ question }) {
         <H3>
           <Link to={`/questions/${question.questionId}`}>{question.title}</Link>
         </H3>
-        {/* question.plobelmBody[0] */}
-        <div>{'title'}</div>
+        <div>{question.problemBody[0]}</div>
         <ColumDiv>
           <TagDiv>
             {tag.map((el, index) => {

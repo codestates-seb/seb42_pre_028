@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Question from '../Component/Question';
 import { useState } from 'react';
 import Pagination from '../Component/Pagination';
-import { dummyData } from '../dummyData';
 import { Link } from 'react-router-dom';
 import Footer from '../Component/Footer';
 import useGetFetch from '../Util/useGetFetch';
@@ -77,9 +76,11 @@ const AskButton = styled.button`
 `;
 
 const QuestionDiv = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
 `;
 
 const ArrayDiv = styled.div`
