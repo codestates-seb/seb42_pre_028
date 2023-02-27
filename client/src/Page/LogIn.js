@@ -229,7 +229,7 @@ function LogIn() {
             .then((data) => {
               let memberdata = data.data;
               dispatch(saveData(memberdata));
-              console.log(`userDataState : ${userDataState}`);
+              console.log(userDataState);
 
               dispatch(login(state));
               alert('로그인 성공!!');

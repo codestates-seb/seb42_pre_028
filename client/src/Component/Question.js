@@ -67,7 +67,7 @@ function Question({ question }) {
         </RowDiv>
 
         <RowDiv>
-          {/* question.adoptedAnswer */}
+          {/* question.adoptedAnswerId */}
           <AnswerBox adopted={1}>
             <span>{question.answerCount} answer</span>
           </AnswerBox>
