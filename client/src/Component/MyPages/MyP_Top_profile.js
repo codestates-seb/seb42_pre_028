@@ -52,16 +52,15 @@ function MyPTProfile() {
   const userDataState = useSelector((state) => state.userData);
   const logState = useSelector((state) => state.log);
 
-  // let today = new Date();
-  let elapsedDay = 6;
-  // if (logState.value === 1) {
-  //   let created = userDataState.createdAt.slice(0, 10);
-  //   created = new Date(created);
-  //   console.log(created);
-  //   elapsedDay = Math.trunc(
-  //     (today.getTime() - created.getTime()) / (1000 * 60 * 60 * 24) + 1
-  //   );
-  // }
+  let elapsedDay = '?';
+  if (logState.value === 1) {
+    let today = new Date();
+    let created = userDataState.createdAt.slice(0, 10);
+    created = new Date(created);
+    elapsedDay = Math.trunc(
+      (today.getTime() - created.getTime()) / (1000 * 60 * 60 * 24)
+    );
+  }
 
   return (
     <React.Fragment>
@@ -77,13 +76,13 @@ function MyPTProfile() {
             </Link>
           </ProfileImg>
           <UserData>
-            {userDataState.displayName && logState.value === 1 ? (
+            {logState.value === 1 ? (
               <div className="user_name">{userDataState.displayName}</div>
             ) : (
               <div className="user_name">user name</div>
             )}
             <UserLogUl>
-              {userDataState.createdAt && logState.value === 1 ? (
+              {logState.value === 1 ? (
                 <UserLogLi>(icon) Member for {elapsedDay} Days</UserLogLi>
               ) : (
                 <UserLogLi>(icon) Member for ? Days</UserLogLi>

@@ -77,7 +77,7 @@ function DeleteProfile() {
       },
     })
       .then((res) => {
-        // 확인하기 : 삭제는 되는 것 같은데 응답이 304로 옴
+        // 확인하기 : 삭제 후 쿼리 GET 요청이 자동으로 이루어지며 페이지가 해당 주소로 이동됨; 왜?
         if (res.ok || res.status === 304) {
           let data = res.json();
           console.log(data);
@@ -86,7 +86,7 @@ function DeleteProfile() {
           dispatch(deleteData());
           dispatch(logout(state));
           alert('회원정보를 삭제하고 로그아웃하였습니다.');
-          navigate('/');
+          navigate('/', { replace: true });
         } else {
           alert('회원정보 삭제 실패');
         }

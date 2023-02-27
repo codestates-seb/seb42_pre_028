@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { saveData } from '../../features/userData/userDataSlice';
 
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
@@ -47,7 +46,6 @@ function EditProfile() {
   const [displayName, setDisplayName] = useState(null);
   const [password, setPassword] = useState(null);
   const userDataState = useSelector((state) => state.userData);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const submitHandler = () => {
@@ -74,12 +72,12 @@ function EditProfile() {
           return res.json();
         } else {
           alert('회원정보 변경 실패');
-          navigate('/mypage/useredit');
         }
       })
       .then((data) => {
         dispatch(saveData(data.data));
         alert('회원정보를 변경하였습니다.');
+        window.location.reload('/mypage/useredit');
       })
       .catch(() => alert('에러 발생'));
   };
