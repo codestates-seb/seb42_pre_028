@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Preview from '../features/questionDetail/Preview';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const UpdateContainer = styled.div`
   display: flex;
@@ -44,6 +44,7 @@ const UpdateButton = styled.button`
 `;
 
 function Question_Update() {
+  const { id } = useParams();
   const [title, setTitle] = useState('question.title');
   const [content, setContent] = useState('question.content');
   const navigate = useNavigate();
@@ -90,22 +91,19 @@ function Question_Update() {
   };
 
   const updateHandler = () => {
-    /*useEffect(() => {
-      if (state === false) {
-        navigate('/login');
-      }
-    });*/
-    const url = 'http://13.125.1.215:8080/update';
+    const url = `http://13.125.1.215:8080/question/${id}`;
+    const splitContent = content.split('\n');
 
     const questionData = {
+      questionId: id,
       title: title,
-      problemBody: content,
-      expectingBody: content,
-      memberId: 1, // 쿠키에서 멤버 아이디 가져오기   쿠키.memberId
+      problemBody: splitContent,
+      expectingBody: splitContent,
+      tag: [],
     };
 
     fetch(url, {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -114,7 +112,7 @@ function Question_Update() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        navigate(`/update/${data.questionId}`); // 서버로부터 받은 응답 데이터 출력
+        navigate(`/questions/${id}`); // 서버로부터 받은 응답 데이터 출력
       })
       .catch((error) => {
         console.error(error); // 에러 처리

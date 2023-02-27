@@ -155,15 +155,13 @@ const YourAnswerContainer = styled.div`
 
 function Question_Detail() {
   const { id } = useParams(); // questionId
-  const [question, isPending, error] = useGetFetch(`url/question/${id}`);
+  const [question, isPending, error] = useGetFetch(
+    `http://13.125.1.215:8080/question/${id}`
+  );
+  const tag = [123, 345, 5125];
   console.log(question);
-
   const log = useSelector((state) => state.log.value);
   const [content, setContent] = useState('');
-
-  const answerSize = 1; // question.answer.length;
-  const question_memberId = 3; // question.author.id;
-  const memberId = 0;
 
   const keyDownHandler = (e) => {
     if (e.target.selectionStart === e.target.selectionEnd) return;
@@ -208,16 +206,16 @@ function Question_Detail() {
   const postHandler = () => {
     const splitContent = content.split('\n');
 
-    fetch('URL/answer', {
+    fetch('http://13.125.1.215:8080/answer', {
       credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        answerId: answerSize + 1,
+        answerId: question.answers.length + 1,
         content: splitContent,
-        memberId: question_memberId,
+        memberId: question.member.memberId,
       }),
     })
       .then((res) => res.json())
@@ -227,103 +225,95 @@ function Question_Detail() {
   };
   return (
     <div>
-      <Container>
-        <Content>
-          <Mainbar>
-            <TitleContainer>
-              <H2>how redirect user with stripe react component and django</H2>
-              <Link to="/create">
-                <AskButton>Ask Question</AskButton>
-              </Link>
-            </TitleContainer>
-            <TitleStateContainer>
-              <div>
-                <LeftSpan>Asked</LeftSpan> <RightSpan>16 days ago</RightSpan>
-              </div>
-              <div>
-                <LeftSpan>Modified</LeftSpan> <RightSpan>9 days ago</RightSpan>
-              </div>
-              <div>
-                <LeftSpan>Viewed</LeftSpan> <RightSpan>6k times</RightSpan>
-              </div>
-            </TitleStateContainer>
-            <QuestionContainer>
-              <Like
-                vote={
-                  dummyData[id].vote
-                  //question.vote
-                }
-              />
-              <QuestionContentContainer>
-                <ContentRender
-                  qContent={
-                    dummyData[id].content
-                    //question.content
-                  }
-                />
-                <TagContainer>
-                  {
-                    //question.tags
-                    dummyData[id].tags.map((el, index) => {
-                      return <TagSpan key={index}>{el}</TagSpan>;
-                    })
-                  }
-                </TagContainer>
-                <Author
-                  //question.author
-                  memberId={memberId}
-                  name={dummyData[id].author.name}
-                  answered={dummyData[id].author.answered}
-                  avatar={dummyData[id].author.avatar}
-                />
-              </QuestionContentContainer>
-            </QuestionContainer>
-            <AnswerContainer>
-              <p>
+      {isPending ? null : (
+        <Container>
+          <Content>
+            <Mainbar>
+              <TitleContainer>
+                <H2>{question.data.title}</H2>
+                <Link to="/create">
+                  <AskButton>Ask Question</AskButton>
+                </Link>
+              </TitleContainer>
+              <TitleStateContainer>
+                <div>
+                  <LeftSpan>Asked</LeftSpan> <RightSpan>16 days ago</RightSpan>
+                </div>
+                <div>
+                  <LeftSpan>Modified</LeftSpan>{' '}
+                  <RightSpan>9 days ago</RightSpan>
+                </div>
+                <div>
+                  <LeftSpan>Viewed</LeftSpan>{' '}
+                  <RightSpan>{question.data.viewCount} times</RightSpan>
+                </div>
+              </TitleStateContainer>
+              <QuestionContainer>
+                <Like vote={question.data.voteCount} />
+                <QuestionContentContainer>
+                  {/* qContent = question.data.problemBody */}
+                  <ContentRender qContent={['problemBody']} />
+                  {/* qContent = question.data.expectingBody */}
+                  <ContentRender qContent={['expectingBody']} />
+                  <TagContainer>
+                    {
+                      //question.tags
+                      tag.map((el, index) => {
+                        return <TagSpan key={index}>{el}</TagSpan>;
+                      })
+                    }
+                  </TagContainer>
+                  <Author
+                    questionId={id}
+                    //question.author
+                    memberId={question.data.member.memberId}
+                    name={question.data.member.name}
+                    answered={345}
+                    avatar={'img'}
+                  />
+                </QuestionContentContainer>
+              </QuestionContainer>
+              <AnswerContainer>
+                <p>{question.data.answers.length} Answer</p>
                 {
-                  //answerSize
-                  dummyData[id].answer.length
-                }{' '}
-                Answer
-              </p>
-              {
-                // question.answer.map
-                dummyData[id].answer.map((el, index) => {
-                  return (
-                    <AnswerColumContainer key={index}>
-                      <AnswerRowContainer>
-                        <AnswerLike id={el.id} vote={el.vote} />
-                        <ContentRender qContent={el.answerContent} />
-                      </AnswerRowContainer>
-                      <Author
-                        name={el.author.name}
-                        answered={el.author.answered}
-                        avatar={el.author.avatar}
-                      />
-                    </AnswerColumContainer>
-                  );
-                })
-              }
-            </AnswerContainer>
-            {log ? (
-              <YourAnswerContainer>
-                <p>Your Answer</p>
-                <Textarea
-                  value={content}
-                  onChange={(e) => {
-                    setContent(e.target.value);
-                  }}
-                  onKeyDown={keyDownHandler}
-                />
-                <Preview content={content} />
-                <AskButton onClick={postHandler}>Post Your Answer</AskButton>
-              </YourAnswerContainer>
-            ) : null}
-          </Mainbar>
+                  // question.answer.map
+                  question.data.answers.map((el, index) => {
+                    return (
+                      <AnswerColumContainer key={index}>
+                        <AnswerRowContainer>
+                          <AnswerLike id={el.id} vote={el.vote} />
+                          <ContentRender qContent={el.answerContent} />
+                        </AnswerRowContainer>
+                        <Author
+                          name={el.author.name}
+                          answered={el.author.answered}
+                          avatar={el.author.avatar}
+                        />
+                      </AnswerColumContainer>
+                    );
+                  })
+                }
+              </AnswerContainer>
+              {log ? (
+                <YourAnswerContainer>
+                  <p>Your Answer</p>
+                  <Textarea
+                    value={content}
+                    onChange={(e) => {
+                      setContent(e.target.value);
+                    }}
+                    onKeyDown={keyDownHandler}
+                  />
+                  <Preview content={content} />
+                  <AskButton onClick={postHandler}>Post Your Answer</AskButton>
+                </YourAnswerContainer>
+              ) : null}
+            </Mainbar>
 
-          {/* <Sidebar>Sidebar</Sidebar> */}
-        </Content>
-      </Container>
+            {/* <Sidebar>Sidebar</Sidebar> */}
+          </Content>
+        </Container>
+      )}
       <Footer />
     </div>
   );

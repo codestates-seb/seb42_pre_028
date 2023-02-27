@@ -37,7 +37,7 @@ function App() {
             path="/questions/:page/:pageCnt"
             element={<QuestionsPage />}
           ></Route>
-          <Route path="/update" element={<QuestionUpdate />} />
+          <Route path="/update/:id" element={<QuestionUpdate />} />
           {/* <Route path="/search" element={<Search />}></Route> */}
         </Routes>
       </div>

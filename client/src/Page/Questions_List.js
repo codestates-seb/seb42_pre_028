@@ -112,75 +112,67 @@ const PagingButton = styled.button`
 `;
 
 function Questions_List() {
-  const [questions, isPending, error] = useGetFetch(
-    `url/questions/?page=1&&pageSize=5`
+  const [data, isPending, error] = useGetFetch(
+    `http://13.125.1.215:8080/question/?page=0&&size=5`
   );
-  // questions.allQuestionSize : questions 전체 개수
-  // const size = questions.allQuestionSize;
-  const size = dummyData.length;
-  const pageCnt = 5;
-  const currentPage = 1;
-
-  let start = (currentPage - 1) * pageCnt,
-    end = currentPage * pageCnt;
-
-  const renderData = dummyData.filter((el) => el.id >= start && el.id < end);
-
+  console.log(data);
   const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered', 'More'];
 
   return (
     <div>
-      <Container>
-        <Content>
-          <Mainbar>
-            <MainComponent>
-              <H1>All Questions</H1>
-              <Link to="/create">
-                <AskButton>Ask Question</AskButton>
-              </Link>
-            </MainComponent>
-            <MainComponent>
-              <div>{size} questions</div>
-              <RowDiv>
-                <ArrayDiv>
-                  {sortArr.map((el, index) => {
-                    return <ArrayButton key={index}>{el}</ArrayButton>;
+      {isPending ? null : (
+        <Container>
+          <Content>
+            <Mainbar>
+              <MainComponent>
+                <H1>All Questions</H1>
+                <Link to="/create">
+                  <AskButton>Ask Question</AskButton>
+                </Link>
+              </MainComponent>
+              <MainComponent>
+                <div>{data.pageInfo.totalElements} questions</div>
+                <RowDiv>
+                  <ArrayDiv>
+                    {sortArr.map((el, index) => {
+                      return <ArrayButton key={index}>{el}</ArrayButton>;
+                    })}
+                  </ArrayDiv>
+                  <ArrayButton>Filter</ArrayButton>
+                </RowDiv>
+              </MainComponent>
+              <MainComponent>
+                <QuestionDiv>
+                  {data.data.map((obj, index) => {
+                    return <Question key={index} question={obj}></Question>;
                   })}
-                </ArrayDiv>
-                <ArrayButton>Filter</ArrayButton>
-              </RowDiv>
-            </MainComponent>
-            <MainComponent>
-              <QuestionDiv>
-                {renderData.map((obj, index) => {
-                  return <Question key={index} question={obj}></Question>;
-                })}
-              </QuestionDiv>
-            </MainComponent>
-            <RowWrapDiv>
-              <Pagination
-                size={size}
-                pageCnt={pageCnt}
-                currentPage={currentPage}
-              />
-              <RowDiv>
-                <Link to={`/questions/1/5`}>
-                  <PagingButton>5</PagingButton>
-                </Link>
-                <Link to={`/questions/1/10`}>
-                  <PagingButton>10</PagingButton>
-                </Link>
-                <Link to={`/questions/1/15`}>
-                  <PagingButton>15</PagingButton>
-                </Link>
-                per page
-              </RowDiv>
-            </RowWrapDiv>
-          </Mainbar>
+                </QuestionDiv>
+              </MainComponent>
+              <RowWrapDiv>
+                <Pagination
+                  size={data.pageInfo.totalElements}
+                  pageCnt={data.pageInfo.size}
+                  currentPage={data.pageInfo.page}
+                />
+                <RowDiv>
+                  <Link to={`/questions/1/5`}>
+                    <PagingButton>5</PagingButton>
+                  </Link>
+                  <Link to={`/questions/1/10`}>
+                    <PagingButton>10</PagingButton>
+                  </Link>
+                  <Link to={`/questions/1/15`}>
+                    <PagingButton>15</PagingButton>
+                  </Link>
+                  per page
+                </RowDiv>
+              </RowWrapDiv>
+            </Mainbar>
 
-          {/* <Sidebar>Sidebar</Sidebar> */}
-        </Content>
-      </Container>
+            {/* <Sidebar>Sidebar</Sidebar> */}
+          </Content>
+        </Container>
+      )}
       <Footer />
     </div>
   );

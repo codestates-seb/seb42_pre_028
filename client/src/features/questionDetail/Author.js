@@ -9,8 +9,7 @@ const EditA = styled.a`
   color: gray;
   font-size: small;
   text-decoration-line: none;
-  pointer-events: ${(props) =>
-    props.memberId === Number(localStorage.getItem('Login')) ? 'all' : 'none'};
+  pointer-events: ${(props) => (props.memberId === Number() ? 'all' : 'none')};
   cursor: pointer;
 `;
 const AuthorContainer = styled.div`
@@ -19,14 +18,12 @@ const AuthorContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
 const AuthorLeftContainer = styled.div`
   display: flex;
   justify-content: left;
   padding: 0.5rem;
   gap: 0.4rem;
 `;
-
 const AuthorRightContainer = styled.div`
   width: 30%;
   background-color: #d9eaf7;
@@ -42,7 +39,6 @@ const AuthorRightInnerContainer = styled.div`
   justify-content: left;
   gap: 0.5rem;
 `;
-
 const AuthorRightInnerRightContainer = styled.div`
   width: 100%;
   display: flex;
@@ -51,12 +47,12 @@ const AuthorRightInnerRightContainer = styled.div`
   gap: 0.2rem;
 `;
 
-function Author({ memberId, name, answered, avatar }) {
+function Author({ questionId, memberId, name, answered, avatar }) {
   return (
     <AuthorContainer>
       <AuthorLeftContainer>
         <LeftSpan>Share</LeftSpan>
-        <EditA href="/update" memberId={memberId}>
+        <EditA href={`/update/${questionId}`} memberId={memberId}>
           Edit
         </EditA>
         <LeftSpan>Follow</LeftSpan>

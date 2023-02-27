@@ -51,41 +51,43 @@ function Tag({ tag }) {
 
 function Question({ question }) {
   const date = new Date();
-
+  const tag = ['123', '456', '789'];
   return (
     <Container>
       <ColumDiv>
         <RowDiv>
-          <span>{question.vote}</span>
+          <span>{question.voteCount}</span>
           <span>vote</span>
         </RowDiv>
 
         <RowDiv>
-          <span>{question.answer.length}</span>
+          {/* 답변 수 - 수정 예정 */}
+          <span>{0}</span>
           <span>answer</span>
         </RowDiv>
         <RowDiv>
-          <span>{question.views}</span>
+          <span>{question.viewCount}</span>
           <span>views</span>
         </RowDiv>
       </ColumDiv>
 
       <ColumDiv>
         <H3>
-          <Link to={`/questions/${question.id}`}>{question.title}</Link>
+          <Link to={`/questions/${question.questionId}`}>{question.title}</Link>
         </H3>
-        <div>{question.body}</div>
+        {/* question.plobelmBody[0] */}
+        <div>{'title'}</div>
         <ColumDiv>
           <TagDiv>
-            {question.tags.map((tag, index) => {
-              return <Tag key={index} tag={tag} />;
+            {tag.map((el, index) => {
+              return <Tag key={index} tag={el} />;
             })}
           </TagDiv>
           <AuthorDiv>
-            <span>[{question.author.avatar}]</span>
-            <span>{question.author.name}</span>
-            <span>{question.author.answered} answered</span>
-            {Number(date.getSeconds() - Number(question.time.getSeconds()))}
+            {/* <span>{question.member.avatar}</span> */}
+            <span>{question.member.displayName}</span>
+            <span>{question.member.memberId} answered</span>
+            {Number(date.getSeconds())}
             <span>sec ago</span>
           </AuthorDiv>
         </ColumDiv>
