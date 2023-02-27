@@ -8,7 +8,22 @@ import org.mapstruct.Mapper;
 public interface MemberMapper {
     Member memberPostDtoToMember(MemberPostDto memberPostDto);
     Member memberPatchDtoToMember(MemberPatchDto memberPatchDto);
-    MemberInfoResponseDto memberToMemberInfoResponse(Member member);
+    default MemberInfoResponseDto memberToMemberInfoResponse(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
+
+        memberInfoResponseDto.setMemberId( member.getMemberId() );
+        memberInfoResponseDto.setDisplayName( member.getDisplayName() );
+        memberInfoResponseDto.setEmail( member.getEmail() );
+        memberInfoResponseDto.setCreatedAt( member.getCreatedAt() );
+        memberInfoResponseDto.setMyQuestionCount( member.getQuestions().size() ); // 추가
+        memberInfoResponseDto.setMyAnswerCount( member.getAnswers().size() ); // 추가
+
+        return memberInfoResponseDto;
+    }
     MemberQuestionResponseDto memberToMemberQuestionResponse(Member member);
     MemberAnswersResponseDto memberToMemberAnswerResponse(Member member);
 }

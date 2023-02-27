@@ -47,6 +47,7 @@ public class QuestionController {
     }
     @PatchMapping("/{question-id}")
     public ResponseEntity<?> patchQuestion(@PathVariable("question-id") long questionId, @Valid @RequestBody QuestionPatchDto questionPatchDto){
+        // 본인조건확인
         questionPatchDto.setQuestionId(questionId);
         Question question = questionService.updateQuestion(questionMapper.questionPatchDtoToQuestion(questionPatchDto));
         QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
@@ -61,6 +62,7 @@ public class QuestionController {
         Question question = questionService.findQuestion(questionId);
         questionService.setViewCount(question);        //조회 1번당 1씩 올라가게 (임시)
         QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
+
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
@@ -80,7 +82,7 @@ public class QuestionController {
         boolean deleteStatus = questionService.deleteQuestion(questionId, member);
 
         return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
-        //다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
+        //다른테이블과 연관되어있어 삭제시 오류뜸 @cascadeType 어노테이션 처리 필요 -> 자식들 같이삭제할껀지 설정
     }
 
     /**
@@ -104,6 +106,5 @@ public class QuestionController {
         QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
-
     }
 }

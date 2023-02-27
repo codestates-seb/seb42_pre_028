@@ -47,13 +47,11 @@ public class MemberController {
      */
     @DeleteMapping("/{member-id}")
     public ResponseEntity<?> deleteMember(@PathVariable("member-id") long memberId) {
-
-        //삭제 성공하면 304 응답값이 감
+        //삭제 성공하면 304 응답값이 감 -> 성공은했지만 리턴값 필요없을때 가는 코드
         //삭제 실패하면
-        boolean deleteStatus = memberService.deleteMember(memberId);
-
-        return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
-        //테스트시 게시글을 등록한 회원은 삭제할때 다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
+        memberService.deleteMember(memberId);
+        //테스트시 게시글을 등록한 회원은 삭제할때 다른테이블과 연관되어있어 삭제시 오류뜸 @cascadeType 어노테이션 처리 필요
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 
     /**
