@@ -61,7 +61,7 @@ public class MemberControllerTest {
     @Autowired
     private Gson gson;
     private final LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    private final MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com", timeSample);
+    private final MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
 
     private final List<String> contentList = new ArrayList<>();
 
@@ -123,7 +123,7 @@ public class MemberControllerTest {
         String requestJson = gson.toJson(requestPatch);
 
         long memberId = 1L;
-        MemberInfoResponseDto response = new MemberInfoResponseDto(memberId, "홍길동", "ghdrlfehd@gmail.com", timeSample);
+        MemberInfoResponseDto response = new MemberInfoResponseDto();
 
         when(mapper.memberPatchDtoToMember(any())).thenReturn(new Member());
         when(memberService.updateMember(any())).thenReturn(new Member());
@@ -291,7 +291,7 @@ public class MemberControllerTest {
         MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
         String memberEmail = "ghdrlfehd@gmail.com";
-        MemberInfoResponseDto response = new MemberInfoResponseDto(1L, "홍길동", "godalsgh@gmail.com", timeSample);
+        MemberInfoResponseDto response = new MemberInfoResponseDto();
 
         when(memberService.findMemberByEmail(anyString())).thenReturn(new Member());
         when(mapper.memberToMemberInfoResponse(any())).thenReturn(response);
@@ -331,7 +331,7 @@ public class MemberControllerTest {
         //given
         long memberId = 1;
         boolean deleteStatus = true;
-        when(memberService.deleteMember(anyLong())).thenReturn(deleteStatus);
+//        when(memberService.deleteMember(anyLong())).thenReturn(deleteStatus);
         //when
         ResultActions actions = mockMvc.perform(
                 delete("/members/{member-id}/", memberId)

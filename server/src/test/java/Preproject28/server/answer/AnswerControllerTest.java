@@ -73,7 +73,7 @@ public class AnswerControllerTest {
 
     public static final LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     public static final List<String> contentList = new ArrayList<>();
-    private static final MemberInfoResponseDto member = new MemberInfoResponseDto(1L, "홍길동", "ghdrlfehd@gmail.com", timeSample);
+    private static final MemberInfoResponseDto member = new MemberInfoResponseDto();
     private static final List<String> tagList = new ArrayList<>();
     private static final AnswerInfoResponseDto response = new AnswerInfoResponseDto();
     private static final QuestionInfoResponseDto question = new QuestionInfoResponseDto();

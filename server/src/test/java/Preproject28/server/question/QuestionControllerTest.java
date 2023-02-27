@@ -70,6 +70,8 @@ public class QuestionControllerTest {
     private QuestionMapper questionMapper;
     @Autowired
     private Gson gson;
+
+    //stub data 정리 ( ResponseDto 들 전체 )
     private static final LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     private static final List<String> contentList = new ArrayList<>();
     private static final List<String> tagList = new ArrayList<>();
@@ -186,14 +188,17 @@ public class QuestionControllerTest {
 //그리고
         actions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("patch-question-address",
-                        pathParameters(
-                                parameterWithName("question-id").description("질문글 식별자")
-                        )
-                ))
+//                .andDo(document("patch-question-address",
+//                        pathParameters(
+//                                parameterWithName("question-id").description("질문글 식별자")
+//                        )
+//                ))
                 .andDo(document("patch-question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문글 식별자")
+                        ),
                         requestFields(
                                 List.of(
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
@@ -216,8 +221,12 @@ public class QuestionControllerTest {
                                         fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("회원 이메일"),
+                                        fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("회원이 작성한 질문글 수"),
+                                        fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("회원이 작성한 답글 수"),
+                                        fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("회원 이미지 URL"),
                                         fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
+                                        fieldWithPath("data.answerCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변글 갯"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("질문글에 달린 답변글 식별자"),
                                         fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.ARRAY).description("질문글에 달린 답변글 본문"),
@@ -228,6 +237,9 @@ public class QuestionControllerTest {
                                         fieldWithPath("data.answers.[].member.memberId").type(JsonFieldType.NUMBER).description("질문글에 달린 답변글 작성회원 식별자"),
                                         fieldWithPath("data.answers.[].member.displayName").type(JsonFieldType.STRING).description("질문글에 달린 답변글 작성회원 이름"),
                                         fieldWithPath("data.answers.[].member.email").type(JsonFieldType.STRING).description("질문글에 달린 답변글 작성회원 이메일"),
+                                        fieldWithPath("data.answers.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("회원이 작성한 질문글 수"),
+                                        fieldWithPath("data.answers.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("회원이 작성한 답글 수"),
+                                        fieldWithPath("data.answers.[].member.iconImageUrl").type(JsonFieldType.STRING).description("회원 이미지 URL"),
                                         fieldWithPath("data.answers.[].member.createdAt").type(JsonFieldType.STRING).description("질문글에 달린 답변글 작성회원 생성시간")
                                 )
                         )
@@ -238,6 +250,9 @@ public class QuestionControllerTest {
     public void getQuestionTest() throws Exception {
 
         long questionId = 1L;
+        MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
+        memberInfoResponseDto.setMemberId(1L);
+        response.setMember(memberInfoResponseDto);
 
         when(questionService.findQuestion(anyInt())).thenReturn(new Question());
         when(questionMapper.questionToQuestionResponseDto(any())).thenReturn(response);

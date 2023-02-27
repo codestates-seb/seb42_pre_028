@@ -37,9 +37,12 @@ default QuestionResponseDto questionToQuestionResponseDto(Question question){
     questionResponseDto.setModifiedAt( question.getModifiedAt() );
     questionResponseDto.setViewCount( (int) question.getViewCount() );
     questionResponseDto.setVoteCount( (int) question.getVoteCount() );
-    questionResponseDto.setAnswerCount(question.getAnswers().size());
+    questionResponseDto.setAnswerCount(question.getAnswers().size());  // 엔서카운트 추가
     questionResponseDto.setMember(memberToMemberInfoResponseDto(question.getMember() ) );
     questionResponseDto.setAnswers(answerListToAnswerInfoResponseDtoList(question.getAnswers()));
+
+
+
     List<String> list3 = question.getTag();
     if ( list3 != null ) {
         questionResponseDto.setTag( new ArrayList<String>( list3 ) );

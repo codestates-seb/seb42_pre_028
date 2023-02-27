@@ -55,7 +55,9 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests()
 //                .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll() // 얘는 필요없음
+                ///{memberEmail}/info GET 요청을 [권한(관리자,유저) 있는사람만]
                 .anyRequest().permitAll();
+        // [관리자/회원] / 비회원 어떤요청은 비회원은 못하게 하거나 하는것들 체크  / 권한 나눠야 하는게있나?
 
         return http.build();
     }

@@ -1,7 +1,9 @@
 package Preproject28.server.member.mapper;
 
+import Preproject28.server.answerVote.entity.AnswerVote;
 import Preproject28.server.member.dto.*;
 import Preproject28.server.member.entity.Member;
+import Preproject28.server.questionVote.entity.QuestionVote;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -24,6 +26,8 @@ public interface MemberMapper {
 
         return memberInfoResponseDto;
     }
+    LoginUserInfoResponseDto memberToLogInUserInfoResponseDto(Member member);
+
     MemberQuestionResponseDto memberToMemberQuestionResponse(Member member);
     MemberAnswersResponseDto memberToMemberAnswerResponse(Member member);
 }

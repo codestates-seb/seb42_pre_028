@@ -37,7 +37,6 @@ public class Question {
     private LocalDateTime modifiedAt;
 
     private long viewCount;
-
     private long voteCount;
 
     @ElementCollection(targetClass=String.class)
@@ -54,6 +53,5 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     private long adoptAnswerId;
-
 
 }

@@ -2,6 +2,7 @@ package Preproject28.server.answerVote.entity;
 
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class AnswerVote {
     private Answer answer;
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @JsonBackReference
     private Member member;
 
     public AnswerVote(Answer answer, Member member, VoteStatus voteStatus) {

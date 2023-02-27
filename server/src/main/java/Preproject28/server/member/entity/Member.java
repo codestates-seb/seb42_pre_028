@@ -1,7 +1,9 @@
 package Preproject28.server.member.entity;
 
 import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answerVote.entity.AnswerVote;
 import Preproject28.server.question.entity.Question;
+import Preproject28.server.questionVote.entity.QuestionVote;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +43,12 @@ public class Member {
     @OneToMany(mappedBy = "member")
     @JsonManagedReference
     private List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    @JsonManagedReference
+    private List<QuestionVote> questionVotes = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    @JsonManagedReference
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
 }
 
