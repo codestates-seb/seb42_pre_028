@@ -2,11 +2,9 @@
 import styled from 'styled-components';
 import Question from '../Component/Question';
 import Pagination from '../Component/Pagination';
-import { dummyData } from '../dummyData';
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../Component/Footer';
-import useGetFetch from '../Util/useGetFetch';
-
+import { useEffect, useState } from 'react';
 const Container = styled.div`
   display: flex;
   justify-content: right;
@@ -113,69 +111,92 @@ const PagingButton = styled.button`
 function Questions_Page() {
   const { page, pageCnt } = useParams();
 
-  const [paginQuestion, isPending, error] = useGetFetch(
-    `url/questions?page=${page}&&pageSize=${pageCnt}`
-  );
+  const [pageQuestion, setData] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
 
-  const size = dummyData.length;
-
-  let start = (page - 1) * pageCnt,
-    end = page * pageCnt;
-
-  const renderData = dummyData.filter((el) => el.id >= start && el.id < end);
+  useEffect(() => {
+    setIsPending(true);
+    setTimeout(() => {
+      fetch(
+        `http://13.125.1.215:8080/question/?page=${page - 1}&&size=${pageCnt}`
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw Error('could not fetch the data for that resource');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setIsPending(false);
+          setData(data);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }, 500);
+  }, [page, pageCnt]);
 
   const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered', 'More'];
 
   return (
     <div>
-      <Container>
-        <Content>
-          <Mainbar>
-            <MainComponent>
-              <H1>All Questions</H1>
-              <Link to="/create">
-                <AskButton>Ask Question</AskButton>
-              </Link>
-            </MainComponent>
-            <MainComponent>
-              <div>{size} questions</div>
-              <RowDiv>
-                <ArrayDiv>
-                  {sortArr.map((el, index) => {
-                    return <ArrayButton key={index}>{el}</ArrayButton>;
+      {isPending ? null : (
+        <Container>
+          <Content>
+            <Mainbar>
+              <MainComponent>
+                <H1>All Questions</H1>
+                <Link to="/create">
+                  <AskButton>Ask Question</AskButton>
+                </Link>
+              </MainComponent>
+              <MainComponent>
+                <div>{pageQuestion.pageInfo.totalElements} questions</div>
+                <RowDiv>
+                  <ArrayDiv>
+                    {sortArr.map((el, index) => {
+                      return <ArrayButton key={index}>{el}</ArrayButton>;
+                    })}
+                  </ArrayDiv>
+                  <ArrayButton>Filter</ArrayButton>
+                </RowDiv>
+              </MainComponent>
+              <MainComponent>
+                <QuestionDiv>
+                  {pageQuestion.data.map((obj, index) => {
+                    return <Question key={index} question={obj}></Question>;
                   })}
-                </ArrayDiv>
-                <ArrayButton>Filter</ArrayButton>
-              </RowDiv>
-            </MainComponent>
-            <MainComponent>
-              <QuestionDiv>
-                {renderData.map((obj, index) => {
-                  return <Question key={index} question={obj}></Question>;
-                })}
-              </QuestionDiv>
-            </MainComponent>
-            <RowWrapDiv>
-              {/*Pagination : api 문서 완료시 수정 예정 */}
-              <Pagination size={size} currentPage={page} pageCnt={pageCnt} />
-              <RowDiv>
-                <Link to={`/questions/1/5`}>
-                  <PagingButton>5</PagingButton>
-                </Link>
-                <Link to={`/questions/1/10`}>
-                  <PagingButton>10</PagingButton>
-                </Link>
-                <Link to={`/questions/1/15`}>
-                  <PagingButton>15</PagingButton>
-                </Link>
-                per page
-              </RowDiv>
-            </RowWrapDiv>
-          </Mainbar>
+                </QuestionDiv>
+              </MainComponent>
+              <RowWrapDiv>
+                {/*Pagination : api 문서 완료시 수정 예정 */}
+                <Pagination
+                  size={pageQuestion.pageInfo.totalElements}
+                  pageCnt={pageQuestion.pageInfo.size}
+                  currentPage={pageQuestion.pageInfo.page}
+                />
+                <RowDiv>
+                  <Link to={`/questions/1/5`}>
+                    <PagingButton>5</PagingButton>
+                  </Link>
+                  <Link to={`/questions/1/10`}>
+                    <PagingButton>10</PagingButton>
+                  </Link>
+                  <Link to={`/questions/1/15`}>
+                    <PagingButton>15</PagingButton>
+                  </Link>
+                  per page
+                </RowDiv>
+              </RowWrapDiv>
+            </Mainbar>
 
-          {/* <Sidebar>Sidebar</Sidebar> */}
-        </Content>
-      </Container>
+            {/* <Sidebar>Sidebar</Sidebar> */}
+          </Content>
+        </Container>
+      )}
       <Footer />
     </div>
   );
