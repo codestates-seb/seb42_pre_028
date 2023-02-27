@@ -2,9 +2,7 @@ package Preproject28.server.member.mapper;
 
 import Preproject28.server.member.dto.*;
 import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
-import Preproject28.server.member.dto.response.MemberAnswersResponseDto;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
-import Preproject28.server.member.dto.response.MemberQuestionResponseDto;
 import Preproject28.server.member.entity.Member;
 import org.mapstruct.Mapper;
 
@@ -31,6 +29,4 @@ public interface MemberMapper {
     }
     LoginMemberVoteInfo memberToLogInUserInfoResponseDto(Member member);
 
-    MemberQuestionResponseDto memberToMemberQuestionResponse(Member member);
-    MemberAnswersResponseDto memberToMemberAnswerResponse(Member member);
 }

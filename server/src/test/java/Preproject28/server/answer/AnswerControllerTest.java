@@ -8,6 +8,7 @@ import Preproject28.server.answer.dto.AnswerPostDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
+import Preproject28.server.helper.StubData;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
@@ -36,6 +37,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Preproject28.server.helper.StubData.*;
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.ArgumentMatchers.*;
@@ -70,55 +72,21 @@ public class AnswerControllerTest {
     private AnswerMapper answerMapper;
 
 
-    public static final LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    public static final List<String> contentList = new ArrayList<>();
-    private static final MemberInfoResponseDto member = new MemberInfoResponseDto();
-    private static final List<String> tagList = new ArrayList<>();
-    private static final AnswerInfoResponseDto response = new AnswerInfoResponseDto();
-    private static final QuestionTotalPageResponseDto question = new QuestionTotalPageResponseDto();
-
     @BeforeAll
     public static void init() {
-        contentList.add("답변글 내용 List 예시 1번");
-        contentList.add("답변글 내용 List 예시 2번");
-        contentList.add("답변글 내용 List 예시 3번");
-        tagList.add("Tag List 형식예시 (1)");
-        tagList.add("Tag List 형식예시 (2)");
-        tagList.add("Tag List 형식예시 (3)");
-        //질문 샘플 - 답변 없는것
-        question.setQuestionId(1L);
-        question.setTitle("질문제목");
-        question.setProblemBody(contentList);
-        question.setExpectingBody(contentList);
-        question.setCreatedAt(timeSample);
-        question.setModifiedAt(timeSample);
-        question.setViewCount(1);
-        question.setVoteCount(1);
-        question.setMember(member);
-        question.setTag(tagList);
-
-        response.setAnswerId(1L);
-        response.setQuestionId(question.getQuestionId());
-        response.setMember(member);
-        response.setContent(contentList);
-        response.setVoteCount(1);
-        response.setCreatedAt(timeSample);
-        response.setModifiedAt(timeSample);
-        response.setAdoptStatus(Answer.AdoptStatus.FALSE);
-
+        StubData.init();
     }
     @Test
     @DisplayName("답변글 등록 테스트")
     public void postAnswerTest() throws Exception{
-        AnswerPostDto mockPost = new AnswerPostDto(1L, contentList);
+        AnswerPostDto mockPost = new AnswerPostDto(1L, contentBodySample);
 
         String content = gson.toJson(mockPost);
 
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(answerMapper.answerPostDtoToAnswer(any())).thenReturn(new Answer());
         when(answerService.createAnswer(any())).thenReturn(new Answer());
-        when(answerMapper.answerToAnswerInfoResponseDto(any())).thenReturn(response);
-        log.info(response.toString());
+        when(answerMapper.answerToAnswerInfoResponseDto(any())).thenReturn(answerInfoResponseDto);
 
         ResultActions actions = mockMvc.perform(post("/answer")
                 .accept(MediaType.APPLICATION_JSON)
@@ -140,6 +108,7 @@ public class AnswerControllerTest {
                 responseFields(
                         List.of(
                                 fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("답변달린 질문글 식별자"),
                                 fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변글 본문(LIST)"),
                                 fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
                                 fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
@@ -148,8 +117,10 @@ public class AnswerControllerTest {
                                 fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
                                 fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변작성 회원 이름"),
                                 fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변작성 회원 이메일"),
+                                fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("답변작성 아이콘 uri"),
                                 fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변작성 회원 생성 시간"),
-                                fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("답변달린 질문글 식별자")
+                                fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변작성 회원 전체 질문글 갯수"),
+                                fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변작성 회원 전체 답변 갯수")
                         )
                 ))
         );
@@ -159,13 +130,13 @@ public class AnswerControllerTest {
     @DisplayName("답변글 수정 테스트")
     public void patchAnswerTest() throws Exception{
         AnswerPatchDto answerPatchDto = new AnswerPatchDto(1L,
-                contentList);
+                contentBodySample);
         String patchJson = gson.toJson(answerPatchDto);
 
         long answerId = 1L;
         when(answerMapper.answerPatchDtoToAnswer(any())).thenReturn(new Answer());
         when(answerService.updateAnswer(any())).thenReturn(new Answer());
-        when(answerMapper.answerToAnswerInfoResponseDto(any())).thenReturn(response);
+        when(answerMapper.answerToAnswerInfoResponseDto(any())).thenReturn(answerInfoResponseDto);
 //언제
         ResultActions actions = mockMvc.perform(patch("/answer/{answer-id}",answerId)
                 .content(patchJson)
@@ -175,14 +146,12 @@ public class AnswerControllerTest {
 //그리고
         actions.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("patch-answer-address",
-                        pathParameters(
-                                parameterWithName("answer-id").description("답변글 식별자")
-                        )
-                ))
                 .andDo(document("patch-answer",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변글 식별자")
+                        ),
                         requestFields(
                                 List.of(
                                         fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
@@ -192,6 +161,7 @@ public class AnswerControllerTest {
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("답변달린 질문글 식별자"),
                                         fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변글 본문(LIST)"),
                                         fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
@@ -200,8 +170,10 @@ public class AnswerControllerTest {
                                         fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변작성 회원 식별자"),
                                         fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변작성 회원 이름"),
                                         fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변작성 회원 이메일"),
+                                        fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("답변작성 아이콘 uri"),
                                         fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변작성 회원 생성 시간"),
-                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("답변달린 질문글 식별자")
+                                        fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변작성 회원 전체 질문글 갯수"),
+                                        fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변작성 회원 전체 답변 갯수")
                                 )
                         )
                 ));
@@ -222,15 +194,13 @@ public class AnswerControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("delete-answer-address",
-                        pathParameters(
-                                parameterWithName("answer-id").description("답변글 식별자")
-                        )
-                ))
                 .andDo(document(
                         "delete-answer",
                         getRequestPreProcessor(),
-                        getResponsePreProcessor()
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변글 식별자")
+                        )
                 ));
     }
 }

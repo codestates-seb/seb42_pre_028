@@ -5,7 +5,6 @@ import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.dto.*;
-import Preproject28.server.member.dto.response.MemberAnswersResponseDto;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
