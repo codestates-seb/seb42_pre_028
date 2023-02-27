@@ -4,6 +4,9 @@ import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.member.controller.MemberController;
 import Preproject28.server.member.dto.*;
+import Preproject28.server.member.dto.response.MemberAnswersResponseDto;
+import Preproject28.server.member.dto.response.MemberInfoResponseDto;
+import Preproject28.server.member.dto.response.MemberQuestionResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
@@ -40,7 +43,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

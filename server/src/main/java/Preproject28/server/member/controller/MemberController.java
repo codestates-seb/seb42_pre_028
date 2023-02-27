@@ -1,6 +1,9 @@
 package Preproject28.server.member.controller;
 
 import Preproject28.server.member.dto.*;
+import Preproject28.server.member.dto.response.MemberAnswersResponseDto;
+import Preproject28.server.member.dto.response.MemberInfoResponseDto;
+import Preproject28.server.member.dto.response.MemberQuestionResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;

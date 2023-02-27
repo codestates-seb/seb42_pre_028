@@ -5,7 +5,7 @@ import Preproject28.server.answer.dto.AnswerPatchDto;
 import Preproject28.server.answer.dto.AnswerPostDto;
 import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.member.dto.MemberInfoResponseDto;
+import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;

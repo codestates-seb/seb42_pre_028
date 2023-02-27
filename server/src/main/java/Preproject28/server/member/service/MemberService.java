@@ -1,9 +1,15 @@
 package Preproject28.server.member.service;
 
+import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answerVote.dto.LoginUserAnswerVoteResponseDto;
+import Preproject28.server.answerVote.entity.AnswerVote;
 import Preproject28.server.error.exception.BusinessLogicException;
 import Preproject28.server.error.exception.ExceptionCode;
+import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.repository.MemberRepository;
+import Preproject28.server.question.entity.Question;
+import Preproject28.server.questionVote.entity.QuestionVote;
 import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -68,5 +75,37 @@ public class MemberService {
     public Member findMemberByEmail(String memberEmail) {
         Optional<Member> memberOptional = memberRepository.findByEmail(memberEmail);
         return memberOptional.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    //해당 게시글에서 게시글&답변에 추천여부 확인
+    public LoginMemberVoteInfo setMemberVoteStatus(Member member, Question question) {
+        LoginMemberVoteInfo loginMemberVoteInfo = new LoginMemberVoteInfo();
+
+        loginMemberVoteInfo.setMemberId(member.getMemberId() );
+        loginMemberVoteInfo.setEmail(member.getEmail() );
+        loginMemberVoteInfo.setQuestionId( question.getQuestionId() );
+
+        ArrayList<LoginUserAnswerVoteResponseDto> loginUserAnswerVoteResponseDtos = new ArrayList<>();
+        List<QuestionVote> questionVotes = member.getQuestionVotes();
+        List<AnswerVote> answerVotes = member.getAnswerVotes();
+        List<Answer> questionAnswers = question.getAnswers();
+
+        //
+        for(QuestionVote questionVote : questionVotes) {
+            if(Objects.equals(questionVote.getQuestion().getQuestionId(), question.getQuestionId())) {
+                loginMemberVoteInfo.setQuestionvoteStatus(questionVote.getVoteStatus());
+                break;
+            }
+        }
+        for (Answer questionAnswer : questionAnswers) {
+            for (AnswerVote answerVote : answerVotes) {
+                if(Objects.equals(questionAnswer.getAnswerId(), answerVote.getAnswer().getAnswerId())){
+                    LoginUserAnswerVoteResponseDto loginUserAnswerVote = new LoginUserAnswerVoteResponseDto(answerVote.getAnswer().getAnswerId(), answerVote.getVoteStatus());
+                    loginUserAnswerVoteResponseDtos.add(loginUserAnswerVote);
+                }
+            }
+        }
+        loginMemberVoteInfo.setAnswerVoteStatus(loginUserAnswerVoteResponseDtos);
+        return loginMemberVoteInfo;
     }
 }

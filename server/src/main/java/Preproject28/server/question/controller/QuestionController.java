@@ -2,14 +2,16 @@ package Preproject28.server.question.controller;
 
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.service.AnswerService;
+import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
 import Preproject28.server.member.entity.Member;
-import Preproject28.server.question.dto.QuestionInfoResponseDto;
+import Preproject28.server.question.dto.response.QuestionDetailPageResponseDto;
+import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
 import Preproject28.server.util.dto.MultiResponseDto;
 import Preproject28.server.util.dto.SingleResponseDto;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.dto.QuestionPatchDto;
 import Preproject28.server.question.dto.QuestionPostDto;
-import Preproject28.server.question.dto.QuestionResponseDto;
+import Preproject28.server.question.dto.response.QuestionResponseDto;
 import Preproject28.server.question.entity.Question;
 import Preproject28.server.question.mapper.QuestionMapper;
 import Preproject28.server.question.service.QuestionService;
@@ -36,15 +38,15 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity<?> postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){
-        Question question = questionMapper.questionPostDtoToQuestion(questionPostDto);
-        String loginMemberId = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
-        question.setMember(memberService.findMemberByEmail(loginMemberId));
+        Question requestQuestion = questionMapper.questionPostDtoToQuestion(questionPostDto);
+        requestQuestion.setMember(loginMemberFindByToken());
 
-        Question responseContent = questionService.createQuestion(question);
-        QuestionInfoResponseDto response = questionMapper.questionToQuestionInfoResponseDto(responseContent);
+        Question createdQuestion = questionService.createQuestion(requestQuestion);
+        QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(createdQuestion);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
+
     @PatchMapping("/{question-id}")
     public ResponseEntity<?> patchQuestion(@PathVariable("question-id") long questionId, @Valid @RequestBody QuestionPatchDto questionPatchDto){
         // 본인조건확인
@@ -56,13 +58,16 @@ public class QuestionController {
     }
 
 
-    //한건 조회
+    //질문글 상세페이지 (1건조회)
     @GetMapping("/{question-id}")
     public ResponseEntity<?> getQuestion(@PathVariable("question-id") long questionId){
+        Member loginMember = loginMemberFindByToken();
         Question question = questionService.findQuestion(questionId);
-        questionService.setViewCount(question);        //조회 1번당 1씩 올라가게 (임시)
-        QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
 
+        questionService.setViewCount(question); //조회수기능  1번당 1씩 올라가게 (임시)
+        LoginMemberVoteInfo loginMemberVoteInfo = memberService.setMemberVoteStatus(loginMember, question);
+        QuestionDetailPageResponseDto response = questionMapper.questionToQuestionDetailPageResponseDto(question);
+        response.setLoginUserInfo(loginMemberVoteInfo);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
@@ -70,7 +75,7 @@ public class QuestionController {
     public ResponseEntity<?> getQuestions(@RequestParam int page,@RequestParam int size){
         Page<Question> pageQuestions = questionService.findQuestions(page,size);
         List<Question> questions = pageQuestions.getContent();
-        List<QuestionInfoResponseDto> responses = questionMapper.questionToQuestionResponseInfoDtos(questions);
+        List<QuestionTotalPageResponseDto> responses = questionMapper.questionToQuestionResponseInfoDtos(questions);
 
         return new ResponseEntity<>(new MultiResponseDto<>(responses,pageQuestions), HttpStatus.OK);
     }
@@ -99,12 +104,17 @@ public class QuestionController {
         //질문에 답변 id 변경
         //답변에 상태값변경
         String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
-        Member member = memberService.findMemberByEmail(loginEmail);
+        Member member = loginMemberFindByToken();
         Answer answer = answerService.findAnswer(answerId);
         questionService.adoptAnswer(questionId, answer, member);
         Question question = questionService.findQuestion(questionId);
         QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    private Member loginMemberFindByToken(){
+        String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+        return memberService.findMemberByEmail(loginEmail);
     }
 }

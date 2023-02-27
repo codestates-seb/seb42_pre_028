@@ -8,10 +8,10 @@ import Preproject28.server.answer.dto.AnswerPostDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
-import Preproject28.server.member.dto.MemberInfoResponseDto;
+import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
-import Preproject28.server.question.dto.QuestionInfoResponseDto;
+import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
 import Preproject28.server.question.service.QuestionService;
 import Preproject28.server.utils.SecurityTestConfig;
 import com.google.gson.Gson;
@@ -45,7 +45,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,7 +75,7 @@ public class AnswerControllerTest {
     private static final MemberInfoResponseDto member = new MemberInfoResponseDto();
     private static final List<String> tagList = new ArrayList<>();
     private static final AnswerInfoResponseDto response = new AnswerInfoResponseDto();
-    private static final QuestionInfoResponseDto question = new QuestionInfoResponseDto();
+    private static final QuestionTotalPageResponseDto question = new QuestionTotalPageResponseDto();
 
     @BeforeAll
     public static void init() {

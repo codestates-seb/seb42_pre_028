@@ -1,8 +1,7 @@
 package Preproject28.server.answer.dto;
 
 import Preproject28.server.answer.entity.Answer;
-import Preproject28.server.member.dto.MemberInfoResponseDto;
-import Preproject28.server.member.entity.Member;
+import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import lombok.*;
 
 import java.time.LocalDateTime;

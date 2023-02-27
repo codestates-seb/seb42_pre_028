@@ -3,14 +3,14 @@ package Preproject28.server.question;
 import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.service.AnswerService;
-import Preproject28.server.member.dto.MemberInfoResponseDto;
+import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.controller.QuestionController;
-import Preproject28.server.question.dto.QuestionInfoResponseDto;
+import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
 import Preproject28.server.question.dto.QuestionPatchDto;
 import Preproject28.server.question.dto.QuestionPostDto;
-import Preproject28.server.question.dto.QuestionResponseDto;
+import Preproject28.server.question.dto.response.QuestionResponseDto;
 import Preproject28.server.question.entity.Question;
 import Preproject28.server.question.mapper.QuestionMapper;
 import Preproject28.server.question.service.QuestionService;
@@ -47,7 +47,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,7 +77,7 @@ public class QuestionControllerTest {
     private static final MemberInfoResponseDto member = new MemberInfoResponseDto();
     private static final List<AnswerInfoResponseDto> answers = new ArrayList<>();
     private static final QuestionResponseDto response = new QuestionResponseDto();
-    private static final QuestionInfoResponseDto infoResponse = new QuestionInfoResponseDto();
+    private static final QuestionTotalPageResponseDto infoResponse = new QuestionTotalPageResponseDto();
 
     @BeforeAll
     public static void init() {
@@ -125,7 +124,7 @@ public class QuestionControllerTest {
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(questionMapper.questionPostDtoToQuestion(any())).thenReturn(new Question());
         when(questionService.createQuestion(any())).thenReturn(new Question());
-        when(questionMapper.questionToQuestionInfoResponseDto(any())).thenReturn(infoResponse);
+        when(questionMapper.questionToQuestionDetailPageResponseDto(any())).thenReturn(infoResponse);
         log.info(response.toString());
 
         ResultActions actions = mockMvc.perform(post("/question")
@@ -306,7 +305,7 @@ public class QuestionControllerTest {
     @DisplayName("질문글 전체 조회 테스트")
     public void getQuestionsTest() throws Exception {
 
-        List<QuestionInfoResponseDto> responses = new ArrayList<>();
+        List<QuestionTotalPageResponseDto> responses = new ArrayList<>();
         responses.add(infoResponse);
         responses.add(infoResponse);
 
