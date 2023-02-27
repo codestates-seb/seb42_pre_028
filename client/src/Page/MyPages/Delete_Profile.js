@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/log/logSlice';
+import { deleteData } from '../../features/userData/userDataSlice';
 
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
@@ -63,8 +64,8 @@ function DeleteProfile() {
   };
 
   const deleteHandler = () => {
-    const accessToken = sessionStorage.getItem('Authorization');
-    //const refreshToken = localStorage.getItem('Refresh');
+    const accessToken = localStorage.getItem('Authorization');
+    // const refreshToken = localStorage.getItem('Refresh');
 
     fetch(`http://13.125.1.215:8080/members/${userDataState.memberId}`, {
       credentials: 'include',
@@ -72,22 +73,22 @@ function DeleteProfile() {
       headers: {
         'Content-Type': 'application/json',
         Authorization: accessToken,
-        //Refresh: refreshToken,
+        // Refresh: refreshToken,
       },
     })
       .then((res) => {
-        // localStorage.setItem('Authorization', '');
-        // localStorage.setItem('Refresh', null);
-        // dispatch(logout(state));
-        // alert('회원정보를 삭제하고 로그아웃하였습니다.');
-        // navigate('/');
         // 확인하기 : 삭제는 되는 것 같은데 응답이 304로 옴
-        if (res.ok) {
-          localStorage.setItem('Authorization', '');
-          localStorage.setItem('Refresh', null);
+        if (res.ok || res.status === 304) {
+          let data = res.json();
+          console.log(data);
+          localStorage.removeItem('Authorization');
+          // localStorage.removeItem('Refresh');
+          dispatch(deleteData());
           dispatch(logout(state));
           alert('회원정보를 삭제하고 로그아웃하였습니다.');
           navigate('/');
+        } else {
+          alert('회원정보 삭제 실패');
         }
       })
       .catch(() => alert('에러 발생'));

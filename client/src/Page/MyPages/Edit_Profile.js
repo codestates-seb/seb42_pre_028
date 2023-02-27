@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { saveData } from '../../features/userData/userDataSlice';
 
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
@@ -45,9 +47,11 @@ function EditProfile() {
   const [displayName, setDisplayName] = useState(null);
   const [password, setPassword] = useState(null);
   const userDataState = useSelector((state) => state.userData);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const submitHandler = () => {
-    const accessToken = sessionStorage.getItem('Authorization');
+    const accessToken = localStorage.getItem('Authorization');
     const editData = {};
     // displayName 또는 password 데이터가 입력되지 않은 경우 editData 객체에 포함시키지 않음
     if (displayName) {
@@ -56,26 +60,26 @@ function EditProfile() {
       editData.password = password;
     }
 
-    fetch(
-      // 확인하기 : 응답메시지가 오지 않음
-      // 응답메시지가 오면 userdata 상태를 업데이트 하는 코드 추가해야 함
-      `http://13.125.1.215:8080/members/${userDataState.memberId}`,
-      {
-        credentials: 'include',
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: accessToken,
-        },
-        body: JSON.stringify(editData),
-      }
-    )
+    fetch(`http://13.125.1.215:8080/members/${userDataState.memberId}`, {
+      credentials: 'include',
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: accessToken,
+      },
+      body: JSON.stringify(editData),
+    })
       .then((res) => {
         if (res.ok) {
-          alert('회원정보를 변경하였습니다.');
+          return res.json();
         } else {
           alert('회원정보 변경 실패');
+          navigate('/mypage/useredit');
         }
+      })
+      .then((data) => {
+        dispatch(saveData(data.data));
+        alert('회원정보를 변경하였습니다.');
       })
       .catch(() => alert('에러 발생'));
   };

@@ -52,16 +52,16 @@ function MyPTProfile() {
   const userDataState = useSelector((state) => state.userData);
   const logState = useSelector((state) => state.log);
 
-  let today = new Date();
-  let elapsedDay;
-  if (logState.value === 1) {
-    let created = userDataState.createdAt.slice(0, 10);
-    created = new Date(created);
-    console.log(created);
-    elapsedDay = Math.trunc(
-      (today.getTime() - created.getTime()) / (1000 * 60 * 60 * 24) + 1
-    );
-  }
+  // let today = new Date();
+  let elapsedDay = 6;
+  // if (logState.value === 1) {
+  //   let created = userDataState.createdAt.slice(0, 10);
+  //   created = new Date(created);
+  //   console.log(created);
+  //   elapsedDay = Math.trunc(
+  //     (today.getTime() - created.getTime()) / (1000 * 60 * 60 * 24) + 1
+  //   );
+  // }
 
   return (
     <React.Fragment>
