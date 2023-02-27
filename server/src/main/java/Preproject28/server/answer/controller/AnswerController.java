@@ -47,6 +47,7 @@ public class AnswerController {
     @PatchMapping("/{answer-id}")
     public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long answerId, @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
+        // 본인조건확인
         Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
         AnswerInfoResponseDto response = answerMapper.answerToAnswerInfoResponseDto(answer);
 
