@@ -71,11 +71,13 @@ public class QuestionController {
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
+
+    //질문글 검색 리스트페이지
     @GetMapping
     public ResponseEntity<?> getQuestions(@RequestParam int page,@RequestParam int size){
         Page<Question> pageQuestions = questionService.findQuestions(page,size);
         List<Question> questions = pageQuestions.getContent();
-        List<QuestionTotalPageResponseDto> responses = questionMapper.questionToQuestionResponseInfoDtos(questions);
+        List<QuestionTotalPageResponseDto> responses = questionMapper.questionToQuestionTotalPageResponseDtos(questions);
 
         return new ResponseEntity<>(new MultiResponseDto<>(responses,pageQuestions), HttpStatus.OK);
     }

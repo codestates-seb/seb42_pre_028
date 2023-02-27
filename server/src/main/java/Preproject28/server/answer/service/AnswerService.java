@@ -48,8 +48,12 @@ public class AnswerService {
     }
     public Page<Answer> findAnswers(int page, int size) {
         return answerRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
-
     }
+
+    public Page<Answer> findAnswersByMemberId(long memberId, int page, int size) {
+        return answerRepository.findByMemberId(memberId, PageRequest.of(page, size, Sort.by("answerId").descending()));
+    }
+
     public Answer findAnswer(long answerId) {
         Optional<Answer> optionalQuestion = answerRepository.findById(answerId);
 

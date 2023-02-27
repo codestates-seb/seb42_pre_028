@@ -124,8 +124,7 @@ public class QuestionControllerTest {
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(questionMapper.questionPostDtoToQuestion(any())).thenReturn(new Question());
         when(questionService.createQuestion(any())).thenReturn(new Question());
-        when(questionMapper.questionToQuestionDetailPageResponseDto(any())).thenReturn(infoResponse);
-        log.info(response.toString());
+        when(questionMapper.questionToQuestionDetailPageResponseDto(any()));
 
         ResultActions actions = mockMvc.perform(post("/question")
                 .accept(MediaType.APPLICATION_JSON)
@@ -311,7 +310,7 @@ public class QuestionControllerTest {
 
 
         when(questionService.findQuestions(anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(1,1),1));
-        when(questionMapper.questionToQuestionResponseInfoDtos(any())).thenReturn(responses);
+        when(questionMapper.questionToQuestionTotalPageResponseDtos(any())).thenReturn(responses);
 
 
         ResultActions actions =
