@@ -65,7 +65,7 @@ function Header() {
   const logoutHandler = () => {
     // 로그아웃은 프론트엔드에서만 처리하기로 함
     localStorage.removeItem('Authorization');
-    localStorage.removeItem('Refresh');
+    // localStorage.removeItem('Refresh');
     dispatch(deleteData());
     dispatch(logout(state));
     alert('로그아웃 성공!');

@@ -10,16 +10,10 @@ export const userDataSlice = createSlice({
   },
   reducers: {
     saveData: (state, action) => {
-      // console.log(`action payload:${JSON.stringify(action.payload)}`);
-      state.memberId = action.payload.memberId;
-      state.displayName = action.payload.displayName;
-      state.email = action.payload.email;
-      state.createdAt = action.payload.createdAt;
-
-      sessionStorage.setItem('memberId', state.memberId);
-      sessionStorage.setItem('displayName', state.displayName);
-      sessionStorage.setItem('email', state.email);
-      sessionStorage.setItem('createdAt', state.createdAt);
+      sessionStorage.setItem('memberId', action.payload.memberId);
+      sessionStorage.setItem('displayName', action.payload.displayName);
+      sessionStorage.setItem('email', action.payload.email);
+      sessionStorage.setItem('createdAt', action.payload.createdAt);
     },
     deleteData: () => {
       sessionStorage.removeItem('memberId');
