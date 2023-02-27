@@ -24,6 +24,7 @@ public class QuestionResponseDto {
     private LocalDateTime modifiedAt;
     private int viewCount;
     private int voteCount;
+    private int answerCount;
     private MemberInfoResponseDto member;
     private List<AnswerInfoResponseDto> answers;
     private List<String> tag;
