@@ -25,7 +25,8 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
-    @Embedded
+    @ElementCollection(targetClass=String.class)
+    @Column
     private List<String> content = new ArrayList<>();
     @Column
     @ColumnDefault("0")

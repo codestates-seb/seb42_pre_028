@@ -34,6 +34,7 @@ public class MemberController {
 
     @PatchMapping("/{member-id}")
     public ResponseEntity<?> patchMember(@RequestBody @Valid MemberPatchDto requestBody, @PathVariable("member-id") long memberId) {
+        //토큰으로 본인확인 코드 추가필요
         Member member = mapper.memberPatchDtoToMember(requestBody);
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);
@@ -47,6 +48,8 @@ public class MemberController {
     @DeleteMapping("/{member-id}")
     public ResponseEntity<?> deleteMember(@PathVariable("member-id") long memberId) {
 
+        //삭제 성공하면 304 응답값이 감
+        //삭제 실패하면
         boolean deleteStatus = memberService.deleteMember(memberId);
 
         return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);

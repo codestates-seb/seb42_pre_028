@@ -23,11 +23,12 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonManagedReference
     private Long questionId;
-
     private String title;
-    @Embedded
+    @ElementCollection(targetClass=String.class)
+    @Column
     private List<String> problemBody = new ArrayList<>();
-    @Embedded
+    @ElementCollection(targetClass=String.class)
+    @Column
     private List<String> expectingBody = new ArrayList<>();
 
     @CreatedDate
@@ -39,7 +40,8 @@ public class Question {
 
     private long voteCount;
 
-    @Embedded
+    @ElementCollection(targetClass=String.class)
+    @Column
     private List<String> tag = new ArrayList<>();
 
     @ManyToOne
