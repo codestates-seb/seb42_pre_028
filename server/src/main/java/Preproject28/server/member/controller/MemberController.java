@@ -32,13 +32,8 @@ import java.util.List;
 @Slf4j
 @Validated
 public class MemberController {
-
     private final MemberMapper memberMapper;
-    private final AnswerMapper answerMapper;
-    private final QuestionMapper questionMapper;
     private final MemberService memberService;
-    private final AnswerService answerService;
-    private final QuestionService questionService;
 
     @PostMapping
     public ResponseEntity<?> postMember(@RequestBody @Valid MemberPostDto requestBody) {
@@ -83,32 +78,4 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    /**
-     * 내가 쓴 글 조회
-     */
-    @GetMapping("/{member-id}/question")
-    public ResponseEntity<?> getMemberQuestion(@PathVariable("member-id") long memberId, @RequestParam int page, @RequestParam int size) {
-
-        //페이지네이션 으로 질문글전체조회와 리스폰값 명세 통일(요청사항)
-        Page<Question> pageQuestions = questionService.findQuestionsByMemberId(memberId, page, size);
-        List<Question> questions = pageQuestions.getContent();
-        List<QuestionTotalPageResponseDto> responses = questionMapper.questionToQuestionTotalPageResponseDtos(questions);
-
-
-        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
-    }
-
-    /**
-     * 내가 쓴 답변 조회
-     */
-    @GetMapping("/{member-id}/answer")
-    public ResponseEntity<?> getMemberAnswer(@PathVariable("member-id") long memberId,  @RequestParam int page, @RequestParam int size) {
-
-        //페이지네이션 으로 질문글전체조회와 리스폰값 명세 통일(요청사항)
-        Page<Answer> pageAnswers = answerService.findAnswersByMemberId(memberId, page, size);
-        List<Answer> answers = pageAnswers.getContent();
-        List<AnswerInfoResponseDto> responses = answerMapper.answerToAnswerInfoResponseDtos(answers);
-
-        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageAnswers), HttpStatus.OK);
-    }
 }
