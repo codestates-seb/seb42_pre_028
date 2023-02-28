@@ -7,10 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query(value = "SELECT q FROM Question q WHERE q.member.memberId = :memberId")
     Page<Question> findByMemberId(long memberId, Pageable pageable);
+
+    @Query("SELECT q FROM Question q WHERE LOWER(q.title) LIKE CONCAT('%', LOWER(:name), '%') " +
+            "AND (q.secretStatus = 'PUBLIC') AND NOT q.questionStatus = 'QUESTION_DELETE'")
+    List<Question> findByTitle(String name);
 // 쿼리메서드로 조건달아서 필터 & 검색기능 추가해야할듯
 
     //다빈님

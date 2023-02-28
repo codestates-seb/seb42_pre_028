@@ -124,10 +124,10 @@ public class QuestionController {
 
 
     @GetMapping("/{question-name}")
-    public ResponseEntity<?> searchQuestion(@PathVariable("question-name")String name , Long memberId) {
+    public ResponseEntity<?> searchQuestion(@PathVariable("question-name")String name) {
         List<Question> pageQuestions;
 
-        pageQuestions = questionService.searchQuestion(name, memberId);
+        pageQuestions = questionService.searchQuestion(name);
 
         return new ResponseEntity<>(questionMapper.questionToQuestionTotalPageResponseDtos(pageQuestions), HttpStatus.OK);
 
