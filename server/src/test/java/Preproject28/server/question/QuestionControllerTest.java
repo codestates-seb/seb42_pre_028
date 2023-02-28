@@ -2,6 +2,7 @@ package Preproject28.server.question;
 
 import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.helper.StubData;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
@@ -69,6 +70,8 @@ public class QuestionControllerTest {
     private AnswerService answerService;
     @MockBean
     private QuestionMapper questionMapper;
+    @MockBean
+    private AnswerMapper answerMapper;
     @Autowired
     private Gson gson;
 
@@ -347,7 +350,7 @@ public class QuestionControllerTest {
         when(memberService.findMemberByEmail(anyString())).thenReturn(new Member());
         when(answerService.findAnswer(anyLong())).thenReturn(new Answer());
         when(questionService.findQuestion(anyLong())).thenReturn(new Question());
-        when(questionMapper.questionToQuestionResponseDto(any())).thenReturn(questionResponseDto);
+        when(answerMapper.answerToAnswerInfoResponseDto(any())).thenReturn(answerInfoResponseDto);
 
         //when
         ResultActions actions =
@@ -371,21 +374,19 @@ public class QuestionControllerTest {
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
-                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문글 제목"),
-                                        fieldWithPath("data.problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
-                                        fieldWithPath("data.expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
-                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("질문글 생성시간"),
-                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문글 수정시간"),
-                                        fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
-                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
-                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("질문글 작성자 식별자"),
-                                        fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("질문글 작성자 이름"),
-                                        fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("질문글 작성자 이메일"),
-                                        fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("질문글 작성자 회원가입 시간"),
-                                        fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("질문글 작성자 이미지 url"),
-                                        fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("질문글 작성자 질문글 전체 갯수"),
-                                        fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("질문글 작성자 답변글 전체 갯수"),
-                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그(LIST)")
+                                        fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변 내용"),
+                                        fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변 채택여부"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성시간"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정시간"),
+                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변 추천수"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
+                                        fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변 작성자 이름"),
+                                        fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변 작성자 이메일"),
+                                        fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변 작성자 회원가입 시간"),
+                                        fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("답변 작성자 이미지 url"),
+                                        fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변 작성자 질문글 전체 갯수"),
+                                        fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변 작성자 답변글 전체 갯수")
                                 )
                         )
                 ));
