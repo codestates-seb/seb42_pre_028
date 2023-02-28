@@ -1,18 +1,14 @@
 package Preproject28.server.question;
 
-import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.helper.StubData;
-import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.controller.QuestionController;
-import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
 import Preproject28.server.question.dto.QuestionPatchDto;
 import Preproject28.server.question.dto.QuestionPostDto;
-import Preproject28.server.question.dto.response.QuestionResponseDto;
 import Preproject28.server.question.entity.Question;
 import Preproject28.server.question.mapper.QuestionMapper;
 import Preproject28.server.question.service.QuestionService;
@@ -27,7 +23,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
@@ -37,10 +32,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static Preproject28.server.helper.StubData.*;
@@ -395,6 +388,7 @@ public class QuestionControllerTest {
                 ));
     }
     @Test
+    @DisplayName("질문글 검색 & 정렬")
     public void searchQuestionTest() throws Exception {
         String questionName = "example";
         int page = 0;
