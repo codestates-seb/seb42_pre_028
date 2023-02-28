@@ -9,7 +9,7 @@ import Preview from '../features/questionDetail/Preview';
 import ContentRender from '../features/questionDetail/ContentRender';
 import Footer from '../Component/Footer';
 import AnswerLike from '../features/questionDetail/AnswerLike';
-import useGetFetch from '../Util/useGetFetch';
+import { url } from '../url';
 
 const Container = styled.div`
   display: flex;
@@ -158,8 +158,6 @@ function Question_Detail() {
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
 
-  const tag = [123, 345, 5125];
-
   const log = useSelector((state) => state.log.value);
   const [content, setContent] = useState('');
   const [adoptedId, setAdoptedId] = useState(0);
@@ -168,11 +166,15 @@ function Question_Detail() {
 
   useEffect(() => {
     setTimeout(() => {
-      fetch(`http://13.125.1.215:8080/question/${id}`)
+      fetch(`${url}/question/${id}`, {
+        credentials: 'include',
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken,
+        },
+      })
         .then((res) => {
-          if (!res.ok) {
-            throw Error('could not fetch the data for that resource');
-          }
           return res.json();
         })
         .then((data) => {
@@ -192,6 +194,7 @@ function Question_Detail() {
         });
     }, 300);
   }, []);
+
   const keyDownHandler = (e) => {
     if (e.target.selectionStart === e.target.selectionEnd) return;
     let prevText = e.target.value.slice(0, e.target.selectionStart);
@@ -234,7 +237,7 @@ function Question_Detail() {
 
   const answerPostHandler = () => {
     const splitContent = content.split('\n');
-    fetch('http://13.125.1.215:8080/answer', {
+    fetch(`${url}/answer`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -251,6 +254,7 @@ function Question_Detail() {
         window.location.reload();
       });
   };
+
   return (
     <div>
       {isPending ? null : (
@@ -277,9 +281,16 @@ function Question_Detail() {
                 </div>
               </TitleStateContainer>
               <QuestionContainer>
-                <Like vote={question.data.voteCount} />
+                <Like
+                  vote={question.data.voteCount}
+                  questionvoteStatus={
+                    question.data.loginUserInfo.questionvoteStatus
+                  }
+                />
                 <QuestionContentContainer>
+                  {/* <span>Problem</span> */}
                   <ContentRender qContent={question.data.problemBody} />
+                  {/* <span>Expecting</span> */}
                   <ContentRender qContent={question.data.expectingBody} />
                   <TagContainer>
                     {
@@ -312,6 +323,9 @@ function Question_Detail() {
                             memberId={question.data.member.memberId}
                             answerId={answer.answerId}
                             vote={answer.voteCount}
+                            answerVoteStatus={
+                              question.data.loginUserInfo.answerVoteStatus
+                            }
                           />
                           <ContentRender qContent={answer.content} />
                         </AnswerRowContainer>

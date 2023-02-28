@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { url } from '../url';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -115,7 +116,7 @@ function Sign_Up() {
     if (displayName === '' || email === '' || password === '') {
       alert('빈 곳을 채워주세요');
     } else {
-      fetch('http://13.125.1.215:8080/members', {
+      fetch(`${url}/members`, {
         credentials: 'include',
         method: 'POST',
         headers: {

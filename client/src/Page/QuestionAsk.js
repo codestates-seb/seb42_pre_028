@@ -2,6 +2,8 @@ import React, { useState /*, useEffect*/ } from 'react';
 import styled from 'styled-components';
 import Footer from '../Component/Footer';
 import { useNavigate } from 'react-router-dom';
+import { url } from '../url';
+
 //import { useSelector /*, useDispatch*/ } from 'react-redux';
 // import Editor from '../Component/Editor';
 
@@ -173,42 +175,45 @@ function QuestionAsk() {
   const [title, setTitle] = useState('');
   const [problemBody, setProblemBody] = useState('');
   const [expectingBody, setExpectingBody] = useState('');
+  const [tag, setTag] = useState('');
   const navigate = useNavigate();
-  //const dispatch = useDispatch();
-  //const state = useSelector((state) => state.log);
+  const accessToken = localStorage.getItem('Authorization');
 
   const questionHandler = () => {
-    /*useEffect(() => {
-      if (state === false) {
-        navigate('/login');
-      }
-    });*/
-    const url = 'http://13.125.1.215:8080/question';
+    const splitProblemBody = problemBody.split('\n');
+    const splitexpectingBody = expectingBody.split('\n');
+    const splitTag = tag.split(' ');
 
-    const questionData = {
-      title: title,
-      problemBody: problemBody,
-      expectingBody: expectingBody,
-      memberId: 1, // 쿠키에서 멤버 아이디 가져오기   쿠키.memberId
-    };
-
-    fetch(url, {
+    fetch(`${url}/question`, {
       method: 'POST',
       headers: {
+        credentials: 'include',
         'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
-      body: JSON.stringify(questionData),
+      body: JSON.stringify({
+        questionId: 54,
+        title: title,
+        problemBody: splitProblemBody,
+        expectingBody: splitexpectingBody,
+        tag: splitTag,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        navigate(`/questions/${data.questionId}`); // 서버로부터 받은 응답 데이터 출력
+        navigate(`/questions/${data.data.questionId}`); // 서버로부터 받은 응답 데이터 출력
       })
       .catch((error) => {
         console.error(error); // 에러 처리
       });
   };
-
+  const discardHandler = () => {
+    setTitle('');
+    setProblemBody('');
+    setExpectingBody('');
+    setTag('');
+  };
   return (
     <React.Fragment>
       <Container>
@@ -321,15 +326,17 @@ function QuestionAsk() {
                   </LabelAndDescription>
                 </LabelBox>
                 <Input
+                  value={tag}
                   type="text"
-                  placeholder="e.g. (json node.js python)"
+                  placeholder="태그는 띄어쓰기로 구분됩니다"
+                  onChange={(e) => setTag(e.target.value)}
                 ></Input>
               </InputBox>
             </CreatBox>
 
             <SubmitAndClear>
               <Button onClick={questionHandler}>Post your question</Button>
-              <ClearButton>Discard draft</ClearButton>
+              <ClearButton onClick={discardHandler}>Discard draft</ClearButton>
             </SubmitAndClear>
           </MainContent>
         </Content>

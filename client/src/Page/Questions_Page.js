@@ -5,6 +5,8 @@ import Pagination from '../Component/Pagination';
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../Component/Footer';
 import { useEffect, useState } from 'react';
+import { url } from '../url';
+
 const Container = styled.div`
   display: flex;
   justify-content: right;
@@ -111,8 +113,7 @@ const PagingButton = styled.button`
 `;
 
 function Questions_Page() {
-  const { page, pageCnt } = useParams();
-
+  const { page, pageCnt, tap } = useParams();
   const [pageQuestion, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
@@ -120,9 +121,7 @@ function Questions_Page() {
   useEffect(() => {
     setIsPending(true);
     setTimeout(() => {
-      fetch(
-        `http://13.125.1.215:8080/question/?page=${page - 1}&&size=${pageCnt}`
-      )
+      fetch(`${url}/question/?page=${page - 1}&&size=${pageCnt}`)
         .then((res) => {
           if (!res.ok) {
             throw Error('could not fetch the data for that resource');
@@ -139,9 +138,9 @@ function Questions_Page() {
           setError(err.message);
         });
     }, 300);
-  }, [page, pageCnt]);
+  }, [page, pageCnt, tap]);
 
-  const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered', 'More'];
+  const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered'];
 
   return (
     <div>
@@ -160,7 +159,14 @@ function Questions_Page() {
                 <RowDiv>
                   <ArrayDiv>
                     {sortArr.map((el, index) => {
-                      return <ArrayButton key={index}>{el}</ArrayButton>;
+                      return (
+                        <Link
+                          key={index}
+                          to={`/questions/${page}/${pageCnt}/${el}`}
+                        >
+                          <ArrayButton>{el}</ArrayButton>
+                        </Link>
+                      );
                     })}
                   </ArrayDiv>
                   <ArrayButton>Filter</ArrayButton>
@@ -174,20 +180,20 @@ function Questions_Page() {
                 </QuestionDiv>
               </MainComponent>
               <RowWrapDiv>
-                {/*Pagination : api 문서 완료시 수정 예정 */}
                 <Pagination
                   size={pageQuestion.pageInfo.totalElements}
                   pageCnt={pageQuestion.pageInfo.size}
                   currentPage={pageQuestion.pageInfo.page}
+                  tap={tap}
                 />
                 <RowDiv>
-                  <Link to={`/questions/1/5`}>
+                  <Link to={`/questions/1/5/${tap}`}>
                     <PagingButton>5</PagingButton>
                   </Link>
-                  <Link to={`/questions/1/10`}>
+                  <Link to={`/questions/1/10/${tap}`}>
                     <PagingButton>10</PagingButton>
                   </Link>
-                  <Link to={`/questions/1/15`}>
+                  <Link to={`/questions/1/15/${tap}`}>
                     <PagingButton>15</PagingButton>
                   </Link>
                   per page

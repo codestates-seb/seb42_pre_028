@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Preview from '../features/questionDetail/Preview';
 import { useNavigate, useParams } from 'react-router-dom';
-import { url } from '../url';
 
 const UpdateContainer = styled.div`
   display: flex;
@@ -19,11 +18,6 @@ const ColumDiv = styled.div`
   gap: 0.7rem;
 `;
 
-const Input = styled.input`
-  width: 30rem;
-  padding: 0.3rem;
-  margin-bottom: 1rem;
-`;
 const Textarea = styled.textarea`
   width: 30rem;
   padding: 1rem;
@@ -44,41 +38,14 @@ const UpdateButton = styled.button`
   }
 `;
 
-function Question_Update() {
+function Answer_Update() {
   const { id } = useParams();
-  const [title, setTitle] = useState('');
-  const [problemContent, setProblemContent] = useState(' ');
-  const [expectingContent, setExpectingContent] = useState(' ');
+  const [content, setContent] = useState(' ');
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem('Authorization');
-
-  useEffect(() => {
-    setTimeout(() => {
-      fetch(`${url}/question/${id}`, {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: accessToken,
-        },
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw Error('could not fetch the data for that resource');
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setTitle(data.data.title);
-          setProblemContent(data.data.problemBody.join('\n'));
-          setExpectingContent(data.data.expectingBody.join('\n'));
-        });
-    }, 300);
-  }, []);
+  // const accessToken = localStorage.getItem('Authorization');
 
   const keyDownHandler = (e) => {
     if (e.target.selectionStart === e.target.selectionEnd) return;
-
     let prevText = e.target.value.slice(0, e.target.selectionStart);
     let nextText = e.target.value.slice(e.target.selectionEnd);
     let selectedText = e.target.value.slice(
@@ -101,9 +68,7 @@ function Question_Update() {
             })
             .join('\n') +
           nextText;
-        e.target.id === 'problemContent'
-          ? setProblemContent(e.target.value)
-          : setExpectingContent(e.target.value);
+        setContent(e.target.value);
       } else {
         e.target.value =
           prevText +
@@ -114,28 +79,23 @@ function Question_Update() {
             })
             .join('\n') +
           nextText;
-        e.target.id === 'problemContent'
-          ? setProblemContent(e.target.value)
-          : setExpectingContent(e.target.value);
+        setContent(e.target.value);
       }
     }
   };
 
   const updateHandler = (e) => {
     e.preventDefault();
+    const url = `http://13.125.1.215:8080/answer/${id}`;
 
-    const splitPcontent = problemContent.split('\n');
-    const splitEcontent = expectingContent.split('\n');
+    const splitPcontent = content.split('\n');
 
     const questionData = {
-      questionId: id,
-      title: title,
-      problemBody: splitPcontent,
-      expectingBody: splitEcontent,
-      tag: [],
+      answerId: id,
+      content: splitPcontent,
     };
 
-    fetch(`${url}/question/${id}`, {
+    fetch(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -151,46 +111,27 @@ function Question_Update() {
         console.error(error); // 에러 처리
       });
   };
+
   return (
     <UpdateContainer>
       <form>
         <ColumDiv>
-          <label htmlFor="title">Title</label>
-          <Input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-
-          <label htmlFor="problemContent">Problem</label>
+          <label htmlFor="problemContent">Content</label>
           <Textarea
             id="problemContent"
-            value={problemContent}
+            value={content}
             onChange={(e) => {
-              setProblemContent(e.target.value);
+              setContent(e.target.value);
             }}
             onKeyDown={keyDownHandler}
           />
 
-          <label htmlFor="expectingContent">Expecting</label>
-          <Textarea
-            id="expectingContent"
-            value={expectingContent}
-            onChange={(e) => {
-              setExpectingContent(e.target.value);
-            }}
-            onKeyDown={keyDownHandler}
-          />
+          <Preview content={content}></Preview>
 
-          <Preview content={problemContent}></Preview>
-          <Preview content={expectingContent}></Preview>
-
-          <label htmlFor="tags">Tags(구현예정)</label>
-
-          <UpdateButton onClick={updateHandler}>Question Update</UpdateButton>
+          <UpdateButton onClick={updateHandler}>Answer Update</UpdateButton>
         </ColumDiv>
       </form>
     </UpdateContainer>
   );
 }
-export default Question_Update;
+export default Answer_Update;

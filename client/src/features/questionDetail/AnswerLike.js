@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { url } from '../../url';
 
 const QuestionLikeContainer = styled.div`
   display: flex;
@@ -30,15 +31,29 @@ const AdoptButton = styled.button`
     props.adoptedId === props.answerId ? '#437b55' : 'none'};
   color: ${(props) => (props.adoptedId === props.answerId ? 'white' : 'none')};
 `;
-function AnswerLike({ vote, answerId, memberId, adoptedId, setAdoptedId }) {
+function AnswerLike({
+  vote,
+  answerId,
+  memberId,
+  adoptedId,
+  setAdoptedId,
+  answerVoteStatus,
+}) {
   const { id } = useParams();
-  const [bState, setBstate] = useState('NONE');
+  const voteStatus = answerVoteStatus.filter((el) => el.answerId === answerId);
+  let tmp;
+  if (!voteStatus.length) tmp = 'NONE';
+  else tmp = voteStatus[0].voteStatus;
+
+  const [bState, setBstate] = useState(tmp);
+
   const [curVote, setCurVote] = useState(vote);
+  console.log(answerVoteStatus);
 
   const accessToken = localStorage.getItem('Authorization');
 
   const voteUpHandler = () => {
-    fetch(`http://13.125.1.215:8080/answer-vote/${answerId}/up`, {
+    fetch(`${url}/answer-vote/${answerId}/up`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -55,7 +70,7 @@ function AnswerLike({ vote, answerId, memberId, adoptedId, setAdoptedId }) {
   };
 
   const voteDownHandler = () => {
-    fetch(`http://13.125.1.215:8080/answer-vote/${answerId}/down`, {
+    fetch(`${url}/answer-vote/${answerId}/down`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -72,7 +87,7 @@ function AnswerLike({ vote, answerId, memberId, adoptedId, setAdoptedId }) {
   };
 
   const adoptHandler = () => {
-    fetch(`http://13.125.1.215:8080/question/${id}/adopt-answer/${answerId}`, {
+    fetch(`${url}/question/${id}/adopt-answer/${answerId}`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -82,11 +97,8 @@ function AnswerLike({ vote, answerId, memberId, adoptedId, setAdoptedId }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setAdoptedId(
-          ...data.data.answers
-            .filter((answer) => answer.adoptStatus === 'TRUE')
-            .map((answer) => answer.answerId)
-        );
+        if (adoptedId === answerId) setAdoptedId(0);
+        else setAdoptedId(answerId);
       });
   };
 

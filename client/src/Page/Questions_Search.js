@@ -2,9 +2,9 @@
 import styled from 'styled-components';
 import Question from '../Component/Question';
 import Pagination from '../Component/Pagination';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Footer from '../Component/Footer';
-import useGetFetch from '../Util/useGetFetch';
+import { useEffect, useState } from 'react';
 import { url } from '../url';
 
 const Container = styled.div`
@@ -112,12 +112,40 @@ const PagingButton = styled.button`
   cursor: pointer;
 `;
 
-function Questions_List() {
-  const [data, isPending, error] = useGetFetch(
-    `${url}/question/?page=0&&size=5`
-  );
-  console.log(data);
-  const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered'];
+function Questions_Search() {
+  const { word, page, pageCnt, tap } = useParams();
+
+  const [searchQuestion, setData] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setIsPending(true);
+    setTimeout(() => {
+      fetch(
+        `${url}/question/${word}/?page=${
+          page - 1
+        }&&size=${pageCnt}&&sorted=${tap}`
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw Error('could not fetch the data for that resource');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setIsPending(false);
+          setData(data);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }, 300);
+  }, [word, page, pageCnt, tap]);
+
+  const sortArr = ['Relevance', 'Newest'];
 
   return (
     <div>
@@ -132,12 +160,15 @@ function Questions_List() {
                 </Link>
               </MainComponent>
               <MainComponent>
-                <div>{data.pageInfo.totalElements} questions</div>
+                <div>{searchQuestion.pageInfo.totalElements} questions</div>
                 <RowDiv>
                   <ArrayDiv>
                     {sortArr.map((el, index) => {
                       return (
-                        <Link key={index} to={`/questions/1/5/${el}`}>
+                        <Link
+                          key={index}
+                          to={`/search/${word}/${page}/${pageCnt}/${el}`}
+                        >
                           <ArrayButton>{el}</ArrayButton>
                         </Link>
                       );
@@ -148,26 +179,26 @@ function Questions_List() {
               </MainComponent>
               <MainComponent>
                 <QuestionDiv>
-                  {data.data.map((obj, index) => {
+                  {searchQuestion.data.map((obj, index) => {
                     return <Question key={index} question={obj}></Question>;
                   })}
                 </QuestionDiv>
               </MainComponent>
               <RowWrapDiv>
                 <Pagination
-                  size={data.pageInfo.totalElements}
-                  pageCnt={data.pageInfo.size}
-                  currentPage={data.pageInfo.page}
-                  tap={'Active'}
+                  size={searchQuestion.pageInfo.totalElements}
+                  pageCnt={searchQuestion.pageInfo.size}
+                  currentPage={searchQuestion.pageInfo.page}
+                  tap={tap}
                 />
                 <RowDiv>
-                  <Link to={`/questions/1/5/Active`}>
+                  <Link to={`/search/${word}/1/5/${tap}`}>
                     <PagingButton>5</PagingButton>
                   </Link>
-                  <Link to={`/questions/1/10/Active`}>
+                  <Link to={`/search/${word}/1/10/${tap}`}>
                     <PagingButton>10</PagingButton>
                   </Link>
-                  <Link to={`/questions/1/15/Active`}>
+                  <Link to={`/search/${word}/1/15/${tap}`}>
                     <PagingButton>15</PagingButton>
                   </Link>
                   per page
@@ -184,4 +215,4 @@ function Questions_List() {
   );
 }
 
-export default Questions_List;
+export default Questions_Search;
