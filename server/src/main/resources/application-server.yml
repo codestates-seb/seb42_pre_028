@@ -13,6 +13,16 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 570320017982-vbbg21deg1362t9fi4uv6lko4q3oj7nl.apps.googleusercontent.com
+            clientSecret: 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
+            scope:
+              - email
+              - profile
 mail:
   address:
     admin: admin@gmail.com

@@ -88,6 +88,18 @@ public class QuestionController {
         return new ResponseEntity<>(new MultiResponseDto<>(responses,pageQuestions), HttpStatus.OK);
     }
 
+    @GetMapping("/{member-id}/question")
+    public ResponseEntity<?> getMemberQuestion(@PathVariable("member-id") long memberId, @RequestParam int page, @RequestParam int size) {
+
+        //페이지네이션 으로 질문글전체조회와 리스폰값 명세 통일(요청사항)
+        Page<Question> pageQuestions = questionService.findQuestionsByMemberId(memberId, page, size);
+        List<Question> questions = pageQuestions.getContent();
+        List<QuestionTotalPageResponseDto> responses = questionMapper.questionToQuestionTotalPageResponseDtos(questions);
+
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{question-id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("question-id") long questionId){
         String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인

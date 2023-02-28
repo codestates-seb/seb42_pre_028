@@ -29,8 +29,6 @@ public class QuestionService {
     private final AnswerService answerService;
 
     public Question createQuestion(Question question) {
-        //if 토큰에서 멤버 아이디 받아오기
-
         return questionRepository.save(question);
     }
 

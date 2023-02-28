@@ -1,16 +1,16 @@
 package Preproject28.server.security;
 
-import Preproject28.server.security.auths.handler.MemberAccessDeniedHandler;
-import Preproject28.server.security.auths.handler.MemberAuthenticationEntryPoint;
+import Preproject28.server.member.service.MemberService;
+import Preproject28.server.security.auths.handler.*;
 import Preproject28.server.security.auths.utils.CustomAuthorityUtils;
 import Preproject28.server.security.auths.jwt.JwtTokenizer;
 import Preproject28.server.security.auths.filter.JwtAuthenticationFilter;
 import Preproject28.server.security.auths.filter.JwtVerificationFilter;
-import Preproject28.server.security.auths.handler.MemberAuthenticationFailureHandler;
-import Preproject28.server.security.auths.handler.MemberAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationCodeGrantFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -28,12 +29,20 @@ import java.util.Arrays;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@RequiredArgsConstructor
-@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록되게 해줌.
+//@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록되게 해줌.
+//@RequiredArgsConstructor
+//@DependsOn({"memberService", "securityConfiguration"})
 public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer; // JWT 설정 추가
     private final CustomAuthorityUtils customAuthorityUtils; // JWT 검증필터 DI 를 위해 추가
+    private final MemberService memberService;
+
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils customAuthorityUtils,@Lazy MemberService memberService) {
+        this.jwtTokenizer = jwtTokenizer;
+        this.customAuthorityUtils = customAuthorityUtils;
+        this.memberService = memberService;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -51,6 +60,7 @@ public class SecurityConfiguration {
                 .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
                 .accessDeniedHandler(new MemberAccessDeniedHandler())
                 .and()
+                .oauth2Login(oauth2-> oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, customAuthorityUtils, memberService))) // OAuth 로그인 추가
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests()
@@ -92,7 +102,8 @@ public class SecurityConfiguration {
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, customAuthorityUtils);
 
             builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+                    .addFilterAfter(jwtVerificationFilter, OAuth2AuthorizationCodeGrantFilter.class);
         }
     }
 }

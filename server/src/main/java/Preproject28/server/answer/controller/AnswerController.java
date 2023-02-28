@@ -13,6 +13,7 @@ import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,9 @@ import java.util.List;
 @RequestMapping("/answer")
 @RequiredArgsConstructor
 public class AnswerController {
-    private final MemberService memberService;
     private final QuestionService questionService;
     private final AnswerMapper answerMapper;
+    private final MemberService memberService;
     private final AnswerService answerService;
 
     @PostMapping
@@ -60,6 +61,17 @@ public class AnswerController {
         return new ResponseEntity<>(new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer)),HttpStatus.OK);
     }
 
+    //내가쓴 댓글조회
+    @GetMapping("/{member-id}/answer")
+    public ResponseEntity<?> getMemberAnswer(@PathVariable("member-id") long memberId,  @RequestParam int page, @RequestParam int size) {
+
+        //페이지네이션 으로 질문글전체조회와 리스폰값 명세 통일(요청사항)
+        Page<Answer> pageAnswers = answerService.findAnswersByMemberId(memberId, page, size);
+        List<Answer> answers = pageAnswers.getContent();
+        List<AnswerInfoResponseDto> responses = answerMapper.answerToAnswerInfoResponseDtos(answers);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageAnswers), HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<?> getAnswers(@RequestParam int page, @RequestParam int size){
         Page<Answer> pageAnswers = answerService.findAnswers(page,size);
