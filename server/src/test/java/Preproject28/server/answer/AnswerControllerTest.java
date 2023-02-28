@@ -14,6 +14,7 @@ import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
 import Preproject28.server.question.service.QuestionService;
+import Preproject28.server.util.dto.SingleResponseDto;
 import Preproject28.server.utils.SecurityTestConfig;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +26,12 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,8 +50,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -131,15 +135,16 @@ public class AnswerControllerTest {
     public void patchAnswerTest() throws Exception{
         AnswerPatchDto answerPatchDto = new AnswerPatchDto(1L,
                 contentBodySample);
-        String patchJson = gson.toJson(answerPatchDto);
+        String request = gson.toJson(answerPatchDto);
 
         long answerId = 1L;
+        when(answerService.findAnswer(anyLong())).thenReturn(answer);
         when(answerMapper.answerPatchDtoToAnswer(any())).thenReturn(new Answer());
         when(answerService.updateAnswer(any())).thenReturn(new Answer());
         when(answerMapper.answerToAnswerInfoResponseDto(any())).thenReturn(answerInfoResponseDto);
 //언제
         ResultActions actions = mockMvc.perform(patch("/answer/{answer-id}",answerId)
-                .content(patchJson)
+                .content(request)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
         );
@@ -200,6 +205,109 @@ public class AnswerControllerTest {
                         getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("answer-id").description("답변글 식별자")
+                        )
+                ));
+    }
+    @Test
+    @DisplayName("답변글 한건 조회")
+    public void getAnswerTest() throws Exception {
+        //given
+        long answerId = 1L;
+        when(answerService.findAnswer(anyLong())).thenReturn(new Answer());
+        when(answerMapper.answerToAnswerInfoResponseDto(any())).thenReturn(answerInfoResponseDto);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/answer/{answer-id}", answerId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON));
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "get-answer",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("answer-id").description("회원 식별자")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
+                                        fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변글 본문"),
+                                        fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
+                                        fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
+                                        fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
+                                        fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변 작성자 이름"),
+                                        fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변 작성자 이메일"),
+                                        fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변 작성자 생성 시간"),
+                                        fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("답변 작성자 이미지 url"),
+                                        fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변 작성자 질문글 전체 갯수"),
+                                        fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변 작성자 답변글 전체 갯수")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("내가쓴 답변글 조회 테스트")
+    public void getMemberAnswerTest() throws Exception {
+        //given
+        Member member = new Member();
+        member.setMemberId(1L);
+
+
+
+        when(answerService.findAnswersByMemberId(anyLong(),anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Answer())), PageRequest.of(1,5),1));
+        when(answerMapper.answerToAnswerInfoResponseDtos(any())).thenReturn(answerInfoResponseDtos);
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/answer/{member-id}/answer", member.getMemberId())
+                        .param("page", "1")
+                        .param("size", "5")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON));
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "get-answer-my-answers",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 요청"),
+                                parameterWithName("size").description("페이지당 출력갯수 지정")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.[].answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                        fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
+                                        fieldWithPath("data.[].content").type(JsonFieldType.ARRAY).description("답변글 본문"),
+                                        fieldWithPath("data.[].voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
+                                        fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
+                                        fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
+                                        fieldWithPath("data.[].adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
+                                        fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
+                                        fieldWithPath("data.[].member.displayName").type(JsonFieldType.STRING).description("답변 작성자 이름"),
+                                        fieldWithPath("data.[].member.email").type(JsonFieldType.STRING).description("답변 작성자 이메일"),
+                                        fieldWithPath("data.[].member.createdAt").type(JsonFieldType.STRING).description("답변 작성자 생성 시간"),
+                                        fieldWithPath("data.[].member.iconImageUrl").type(JsonFieldType.STRING).description("답변 작성자 이미지 url"),
+                                        fieldWithPath("data.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변 작성자 질문글 전체 갯수"),
+                                        fieldWithPath("data.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변 작성자 답변글 전체 갯수"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지정보 - 현재 페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지정보 - 페이지당 출력 갯수"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 질문글수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 페이지수")
+
+                                )
                         )
                 ));
     }

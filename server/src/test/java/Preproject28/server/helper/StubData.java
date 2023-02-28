@@ -6,6 +6,7 @@ import Preproject28.server.answerVote.dto.LoginUserAnswerVoteResponseDto;
 import Preproject28.server.answerVote.entity.AnswerVote;
 import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
+import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.dto.response.QuestionDetailPageResponseDto;
 import Preproject28.server.question.dto.response.QuestionResponseDto;
 import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
@@ -35,9 +36,9 @@ public class StubData {
     public static final List<QuestionTotalPageResponseDto> questionTotalPageResponseDtos = new ArrayList<>();
     public static final QuestionDetailPageResponseDto questionDetailPageResponseDto = new QuestionDetailPageResponseDto();
     public static final List<Question> searchQList  = new ArrayList<>();
-    public static final Question q1 = new Question();
-    public static final Question q2 = new Question();
-    public static final Question q3 = new Question();
+    public static final Question question = new Question();
+    public static final Member member = new Member();
+    public static final Answer answer = new Answer();
 
     public static void init() {
 
@@ -120,16 +121,19 @@ public class StubData {
         questionResponseDto.setMember(memberInfoResponseDto);
         questionResponseDto.setTag(tagList);
 
-        q1.setTitle("example");
-        q2.setTitle("examples");
-        q3.setTitle("EXAMPLES");
-        q1.setId(1);
-        q2.setId(2);
-        q3.setId(3);
+        question.setQuestionId(1L);
+        question.setTitle("example");
+        question.setMember(member);
 
+        searchQList.add(question);
+        searchQList.add(question);
+        searchQList.add(question);
 
-        searchQList.add(q1);
-        searchQList.add(q2);
-        searchQList.add(q3);
+        member.setMemberId(1L);
+        member.setEmail("ghdrlfehd@gmail.com");
+        member.setDisplayName("홍길동");
+
+        answer.setAnswerId(1L);
+        answer.setMember(member);
     }
 }

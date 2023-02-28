@@ -38,6 +38,8 @@ public class SecurityConfiguration {
     private final MemberService memberService;
     private final CorsFilter corsFilter;
 
+    //의존성 순환참조 오류
+
     public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils customAuthorityUtils, @Lazy MemberService memberService, CorsFilter corsFilter) {
         this.jwtTokenizer = jwtTokenizer;
         this.customAuthorityUtils = customAuthorityUtils;

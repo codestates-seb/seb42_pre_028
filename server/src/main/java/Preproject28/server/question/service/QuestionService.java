@@ -102,30 +102,12 @@ public class QuestionService {
         throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
     }
 
-    public List<Question> getAllQuestions(){
-        return questionRepository.findAll();
+    // 검색해서 찾기 기능
+    public Page<Question> searchQuestion(String filterValue, int page, int size){
+        return questionRepository.findAll(PageRequest.of(page, size, Sort.by(filterValue).descending()));
     }
-
-    public Page<Question> getAllQuestions(int page) {
-        return questionRepository.findAll(PageRequest.of(page, 15));
+    public Page<Question> searchQuestion(String title,String filterValue, int page, int size){
+        return questionRepository.findByTitleContainingIgnoreCase(title, PageRequest.of(page, size, Sort.by(filterValue).descending()));
     }
-
-    public Page<Question> getAllQuestions(int page, String sort){
-        return questionRepository.findAll(PageRequest.of(page,15, Sort.by(
-                Sort.Order.desc(sort),
-                Sort.Order.desc("createdAt"))));
-    }
-
-    public Page<Question> getTopQuestions(){
-        return questionRepository.findAll(PageRequest.of(0, 15, Sort.by(
-                Sort.Order.desc("createdAt"),
-                Sort.Order.desc("viewCount"),
-                Sort.Order.desc("voteCount"))));
-    }
-
-    public List<Question> searchQuestion(String name){
-       return questionRepository.findByTitle(name);
-    }
-
 
 }

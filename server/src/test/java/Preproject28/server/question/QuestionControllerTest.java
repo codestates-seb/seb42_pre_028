@@ -12,6 +12,7 @@ import Preproject28.server.question.dto.QuestionPostDto;
 import Preproject28.server.question.entity.Question;
 import Preproject28.server.question.mapper.QuestionMapper;
 import Preproject28.server.question.service.QuestionService;
+import Preproject28.server.util.dto.MultiResponseDto;
 import Preproject28.server.utils.SecurityTestConfig;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -137,6 +140,7 @@ public class QuestionControllerTest {
         String patchJson = gson.toJson(mockPatch);
 
         long questionId = 1L;
+        when(questionService.findQuestion(anyLong())).thenReturn(question);
         when(questionMapper.questionPatchDtoToQuestion(any())).thenReturn(new Question());
         when(questionService.updateQuestion(any())).thenReturn(new Question());
         when(questionMapper.questionToQuestionResponseDto(any())).thenReturn(questionResponseDto);
@@ -387,67 +391,129 @@ public class QuestionControllerTest {
                         )
                 ));
     }
+
     @Test
     @DisplayName("질문글 검색 & 정렬")
-    public void searchQuestionTest() throws Exception {
-        String questionName = "example";
-        int page = 0;
-        int size = 15;
+    public void searchQuestionsTest() throws Exception {
 
-
-        when(questionService.findQuestions(page, size)).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(page,size),3L));
-        when(questionService.searchQuestion(any())).thenReturn(searchQList);
+        when(questionService.findQuestions(anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(1,1),1));
+        when(questionService.searchQuestion(anyString(),anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(1,1),1));
+        when(questionService.searchQuestion(anyString(),anyString(),anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(1,1),1));
         when(questionMapper.questionToQuestionTotalPageResponseDtos(any())).thenReturn(questionTotalPageResponseDtos);
 
-        ResultActions actions = mockMvc.perform(get("/question/{question-name}/", questionName)
-                        .param("page", "0")
-                        .param("size", "15")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-        );
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/question/search")
+                                .param("title", "search-title")
+                                .param("filter", "createdAt")
+                                .param("page", "5")
+                                .param("size", "10")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                );
 
 
         actions.andExpect(status().isOk())
-                .andDo(document("searchQuestion",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                pathParameters(
-                        parameterWithName("question-name").description("질문검색 식별자")
-                ),
-                requestParameters(
-                        parameterWithName("page").description("페이지"),
-                        parameterWithName("size").description("페이지 사이즈")
-                ),
-                responseFields(
-                        List.of(
-                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
-                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
-                                fieldWithPath("data.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
-                                fieldWithPath("data.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
-                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성시간"),
-                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정시간"),
-                                fieldWithPath("data.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
-                                fieldWithPath("data.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
-                                fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변갯수"),
-                                fieldWithPath("data.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글에 채택된 답변 식별자 (0이면 채택없음)"),
-                                fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("질문글 작성자 식별자"),
-                                fieldWithPath("data.[].member.displayName").type(JsonFieldType.STRING).description("질문글 작성자 이름"),
-                                fieldWithPath("data.[].member.email").type(JsonFieldType.STRING).description("질문글 작성자 이메일"),
-                                fieldWithPath("data.[].member.createdAt").type(JsonFieldType.STRING).description("질문글 작성자 회원가입 시간"),
-                                fieldWithPath("data.[].member.iconImageUrl").type(JsonFieldType.STRING).description("질문글 작성자 이미지 url"),
-                                fieldWithPath("data.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("질문글 작성자 질문글 전체 갯수"),
-                                fieldWithPath("data.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("질문글 작성자 답변글 전체 갯수"),
-                                fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
-                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지정보 - 현재 페이지"),
-                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지정보 - 페이지당 출력 갯수"),
-                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 질문글수"),
-                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 페이지수")
+                .andDo(print())
+                .andDo(document("search-questions",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestParameters(
+                                parameterWithName("title").description("검색 내용 (생략 가능, 생략시 전체조회와 동일)"),
+                                parameterWithName("filter").description("정렬 조건 (생략 가능, 생략시 최신순 정렬, 지정시 사용가능 VALUE 값: [createdAt, viewCount, voteCount])"),
+                                parameterWithName("page").description("페이지 요청 (필수)"),
+                                parameterWithName("size").description("페이지당 출력갯수 지정 (필수)")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("data.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("data.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성시간"),
+                                        fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정시간"),
+                                        fieldWithPath("data.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                        fieldWithPath("data.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+                                        fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변갯수"),
+                                        fieldWithPath("data.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글에 채택된 답변 식별자 (0이면 채택없음)"),
+                                        fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("질문글 작성자 식별자"),
+                                        fieldWithPath("data.[].member.displayName").type(JsonFieldType.STRING).description("질문글 작성자 이름"),
+                                        fieldWithPath("data.[].member.email").type(JsonFieldType.STRING).description("질문글 작성자 이메일"),
+                                        fieldWithPath("data.[].member.createdAt").type(JsonFieldType.STRING).description("질문글 작성자 회원가입 시간"),
+                                        fieldWithPath("data.[].member.iconImageUrl").type(JsonFieldType.STRING).description("질문글 작성자 이미지 url"),
+                                        fieldWithPath("data.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("질문글 작성자 질문글 전체 갯수"),
+                                        fieldWithPath("data.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("질문글 작성자 답변글 전체 갯수"),
+                                        fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지정보 - 현재 페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지정보 - 페이지당 출력 갯수"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 질문글수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 페이지수")
+                                )
                         )
-                )
-        ));
-
+                ));
     }
 
+
+    //내가쓴 글 조회
+    @Test
+    @DisplayName("내가쓴 질문글 조회 테스트")
+    public void getMemberQuestionTest() throws Exception {
+        //given
+        Member member = new Member();
+        member.setMemberId(1L);
+
+        when(questionService.findQuestionsByMemberId(anyLong(),anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(1,5),1));
+        when(questionMapper.questionToQuestionTotalPageResponseDtos(any())).thenReturn(questionTotalPageResponseDtos);
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/question/{member-id}/question", member.getMemberId())
+                        .param("page", "1")
+                        .param("size", "5")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON));
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "get-question-my-questions",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 요청"),
+                                parameterWithName("size").description("페이지당 출력갯수 지정")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("data.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("data.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성시간"),
+                                        fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정시간"),
+                                        fieldWithPath("data.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                        fieldWithPath("data.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+                                        fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변갯수"),
+                                        fieldWithPath("data.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글에 채택된 답변 식별자 (0이면 채택없음)"),
+                                        fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("질문글 작성자 회원 식별자"),
+                                        fieldWithPath("data.[].member.displayName").type(JsonFieldType.STRING).description("질문글 작성자 회원 이름"),
+                                        fieldWithPath("data.[].member.email").type(JsonFieldType.STRING).description("질문글 작성자 회원 이메일"),
+                                        fieldWithPath("data.[].member.createdAt").type(JsonFieldType.STRING).description("질문글 작성자 회원가입 시간"),
+                                        fieldWithPath("data.[].member.iconImageUrl").type(JsonFieldType.STRING).description("질문글 작성자 회원 이미지 url"),
+                                        fieldWithPath("data.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("질문글 작성자 질문글 전체 갯수"),
+                                        fieldWithPath("data.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("질문글 작성자 답변글 전체 갯수"),
+                                        fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지정보 - 현재 페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지정보 - 페이지당 출력 갯수"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 질문글수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 페이지수")
+                                )
+                        )
+                ));
+    }
 
 
 }

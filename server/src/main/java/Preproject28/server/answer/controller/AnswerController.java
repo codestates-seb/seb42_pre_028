@@ -48,7 +48,8 @@ public class AnswerController {
     @PatchMapping("/{answer-id}")
     public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") long answerId, @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
-        // 본인조건확인
+        memberService.memberValidation(loginMemberFindByToken(), answerService.findAnswer(answerId).getMember().getMemberId()); //본인검증
+
         Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
         AnswerInfoResponseDto response = answerMapper.answerToAnswerInfoResponseDto(answer);
 
@@ -58,12 +59,13 @@ public class AnswerController {
     @GetMapping("/{answer-id}")
     public ResponseEntity<?> getAnswer(@PathVariable("answer-id")long answerId) {
         Answer answer = answerService.findAnswer(answerId);
-        return new ResponseEntity<>(new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer)),HttpStatus.OK);
+        AnswerInfoResponseDto response = answerMapper.answerToAnswerInfoResponseDto(answer);
+        return new ResponseEntity<>(new SingleResponseDto<>(response),HttpStatus.OK);
     }
 
     //내가쓴 댓글조회
     @GetMapping("/{member-id}/answer")
-    public ResponseEntity<?> getMemberAnswer(@PathVariable("member-id") long memberId,  @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<?> getMemberAnswer(@PathVariable("member-id") long memberId, @RequestParam int page, @RequestParam int size) {
 
         //페이지네이션 으로 질문글전체조회와 리스폰값 명세 통일(요청사항)
         Page<Answer> pageAnswers = answerService.findAnswersByMemberId(memberId, page, size);
@@ -72,6 +74,7 @@ public class AnswerController {
 
         return new ResponseEntity<>(new MultiResponseDto<>(responses, pageAnswers), HttpStatus.OK);
     }
+
     @GetMapping
     public ResponseEntity<?> getAnswers(@RequestParam int page, @RequestParam int size){
         Page<Answer> pageAnswers = answerService.findAnswers(page,size);
@@ -79,12 +82,17 @@ public class AnswerController {
         List<AnswerResponseDto> response = answerMapper.answerToAnswerResponseDtos(answers);
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageAnswers),HttpStatus.OK);
     }
+
     @DeleteMapping("/{answer-id}")
     public ResponseEntity<?> deleteAnswer(@PathVariable("answer-id")long answerId) {
         String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
         Member member = memberService.findMemberByEmail(loginEmail);
         boolean deleteStatus = answerService.deleteAnswer(answerId, member);
-        return deleteStatus ? new ResponseEntity<>("삭제완료",HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
-        //다른테이블과 연관되어있어 삭제시 오류뜸 cascadeType 어노테이션 처리 필요
+        return deleteStatus ? new ResponseEntity<>("삭제완료", HttpStatus.OK) : new ResponseEntity<>("삭제실패",HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private Member loginMemberFindByToken() {
+        String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+        return memberService.findMemberByEmail(loginEmail);
     }
 }

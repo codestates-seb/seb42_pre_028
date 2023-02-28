@@ -108,4 +108,8 @@ public class MemberService {
         loginMemberVoteInfo.setAnswerVoteStatus(loginUserAnswerVoteResponseDtos);
         return loginMemberVoteInfo;
     }
+
+    public void memberValidation(Member loginMember, long memberId) {
+        if (loginMember.getMemberId() != memberId) throw new BusinessLogicException(ExceptionCode.INVALID_MEMBER_STATUS);
+    }
 }

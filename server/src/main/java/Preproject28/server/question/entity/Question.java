@@ -61,7 +61,4 @@ public class Question {
 
     private long adoptAnswerId;
 
-
-    public void setId(long setId) {
-    }
 }
