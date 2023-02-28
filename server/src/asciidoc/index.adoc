@@ -186,6 +186,20 @@ include::{snippets}/delete-question/request-body.adoc[]
 include::{snippets}/delete-question/http-response.adoc[]
 .response-body
 include::{snippets}/delete-question/response-body.adoc[]
+=== 질문글 검색
+.curl-request
+include::{snippets}/searchQuestion/curl-request.adoc[]
+.path-parameters
+include::{snippets}/searchQuestion/path-parameters.adoc[]
+.http-request
+include::{snippets}/searchQuestion/http-request.adoc[]
+.request-body
+include::{snippets}/searchQuestion/request-body.adoc[]
+.http-response
+include::{snippets}/searchQuestion/http-response.adoc[]
+.response-body
+include::{snippets}/searchQuestion/response-body.adoc[]
+
 == 답변글
 === 답변 등록
 .curl-request

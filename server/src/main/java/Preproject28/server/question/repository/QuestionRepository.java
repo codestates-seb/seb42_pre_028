@@ -14,8 +14,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query(value = "SELECT q FROM Question q WHERE q.member.memberId = :memberId")
     Page<Question> findByMemberId(long memberId, Pageable pageable);
 
-    @Query("SELECT q FROM Question q WHERE q.title = :title AND CONCAT('%', LOWER(q.title), '%') LIKE CONCAT('%', LOWER(:title), '%') ")
-    List<Question> findByTitle(String title);
+    @Query("SELECT q FROM Question q WHERE q.title = name AND WHERE LOWER(q.title) LIKE CONCAT('%', LOWER(:name), '%') ")
+    List<Question> findByTitle(String name);
 // 쿼리메서드로 조건달아서 필터 & 검색기능 추가해야할듯
 
     //다빈님
