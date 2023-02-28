@@ -5,8 +5,9 @@ import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
 
     Member memberPostDtoToMember(MemberPostDto memberPostDto);
