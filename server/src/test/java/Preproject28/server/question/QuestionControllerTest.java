@@ -27,6 +27,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
@@ -39,6 +40,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static Preproject28.server.helper.StubData.*;
@@ -48,6 +50,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -390,6 +393,55 @@ public class QuestionControllerTest {
                                 )
                         )
                 ));
+    }
+    @Test
+    public void searchQuestionTest() throws Exception {
+        String name = "example";
+        int page = 0;
+        int size = 15;
+
+        List<Question> questions = new ArrayList<>();
+
+
+        when(questionService.findQuestions(page, size)).thenReturn(Page.empty());
+        when(questionService.searchQuestion(name)).thenReturn(questions);
+        when(questionMapper.questionToQuestionTotalPageResponseDtos(questions)).thenReturn(Collections.emptyList());
+
+        ResultActions actions = mockMvc.perform(get("/{question-name}", name)
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size)))
+                .andExpect(status().isOk());
+
+        actions.andDo(document("searchQuestion",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                pathParameters(
+                        parameterWithName("question-name").description("질문검색 식별자")
+                ),
+                requestParameters(
+                        parameterWithName("page").description("페이지"),
+                        parameterWithName("size").description("페이지 사이즈")
+                ),
+                responseFields(
+                        List.of(
+                                fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변 내용"),
+                                fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변 채택여부"),
+                                fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성시간"),
+                                fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정시간"),
+                                fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변 추천수"),
+                                fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
+                                fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변 작성자 이름"),
+                                fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변 작성자 이메일"),
+                                fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변 작성자 회원가입 시간"),
+                                fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("답변 작성자 이미지 url"),
+                                fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변 작성자 질문글 전체 갯수"),
+                                fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변 작성자 답변글 전체 갯수")
+                        )
+                )
+        ));
+
     }
 
 
