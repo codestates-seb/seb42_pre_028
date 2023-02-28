@@ -19,6 +19,13 @@ const H1 = styled.h1`
   line-height: calc(15 / 13);
 `;
 
+const H3 = styled.h3`
+  font-weight: 400;
+  font-size: 1.61538462em;
+  line-height: 1.3;
+  margin: 0px 0px 8px 0px;
+`;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -40,6 +47,14 @@ const Title = styled.div`
   margin-bottom: 24px;
   padding-bottom: 16px;
   border-bottom: 1px solid #d6d9dc;
+`;
+
+const SubTitle = styled.div``;
+
+const SetList = styled.div`
+  margin-bottom: 48px;
+  border: 1px solid #e3e6e8;
+  border-radius: 5px;
 `;
 
 function EditProfile() {
@@ -94,18 +109,67 @@ function EditProfile() {
               <Title>
                 <H1>Edit your Profile</H1>
               </Title>
-              <div>
-                <label>
-                  <div>Display name</div>
-                  <input onChange={(e) => setDisplayName(e.target.value)} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  <div>Password</div>
-                  <input onChange={(e) => setPassword(e.target.value)} />
-                </label>
-              </div>
+              <SubTitle>
+                <H3>Public information</H3>
+                <SetList>
+                  <div>
+                    <label htmlFor="change-picture">Profile image</label>
+                    <img
+                      id="my_profile_img"
+                      src="../logo192.png"
+                      alt="my profile img"
+                    />
+                    <button id="change-picture">Change picture</button>
+                  </div>
+                  <div>
+                    <label>
+                      <div>Display name</div>
+                      <input onChange={(e) => setDisplayName(e.target.value)} />
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <div>Password</div>
+                      <input onChange={(e) => setPassword(e.target.value)} />
+                    </label>
+                  </div>
+                </SetList>
+              </SubTitle>
+              <SubTitle>
+                <H3>Links</H3>
+                <SetList>
+                  <div>
+                    <label>
+                      <div>Website link</div>
+                      <input />
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <div>Twitter link or username</div>
+                      <input />
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <div>GitHub link or username</div>
+                      <input />
+                    </label>
+                  </div>
+                </SetList>
+              </SubTitle>
+              <SubTitle>
+                <H3>Private information</H3>
+                <div>Not shown publicly</div>
+                <SetList>
+                  <div>
+                    <label>
+                      <div>Full name</div>
+                      <input />
+                    </label>
+                  </div>
+                </SetList>
+              </SubTitle>
               <div>
                 <button onClick={submitHandler}>Submit</button>
               </div>

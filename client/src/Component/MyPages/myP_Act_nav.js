@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Content = styled.div`
@@ -14,6 +15,11 @@ const MyPageMenuUl = styled.ul`
   list-style: none;
   margin: 0px;
   padding: 0px;
+
+  > a {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 const MyPageMenuLi = styled.li`
@@ -21,14 +27,6 @@ const MyPageMenuLi = styled.li`
   flex-direction: column;
   margin: 0px;
   padding: 6px 48px 6px 12px;
-
-  &:hover {
-    cursor: pointer;
-  }
-  > a {
-    text-decoration: none;
-    color: black;
-  }
 `;
 
 function MyPActNav() {
@@ -38,7 +36,9 @@ function MyPActNav() {
         <MyPageMenuUl>
           <MyPageMenuLi>Answer</MyPageMenuLi>
           <MyPageMenuLi>Summary</MyPageMenuLi>
-          <MyPageMenuLi>Questions</MyPageMenuLi>
+          <Link to="/mypage/activity">
+            <MyPageMenuLi>Questions</MyPageMenuLi>
+          </Link>
           <MyPageMenuLi>Tags</MyPageMenuLi>
           <MyPageMenuLi>Articles</MyPageMenuLi>
           <MyPageMenuLi>Badges</MyPageMenuLi>

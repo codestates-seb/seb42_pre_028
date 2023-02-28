@@ -193,7 +193,6 @@ function LogIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.log);
-  const userDataState = useSelector((state) => state.userData);
 
   const loginHandler = () => {
     const loginData = {
@@ -210,7 +209,9 @@ function LogIn() {
       body: JSON.stringify(loginData),
     })
       .then((res) => {
-        if (res.ok) {
+        if (!res.ok) {
+          alert('아이디와 비밀번호를 확인해주세요');
+        } else {
           let accessToken = res.headers.get('Authorization');
           //let refreshToken = res.headers.get('Refresh');
           localStorage.setItem('Authorization', accessToken);
@@ -229,17 +230,12 @@ function LogIn() {
             .then((data) => {
               let memberdata = data.data;
               dispatch(saveData(memberdata));
-              console.log(userDataState);
 
               dispatch(login(state));
               alert('로그인 성공!!');
               navigate('/mypage/activity', { replace: true });
             });
-        } else {
-          alert('아이디와 비밀번호를 확인해주세요');
         }
-        // 아래 문장은 응답 바디를 받게 될 경우 주석 해제할 것
-        //return res.json();
       })
       .catch(() => alert('에러 발생'));
   };

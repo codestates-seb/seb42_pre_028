@@ -58,7 +58,10 @@ function MyQuestionList() {
       const accessToken = localStorage.getItem('Authorization');
       setTimeout(() => {
         fetch(url, {
+          credentials: 'include',
+          method: 'GET',
           headers: {
+            'Content-Type': 'application/json',
             Authorization: accessToken,
           },
         })
@@ -72,7 +75,6 @@ function MyQuestionList() {
             setIsPending(false);
             setData(data);
             setError(null);
-            console.log(data);
           })
           .catch((err) => {
             setIsPending(false);
@@ -83,11 +85,15 @@ function MyQuestionList() {
     return [data, isPending, error];
   };
 
-  const [data, isPending] = useGetFetch(
-    `http://13.125.1.215:8080/members/${userDataState.memberId}/question`
+  const [data] = useGetFetch(
+    `http://13.125.1.215:8080/members/${userDataState.memberId}/question?page=1&size=5`
   );
   console.log(data);
-  console.log(isPending);
+
+  const [data2] = useGetFetch(
+    `http://13.125.1.215:8080/members/${userDataState.memberId}/answer?page=1&size=5`
+  );
+  console.log(data2);
 
   return (
     <React.Fragment>

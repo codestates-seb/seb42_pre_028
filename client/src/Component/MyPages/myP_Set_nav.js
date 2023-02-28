@@ -38,9 +38,6 @@ const MyPageMenuLi = styled.li`
   }
   &.item {
     font-weight: normal;
-    &:hover {
-      cursor: pointer;
-    }
   }
 `;
 

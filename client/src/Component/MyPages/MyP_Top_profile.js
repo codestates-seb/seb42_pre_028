@@ -2,9 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCakeCandles } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 const Container = styled.div`
   margin: 0px;
+  margin-bottom: 16px;
 `;
 
 const Content = styled.div`
@@ -17,8 +21,11 @@ const ProfileImg = styled.div`
   margin: 8px;
 
   #my_profile_img {
-    width: 96px;
-    height: 96px;
+    width: 128px;
+    height: 128px;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
+      0 2px 8px hsla(0, 0%, 0%, 0.05);
   }
 `;
 
@@ -26,21 +33,56 @@ const UserData = styled.div`
   display: flex;
   flex-direction: column;
   margin: 8px;
+`;
 
-  > div.user_name {
+const UserName = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: -4px;
+  max-width: calc(97.2307692rem / 3);
+
+  > div {
+    line-height: 1;
     font-size: 2.8em;
-    margin-bottom: 8px;
+    margin: 4px;
+    margin-bottom: 12px;
   }
 `;
 
 const UserLogUl = styled.ul`
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   list-style: none;
+  margin: 0;
+  margin-left: -4px;
   padding: 0;
+  color: #6a737c;
 `;
 
 const UserLogLi = styled.li`
   display: flex;
+  align-items: center;
+  margin: 4px;
+  padding: 0;
+
+  > div {
+    margin: 0 2px 0 2px;
+  }
+`;
+
+const Icon = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 2px 0 2px;
+  > .icon-style {
+    display: flex;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    margin: 0 2px 0 2px;
+  }
 `;
 
 const BtnContainer = styled.div`
@@ -54,7 +96,6 @@ function MyPTProfile() {
 
   let elapsedDay = '?';
   if (logState.value === 1) {
-    console.log(userDataState);
     // 임시 방편...
     if (!userDataState.memberId) window.location.reload();
     let today = new Date();
@@ -80,18 +121,48 @@ function MyPTProfile() {
           </ProfileImg>
           <UserData>
             {logState.value === 1 ? (
-              <div className="user_name">{userDataState.displayName}</div>
+              <UserName className="user_name">
+                <div>{userDataState.displayName}</div>
+              </UserName>
             ) : (
-              <div className="user_name">user name</div>
+              <UserName className="user_name">
+                <div>user name</div>
+              </UserName>
             )}
             <UserLogUl>
               {logState.value === 1 ? (
-                <UserLogLi>(icon) Member for {elapsedDay} Days</UserLogLi>
+                <UserLogLi>
+                  <Icon>
+                    <FontAwesomeIcon
+                      className="icon-style"
+                      icon={faCakeCandles}
+                    />
+                  </Icon>
+                  <div>Member for {elapsedDay} Days</div>
+                </UserLogLi>
               ) : (
-                <UserLogLi>(icon) Member for ? Days</UserLogLi>
+                <UserLogLi>
+                  <Icon>
+                    <FontAwesomeIcon
+                      className="icon-style"
+                      icon={faCakeCandles}
+                    />
+                  </Icon>
+                  <div>Member for ? Days</div>
+                </UserLogLi>
               )}
-              <UserLogLi>(icon) Last seen this week</UserLogLi>
-              <UserLogLi>(icon) Visited 4 days, 1 consecutive</UserLogLi>
+              <UserLogLi>
+                <Icon>
+                  <FontAwesomeIcon className="icon-style" icon={faClock} />
+                </Icon>
+                <div>Last seen this week</div>
+              </UserLogLi>
+              <UserLogLi>
+                <Icon>
+                  <FontAwesomeIcon className="icon-style" icon={faCalendar} />
+                </Icon>
+                <div>Visited 4 days, 1 consecutive</div>
+              </UserLogLi>
             </UserLogUl>
           </UserData>
           <BtnContainer>
