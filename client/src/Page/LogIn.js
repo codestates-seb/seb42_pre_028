@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
+import { useNavigate, Link } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../features/log/logSlice';
@@ -248,7 +249,9 @@ function LogIn() {
             <img id="logo" src="../images/apple-touch-icon.png" alt="logo" />
           </Logo>
           <OpenIdDiv>
+            {/* <Link to="http://ec2-13-125-1-215.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/google"> */}
             <OpenIdBtn id="Google">Log in with Google</OpenIdBtn>
+            {/* </Link> */}
             <OpenIdBtn id="GitHub">Log in with GitHub</OpenIdBtn>
             <OpenIdBtn id="Facebook">Log in with Facebook</OpenIdBtn>
           </OpenIdDiv>

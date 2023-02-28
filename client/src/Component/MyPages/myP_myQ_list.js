@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// import Question from '../Question';
+import Question from '../Question';
 // import Pagination from '../Component/Pagination';
 // import { Link } from 'react-router-dom';
 // import useGetFetch from '../../Util/useGetFetch';
@@ -32,13 +32,19 @@ const Main = styled.div`
   border-radius: 5px;
 `;
 
-const Questions = styled.div`
+const NoQuestions = styled.div`
   max-width: calc(97.2307692rem / 12 * 4);
   padding: 48px;
   margin: 0 auto 0 auto;
 
   text-align: center;
   color: #6a737c;
+`;
+
+const Questions = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const DeletedQ = styled.div`
@@ -85,7 +91,7 @@ function MyQuestionList() {
     return [data, isPending, error];
   };
 
-  const [data] = useGetFetch(
+  const [data, isPending] = useGetFetch(
     `http://13.125.1.215:8080/members/${userDataState.memberId}/question?page=0&size=5`
   );
   console.log(data);
@@ -111,16 +117,15 @@ function MyQuestionList() {
         </Menubar>
       </Container>
       <Main>
-        <Questions>You have not asked any questions</Questions>
-        {/* {isPending || !data ? (
-          <Questions>You have not asked any questions</Questions>
+        {isPending || !data ? (
+          <NoQuestions>You have not asked any questions</NoQuestions>
         ) : (
           <Questions>
-            {data.map((obj, index) => {
+            {data.data.map((obj, index) => {
               return <Question key={index} question={obj}></Question>;
             })}
           </Questions>
-        )} */}
+        )}
 
         <DeletedQ>Deleted questions</DeletedQ>
       </Main>
