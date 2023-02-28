@@ -1,6 +1,8 @@
 package Preproject28.server.question.controller;
 
+import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
 import Preproject28.server.member.entity.Member;
@@ -33,6 +35,7 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
+    private final AnswerMapper answerMapper;
     private final MemberService memberService;
     private final AnswerService answerService;
 
@@ -69,6 +72,7 @@ public class QuestionController {
         QuestionDetailPageResponseDto response = questionMapper.questionToQuestionDetailPageResponseDto(question);
         response.setLoginUserInfo(loginMemberVoteInfo);
 
+
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
@@ -100,17 +104,13 @@ public class QuestionController {
      */
     @PostMapping("{question-id}/adopt-answer/{answer-id}")
     public ResponseEntity<?> adoptAnswerToQuestion(@PathVariable("question-id") long questionId, @PathVariable("answer-id") long answerId) {
-        //질문글 등록한사람 본인이 답변채택 할수있어야함.
-        //질문자 확인
-        //답변채택
-        //질문에 답변 id 변경
-        //답변에 상태값변경
-        String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
+
+        //답변 채택시 update 된 답변의 정보만 response 요청
         Member member = loginMemberFindByToken();
         Answer answer = answerService.findAnswer(answerId);
         questionService.adoptAnswer(questionId, answer, member);
-        Question question = questionService.findQuestion(questionId);
-        QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
+        Answer adoptedAnswer = answerService.findAnswer(answerId);
+        AnswerInfoResponseDto response = answerMapper.answerToAnswerInfoResponseDto(adoptedAnswer);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
