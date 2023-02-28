@@ -20,19 +20,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -443,6 +450,100 @@ public class QuestionControllerTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("질문글정렬")
+    public void sortQuestionTest() throws Exception {
+        List<Question> questions = new ArrayList<>();
+        Question question1 = new Question();
+        question1.setId(1L);
+        question1.setTitle("Question 1");
+        questions.add(question1);
+        Question question2 = new Question();
+        question2.setId(2L);
+        question2.setTitle("Question 2");
+        questions.add(question2);
+
+        Page<Question> pageQuestions = new PageImpl<>(questions, PageRequest.of(0, 15), 2);
+
+        //given
+        when(questionService.getAllQuestions(Mockito.anyInt(), Mockito.anyString())).thenReturn(pageQuestions);
+
+        //when
+        ResultActions actions = mockMvc.perform(MockMvcRequestBuilders.get("/{question-id}", 1)
+                        .param("page", "1")
+                        .param("sort", "createdAt"));
+
+        actions.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("sort-question-address",
+                        pathParameters(
+                                parameterWithName("question-id").description("질문글 식별자")
+                        )
+                ))
+                .andDo(document("sort-question",
+                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        RequestDocumentation.requestParameters(
+                                RequestDocumentation.parameterWithName("page").description("페이지 번호"),
+                                RequestDocumentation.parameterWithName("sort").description("정렬기준")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.questions[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("data.questions[].title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("data.questions[].problemBody").type(JsonFieldType.STRING).description("질문글 본문"),
+                                        fieldWithPath("data.questions[].expectingBody").type(JsonFieldType.STRING).description("질문글 본문"),
+                                        fieldWithPath("data.questions[].createdAt").type(JsonFieldType.STRING).description("질문글 생성시간"),
+                                        fieldWithPath("data.questions[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정시간"),
+                                        fieldWithPath("data.questions[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                        fieldWithPath("data.questions[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+                                        fieldWithPath("data.questions[].answerCount").type(JsonFieldType.NUMBER).description("답변 수"),
+                                        fieldWithPath("data.questions[].member").type(JsonFieldType.NUMBER).description("회원식별자"),
+                                        fieldWithPath("data.questions[].tag").type(JsonFieldType.ARRAY).description("태그(List)"),
+                                        fieldWithPath("data.page.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 수"),
+                                        fieldWithPath("data.page.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 수"),
+                                        fieldWithPath("data.page.number").type(JsonFieldType.NUMBER).description("현재 페이지 번호")
+                                )
+                        )));
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.questions[0].questionId").value(1L))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.questions[0].title").value("Question 1"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.questions[1].questionId").value(2L))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.questions[1].title").value("Question 2"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.page.totalElements").value(2))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.page.totalPages").value(1))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.page.number").value(1))
+//                .andDo(MockMvcRestDocumentation.document("question/get",
+//                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+//                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+//                        RequestDocumentation.requestParameters(
+//                                RequestDocumentation.parameterWithName("page").description("페이지 번호 (1부터 시작)"),
+//                                RequestDocumentation.parameterWithName("sort").description("정렬할 컬럼 (기본값: 생성시간)")
+//                        ),
+//                        responseFields(
+//                                fieldWithPath("data.questions[].questionId").description("질문글 식별자"),
+//                                fieldWithPath("data.questions[].title").description("질문글 제목"),
+//                                fieldWithPath("data.questions[].problemBody").description("질문글 본문"),
+//                                fieldWithPath("data.questions[].expectingBody").description("질문글 본문"),
+//                                fieldWithPath("data.questions[].createdAt").description("질문글 생성시간"),
+//                                fieldWithPath("data.questions[].modifiedAt").description("질문글 수정시간"),
+//                                fieldWithPath("data.questions[].viewCount").description("질문글 조회수"),
+//                                fieldWithPath("data.questions[].voteCount").description("질문글 추천수"),
+//                                fieldWithPath("data.questions[].answerCount").description("답변 수"),
+//                                fieldWithPath("data.questions[].member").description("회원식별자"),
+//                                fieldWithPath("data.questions[].tag").description("태그(List)"),
+//                                fieldWithPath("data.page.totalElements").description("전체 데이터 수"),
+//                                fieldWithPath("data.page.totalPages").description("전체 페이지 수"),
+//                                fieldWithPath("data.page.number").description("현재 페이지 번호")
+//                        )
+//                ));
+
+
+
+
+
+        Mockito.verify(questionService).getAllQuestions(0, "createdAt");
     }
 }
 

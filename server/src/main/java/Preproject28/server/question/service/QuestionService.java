@@ -102,4 +102,27 @@ public class QuestionService {
         log.warn("게시글 쓴사람이 아닌데 채택요청함");
         throw new BusinessLogicException(ExceptionCode.NOT_IMPLEMENTATION);
     }
+
+    public List<Question> getAllQuestions(){
+        return questionRepository.findAll();
+    }
+
+    public Page<Question> getAllQuestions(int page) {
+        return questionRepository.findAll(PageRequest.of(page, 15));
+    }
+
+    public Page<Question> getAllQuestions(int page, String sort){
+        return questionRepository.findAll(PageRequest.of(page,15, Sort.by(
+                Sort.Order.desc(sort),
+                Sort.Order.desc("createdAt"))));
+    }
+
+    public Page<Question> getTopQuestions(){
+        return questionRepository.findAll(PageRequest.of(0, 15, Sort.by(
+                Sort.Order.desc("createdAt"),
+                Sort.Order.desc("viewCount"),
+                Sort.Order.desc("voteCount"))));
+    }
+
+
 }

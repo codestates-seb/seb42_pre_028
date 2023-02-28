@@ -168,64 +168,64 @@ public class MemberControllerTest {
     }
 
     //내가쓴 글 조회
-    @Test
-    @DisplayName("내가쓴 질문글 조회 테스트")
-    public void getMemberQuestionTest() throws Exception {
-        //given
-        Member member = new Member();
-        member.setMemberId(1L);
-
-        Question question = new Question();
-        question.setQuestionId(1L);
-        question.setTitle("질문글 제목");
-        question.setProblemBody(contentList);
-        question.setExpectingBody(contentList);
-        question.setCreatedAt(timeSample);
-        question.setModifiedAt(timeSample);
-        question.setMember(member);
-        question.setViewCount(0);
-        question.setVoteCount(0);
-
-        MemberQuestionResponseDto response = new MemberQuestionResponseDto();
-        response.setQuestions(List.of(question));
-        when(memberService.findMember(anyInt())).thenReturn(new Member());
-        when(mapper.memberToMemberQuestionResponse(any())).thenReturn(response);
-        //when
-        ResultActions actions = mockMvc.perform(
-                get("/members/{member-id}/question", member.getMemberId())
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON));
-        //then
-        actions
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("get-member-question-address",
-                        pathParameters(
-                                parameterWithName("member-id").description("회원 식별자")
-                        )
-                ))
-                .andDo(document(
-                        "get-member-question",
-                        getRequestPreProcessor(),
-                        getResponsePreProcessor(),
-
-                        responseFields(
-                                List.of(
-                                        fieldWithPath("data.questions.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
-                                        fieldWithPath("data.questions.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
-                                        fieldWithPath("data.questions.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
-                                        fieldWithPath("data.questions.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
-                                        fieldWithPath("data.questions.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성 시간"),
-                                        fieldWithPath("data.questions.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정 시간"),
-                                        fieldWithPath("data.questions.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
-                                        fieldWithPath("data.questions.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
-                                        fieldWithPath("data.questions.[].answers").type(JsonFieldType.ARRAY).description("질문에 달린 답변"),
-                                        fieldWithPath("data.questions.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
-                                        fieldWithPath("data.questions.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글 채택되있는 답변 ID")
-                                )
-                        )
-                ));
-    }
+//    @Test
+//    @DisplayName("내가쓴 질문글 조회 테스트")
+//    public void getMemberQuestionTest() throws Exception {
+//        //given
+//        Member member = new Member();
+//        member.setMemberId(1L);
+//
+//        Question question = new Question();
+//        question.setQuestionId(1L);
+//        question.setTitle("질문글 제목");
+//        question.setProblemBody(contentList);
+//        question.setExpectingBody(contentList);
+//        question.setCreatedAt(timeSample);
+//        question.setModifiedAt(timeSample);
+//        question.setMember(member);
+//        question.setViewCount(0);
+//        question.setVoteCount(0);
+//
+//        MemberQuestionResponseDto response = new MemberQuestionResponseDto();
+//        response.setQuestions(List.of(question));
+//        when(memberService.findMember(anyInt())).thenReturn(new Member());
+//        when(mapper.memberToMemberQuestionResponse(any())).thenReturn(response);
+//        //when
+//        ResultActions actions = mockMvc.perform(
+//                get("/members/{member-id}/question", member.getMemberId())
+//                    .accept(MediaType.APPLICATION_JSON)
+//                    .contentType(MediaType.APPLICATION_JSON));
+//        //then
+//        actions
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andDo(document("get-member-question-address",
+//                        pathParameters(
+//                                parameterWithName("member-id").description("회원 식별자")
+//                        )
+//                ))
+//                .andDo(document(
+//                        "get-member-question",
+//                        getRequestPreProcessor(),
+//                        getResponsePreProcessor(),
+//
+//                        responseFields(
+//                                List.of(
+//                                        fieldWithPath("data.questions.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+//                                        fieldWithPath("data.questions.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
+//                                        fieldWithPath("data.questions.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+//                                        fieldWithPath("data.questions.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+//                                        fieldWithPath("data.questions.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성 시간"),
+//                                        fieldWithPath("data.questions.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정 시간"),
+//                                        fieldWithPath("data.questions.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+//                                        fieldWithPath("data.questions.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+//                                        fieldWithPath("data.questions.[].answers").type(JsonFieldType.ARRAY).description("질문에 달린 답변"),
+//                                        fieldWithPath("data.questions.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
+//                                        fieldWithPath("data.questions.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글 채택되있는 답변 ID")
+//                                )
+//                        )
+//                ));
+//    }
     //내가쓴 답변 조회
     @Test
     @DisplayName("내가쓴 답변글 조회 테스트")

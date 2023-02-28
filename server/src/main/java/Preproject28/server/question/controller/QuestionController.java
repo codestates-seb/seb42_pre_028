@@ -24,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -116,5 +117,22 @@ public class QuestionController {
     private Member loginMemberFindByToken(){
         String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName(); // 토큰에서 유저 email 확인
         return memberService.findMemberByEmail(loginEmail);
+    }
+
+
+    @GetMapping("/{question-id}")
+    public ResponseEntity<?> sortQuestion(@Positive
+                                          @RequestParam int page,
+                                          @RequestParam(required = false) String sort) {
+        Page<Question> pageQuestions;
+
+        if(!sort.isEmpty()) {
+            pageQuestions = questionService.getAllQuestions(page-1, sort);
+        } else {
+            pageQuestions = questionService.getAllQuestions(page-1);
+        }
+        List <Question> questions = pageQuestions.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(questionMapper.questionToQuestionResponseInfoDtos(questions), pageQuestions), HttpStatus.OK);
     }
 }
