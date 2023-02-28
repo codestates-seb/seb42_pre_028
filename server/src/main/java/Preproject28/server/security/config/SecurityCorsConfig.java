@@ -17,14 +17,14 @@ public class SecurityCorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("http://localhost:3000");
+        config.addAllowedOriginPattern("*");
         config.addExposedHeader("Authorization");
-        config.addAllowedHeader("*"); //특정 header만 허용
-        config.addAllowedMethod("GET"); //특정 메소드만 허용
-        config.addAllowedMethod("POST"); //특정 메소드만 허용
-        config.addAllowedMethod("DELETE"); //특정 메소드만 허용
-        config.addAllowedMethod("PATCH"); //특정 메소드만 허용
-        source.registerCorsConfiguration("/**", config); //corsConfiguration으로 등록
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
+        source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
     }
