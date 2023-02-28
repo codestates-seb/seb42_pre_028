@@ -124,6 +124,9 @@ public class QuestionService {
                 Sort.Order.desc("viewCount"),
                 Sort.Order.desc("voteCount"))));
     }
+    public List<Question> searchQuestions(String name){
+        return questionRepository.findByTitle(name);
+    }
 
     public List<Question> searchQuestion(String name){
        return questionRepository.findByTitle(name);
