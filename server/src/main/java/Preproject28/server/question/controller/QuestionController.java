@@ -129,7 +129,7 @@ public class QuestionController {
 
         pageQuestions = questionService.searchQuestion(name, memberId);
 
-        return new ResponseEntity<>(questionMapper.questionToQuestionResponseInfoDtos(pageQuestions), HttpStatus.OK);
+        return new ResponseEntity<>(questionMapper.questionToQuestionTotalPageResponseDtos(pageQuestions), HttpStatus.OK);
 
 //        if(!sort.isEmpty()) {
 //            pageQuestions = questionService.getAllQuestions(page-1, sort);
