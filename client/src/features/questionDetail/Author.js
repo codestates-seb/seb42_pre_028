@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { url } from '../../url';
+
 const LeftSpan = styled.span`
   color: gray;
   font-size: small;
@@ -10,7 +12,6 @@ const EditA = styled.a`
   font-size: small;
   text-decoration-line: none;
   pointer-events: ${(props) =>
-    !props.answerId &&
     props.memberId === Number(sessionStorage.getItem('memberId'))
       ? 'all'
       : 'none'};
@@ -82,7 +83,7 @@ function Author({ questionId, answerId, memberId, name, answered, avatar }) {
     const id = questionId || answerId;
     const accessToken = localStorage.getItem('Authorization');
 
-    fetch(`http://13.125.1.215:8080/${target}/${id}`, {
+    fetch(`${url}/${target}/${id}`, {
       credentials: 'include',
       method: 'DELETE',
       headers: {
@@ -105,7 +106,7 @@ function Author({ questionId, answerId, memberId, name, answered, avatar }) {
       <AuthorLeftContainer>
         <LeftSpan>Share</LeftSpan>
         <EditA
-          href={`/update/${questionId}`}
+          href={questionId ? `/updateQ/${questionId}` : `/updateA/${answerId}`}
           memberId={memberId}
           answerId={answerId}
         >

@@ -53,6 +53,7 @@ const Input = styled.input`
 
 function Header() {
   const log = useSelector((state) => state.log.value);
+  const [word, setWord] = useState('');
   const [menuflag, setMenuFlag] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -82,8 +83,13 @@ function Header() {
         </Link>
       </MenuContainer>
       <div>
-        <Input width="30rem" height="40px" />
-        <Link to="/search">
+        <Input
+          width="30rem"
+          height="40px"
+          value={word}
+          onChange={(e) => setWord(e.target.value)}
+        />
+        <Link to={`/search/${word}/1/5/Newest`}>
           <Button>Search</Button>
         </Link>
       </div>

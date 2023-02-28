@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { url } from '../../url';
 
 const QuestionLikeContainer = styled.div`
   display: flex;
@@ -20,14 +21,14 @@ const DownButton = styled.button`
 `;
 
 // eslint-disable-next-line react/prop-types
-function Like({ vote }) {
+function Like({ vote, questionvoteStatus }) {
   const { id } = useParams();
-  const [bState, setBstate] = useState('NONE');
+  const [bState, setBstate] = useState(questionvoteStatus);
   const [curVote, setCurVote] = useState(vote);
   const accessToken = localStorage.getItem('Authorization');
 
   const voteUpHandler = () => {
-    fetch(`http://13.125.1.215:8080/question-vote/${id}/up`, {
+    fetch(`${url}/question-vote/${id}/up`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -47,7 +48,7 @@ function Like({ vote }) {
   };
 
   const voteDownHandler = () => {
-    fetch(`http://13.125.1.215:8080/question-vote/${id}/down`, {
+    fetch(`${url}/question-vote/${id}/down`, {
       credentials: 'include',
       method: 'POST',
       headers: {

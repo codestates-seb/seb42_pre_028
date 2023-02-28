@@ -29,6 +29,18 @@ const H3 = styled.h3`
   margin-bottom: 0.3rem;
 `;
 
+const TagSpan = styled.button`
+  border: none;
+  padding: 0.3rem;
+  background-color: #e1ecf4;
+  color: #467ba3;
+  font-size: small;
+  cursor: pointer;
+  :hover {
+    background-color: #e1e5f1;
+  }
+`;
+
 const TagDiv = styled.div`
   display: flex;
   justify-content: left;
@@ -52,13 +64,10 @@ const AnswerBox = styled.div`
 `;
 
 function Tag({ tag }) {
-  return <button>{tag}</button>;
+  return <TagSpan>{tag}</TagSpan>;
 }
 
 function Question({ question }) {
-  const date = new Date();
-  const tag = ['123', '456', '789'];
-
   return (
     <Container>
       <ColumDiv>
@@ -67,8 +76,7 @@ function Question({ question }) {
         </RowDiv>
 
         <RowDiv>
-          {/* question.adoptedAnswerId */}
-          <AnswerBox adopted={1}>
+          <AnswerBox adopted={question.adoptAnswerId}>
             <span>{question.answerCount} answer</span>
           </AnswerBox>
         </RowDiv>
@@ -84,16 +92,17 @@ function Question({ question }) {
         <div>{question.problemBody[0]}</div>
         <ColumDiv>
           <TagDiv>
-            {tag.map((el, index) => {
+            {question.tag.map((el, index) => {
               return <Tag key={index} tag={el} />;
             })}
           </TagDiv>
           <AuthorDiv>
-            {/* <span>{question.member.avatar}</span> */}
+            <span>{question.member.iconImageUrl}</span>
             <span>{question.member.displayName}</span>
-            <span>{question.member.memberId} answered</span>
-            {Number(date.getSeconds())}
-            <span>sec ago</span>
+            <span>
+              {question.member.myQuestionCount + question.member.myAnswerCount}
+            </span>
+            <span>asked {question.createdAt.slice(0, 19)}</span>
           </AuthorDiv>
         </ColumDiv>
       </ColumDiv>

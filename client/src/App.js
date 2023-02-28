@@ -15,6 +15,8 @@ import DeleteProfile from './Page/MyPages/Delete_Profile';
 import EditProfile from './Page/MyPages/Edit_Profile';
 import QuestionsPage from './Page/Questions_Page';
 import QuestionUpdate from './Page/Question_Update';
+import AnswerUpdate from './Page/Answer_Update';
+import QuestionsSearch from './Page/Questions_Search';
 
 function App() {
   return (
@@ -34,11 +36,15 @@ function App() {
           <Route path="/mypage/userdelete" element={<DeleteProfile />}></Route>
           <Route path="/mypage/useredit" element={<EditProfile />}></Route>
           <Route
-            path="/questions/:page/:pageCnt"
+            path="/questions/:page/:pageCnt/:tap"
             element={<QuestionsPage />}
           ></Route>
-          <Route path="/update/:id" element={<QuestionUpdate />} />
-          {/* <Route path="/search" element={<Search />}></Route> */}
+          <Route path="/updateQ/:id" element={<QuestionUpdate />} />
+          <Route path="/updateA/:id" element={<AnswerUpdate />} />
+          <Route
+            path="/search/:word/:page/:pageCnt/:tap"
+            element={<QuestionsSearch />}
+          ></Route>
         </Routes>
       </div>
     </BrowserRouter>

@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../features/log/logSlice';
 import { saveData } from '../features/userData/userDataSlice';
 
+import { url } from '../url';
+
 const Content = styled.div`
   display: flex;
   justify-content: center;
@@ -200,7 +202,7 @@ function LogIn() {
       password: userPW,
     };
 
-    fetch(`http://13.125.1.215:8080/auth/login`, {
+    fetch(`${url}/auth/login`, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -217,7 +219,7 @@ function LogIn() {
           localStorage.setItem('Authorization', accessToken);
           // localStorage.setItem('Refresh', refreshToken);
 
-          fetch(`http://13.125.1.215:8080/members/${userEmail}/info`, {
+          fetch(`${url}/members/${userEmail}/info`, {
             credentials: 'include',
             method: 'GET',
             headers: {
