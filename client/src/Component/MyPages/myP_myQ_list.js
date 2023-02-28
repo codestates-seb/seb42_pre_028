@@ -5,6 +5,7 @@ import Question from '../Question';
 // import { Link } from 'react-router-dom';
 // import useGetFetch from '../../Util/useGetFetch';
 import { useSelector } from 'react-redux';
+import { url } from '../../url';
 
 const Container = styled.div`
   display: flex;
@@ -92,12 +93,12 @@ function MyQuestionList() {
   };
 
   const [data, isPending] = useGetFetch(
-    `http://13.125.1.215:8080/members/${userDataState.memberId}/question?page=0&size=5`
+    `${url}/members/${userDataState.memberId}/question?page=0&size=5`
   );
   console.log(data);
 
   const [data2] = useGetFetch(
-    `http://13.125.1.215:8080/members/${userDataState.memberId}/answer?page=1&size=5`
+    `${url}/members/${userDataState.memberId}/answer?page=1&size=5`
   );
   console.log(data2);
 

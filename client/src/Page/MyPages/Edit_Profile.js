@@ -8,6 +8,8 @@ import MyPMenu from '../../Component/MyPages/MyP_menu';
 import MyPSetNav from '../../Component/MyPages/myP_Set_nav';
 import Footer from '../../Component/Footer';
 
+import { url } from '../../url';
+
 const Container = styled.div`
   margin: 0px 65px 0px 65px;
 `;
@@ -73,7 +75,7 @@ function EditProfile() {
       editData.password = password;
     }
 
-    fetch(`http://13.125.1.215:8080/members/${userDataState.memberId}`, {
+    fetch(`${url}/members/${userDataState.memberId}`, {
       credentials: 'include',
       method: 'PATCH',
       headers: {
