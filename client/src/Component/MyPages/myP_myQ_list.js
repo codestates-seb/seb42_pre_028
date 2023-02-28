@@ -86,7 +86,7 @@ function MyQuestionList() {
   };
 
   const [data] = useGetFetch(
-    `http://13.125.1.215:8080/members/${userDataState.memberId}/question?page=1&size=5`
+    `http://13.125.1.215:8080/members/${userDataState.memberId}/question?page=0&size=5`
   );
   console.log(data);
 

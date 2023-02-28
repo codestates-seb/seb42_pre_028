@@ -15,11 +15,16 @@ export const userDataSlice = createSlice({
       sessionStorage.setItem('email', action.payload.email);
       sessionStorage.setItem('createdAt', action.payload.createdAt);
     },
-    deleteData: () => {
+    deleteData: (state) => {
+      state.memberId = null;
+      state.displayName = null;
+      state.email = null;
+      state.createdAt = null;
       sessionStorage.removeItem('memberId');
       sessionStorage.removeItem('displayName');
       sessionStorage.removeItem('email');
       sessionStorage.removeItem('createdAt');
+      sessionStorage.removeItem('stateLog');
     },
   },
 });

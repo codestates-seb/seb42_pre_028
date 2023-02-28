@@ -78,7 +78,9 @@ function DeleteProfile() {
     })
       .then((res) => {
         // 확인하기 : 삭제 후 쿼리 GET 요청이 자동으로 이루어지며 페이지가 해당 주소로 이동됨; 왜?
-        if (res.ok || res.status === 304) {
+        if (!(res.ok || res.status === 304)) {
+          alert('회원정보 삭제 실패');
+        } else {
           let data = res.json();
           console.log(data);
           localStorage.removeItem('Authorization');
@@ -87,8 +89,6 @@ function DeleteProfile() {
           dispatch(logout(state));
           alert('회원정보를 삭제하고 로그아웃하였습니다.');
           navigate('/', { replace: true });
-        } else {
-          alert('회원정보 삭제 실패');
         }
       })
       .catch(() => alert('에러 발생'));

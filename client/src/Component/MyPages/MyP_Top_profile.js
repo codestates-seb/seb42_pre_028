@@ -97,7 +97,9 @@ function MyPTProfile() {
   let elapsedDay = '?';
   if (logState.value === 1) {
     // 임시 방편...
-    if (!userDataState.memberId) window.location.reload();
+    if (!userDataState.memberId) {
+      window.location.reload();
+    }
     let today = new Date();
     let created = userDataState.createdAt.slice(0, 10);
     created = new Date(created);
