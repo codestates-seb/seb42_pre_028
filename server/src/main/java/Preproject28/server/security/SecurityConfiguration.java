@@ -29,7 +29,7 @@ import java.util.Arrays;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-//@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록되게 해줌.
+@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록되게 해줌.
 //@RequiredArgsConstructor
 //@DependsOn({"memberService", "securityConfiguration"})
 public class SecurityConfiguration {
