@@ -6,6 +6,7 @@ import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.dto.response.QuestionDetailPageResponseDto;
 import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
+import Preproject28.server.question.repository.QuestionRepository;
 import Preproject28.server.util.dto.MultiResponseDto;
 import Preproject28.server.util.dto.SingleResponseDto;
 import Preproject28.server.member.service.MemberService;
@@ -120,19 +121,20 @@ public class QuestionController {
     }
 
 
-    @GetMapping("/{question-id}")
-    public ResponseEntity<?> sortQuestion(@Positive
-                                          @RequestParam int page,
-                                          @RequestParam(required = false) String sort) {
-        Page<Question> pageQuestions;
+    @GetMapping("/{question-name}")
+    public ResponseEntity<?> searchQuestion(@PathVariable("question-name")String name , Long memberId) {
+        List<Question> pageQuestions;
 
-        if(!sort.isEmpty()) {
-            pageQuestions = questionService.getAllQuestions(page-1, sort);
-        } else {
-            pageQuestions = questionService.getAllQuestions(page-1);
-        }
-        List <Question> questions = pageQuestions.getContent();
+        pageQuestions = questionService.searchQuestion(name, memberId);
 
-        return new ResponseEntity<>(new MultiResponseDto<>(questionMapper.questionToQuestionResponseInfoDtos(questions), pageQuestions), HttpStatus.OK);
+        return new ResponseEntity<>(questionMapper.questionToQuestionResponseInfoDtos(pageQuestions), HttpStatus.OK);
+
+//        if(!sort.isEmpty()) {
+//            pageQuestions = questionService.getAllQuestions(page-1, sort);
+//        } else {
+//            pageQuestions = questionService.getAllQuestions(page-1);
+//        }
+//        List <Question> questions = pageQuestions.getContent();
+//
     }
 }

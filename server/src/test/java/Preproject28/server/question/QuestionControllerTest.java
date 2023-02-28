@@ -7,6 +7,7 @@ import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.controller.QuestionController;
+import Preproject28.server.question.dto.response.QuestionDetailPageResponseDto;
 import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
 import Preproject28.server.question.dto.QuestionPatchDto;
 import Preproject28.server.question.dto.QuestionPostDto;
@@ -86,6 +87,9 @@ public class QuestionControllerTest {
     private static final QuestionResponseDto response = new QuestionResponseDto();
     private static final QuestionTotalPageResponseDto infoResponse = new QuestionTotalPageResponseDto();
 
+    private static final QuestionDetailPageResponseDto infoResponse2 = new QuestionDetailPageResponseDto();
+
+
     @BeforeAll
     public static void init() {
         contentList.add("본문 List 형식예시 (1)");
@@ -107,7 +111,7 @@ public class QuestionControllerTest {
         response.setViewCount(1);
         response.setVoteCount(1);
         response.setMember(member);
-        response.setAnswers(answers);
+//        response.setAnswers(answers);
         response.setTag(tagList);
         //질문 샘플 - 답변 없는것
         infoResponse.setQuestionId(1L);
@@ -131,7 +135,7 @@ public class QuestionControllerTest {
         when(memberService.findMember(anyInt())).thenReturn(new Member());
         when(questionMapper.questionPostDtoToQuestion(any())).thenReturn(new Question());
         when(questionService.createQuestion(any())).thenReturn(new Question());
-        when(questionMapper.questionToQuestionDetailPageResponseDto(any())).thenReturn(infoResponse);
+        when(questionMapper.questionToQuestionDetailPageResponseDto(any())).thenReturn(infoResponse2);
         log.info(response.toString());
 
         ResultActions actions = mockMvc.perform(post("/question")
