@@ -135,7 +135,7 @@ public class QuestionController {
     }
 
 
-    @GetMapping("/{question-name}")
+    @GetMapping("/{question-name}/")
     public ResponseEntity<?> searchQuestion(@PathVariable("question-name")String name,@RequestParam int page,@RequestParam int size) {
         Page<Question> questionsPage = questionService.findQuestions(page,size);
         List<Question> pageQuestions;
@@ -145,13 +145,13 @@ public class QuestionController {
         return new ResponseEntity<>(new MultiResponseDto<>(questionMapper.questionToQuestionTotalPageResponseDtos(pageQuestions),questionsPage), HttpStatus.OK);
 
     }
-
+//
 //        if(!sort.isEmpty()) {
 //            pageQuestions = questionService.getAllQuestions(page-1, sort);
 //        } else {
 //            pageQuestions = questionService.getAllQuestions(page-1);
 //        }
 //        List <Question> questions = pageQuestions.getContent();
-//
+
 }
 

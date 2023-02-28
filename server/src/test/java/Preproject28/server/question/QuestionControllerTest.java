@@ -396,23 +396,25 @@ public class QuestionControllerTest {
     }
     @Test
     public void searchQuestionTest() throws Exception {
-        String name = "example";
+        String questionName = "example";
         int page = 0;
         int size = 15;
 
-        List<Question> questions = new ArrayList<>();
+
+        when(questionService.findQuestions(page, size)).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(page,size),3L));
+        when(questionService.searchQuestion(any())).thenReturn(searchQList);
+        when(questionMapper.questionToQuestionTotalPageResponseDtos(any())).thenReturn(questionTotalPageResponseDtos);
+
+        ResultActions actions = mockMvc.perform(get("/question/{question-name}/", questionName)
+                        .param("page", "0")
+                        .param("size", "15")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
 
 
-        when(questionService.findQuestions(page, size)).thenReturn(Page.empty());
-        when(questionService.searchQuestion(name)).thenReturn(questions);
-        when(questionMapper.questionToQuestionTotalPageResponseDtos(questions)).thenReturn(Collections.emptyList());
-
-        ResultActions actions = mockMvc.perform(get("/{question-name}", name)
-                        .param("page", String.valueOf(page))
-                        .param("size", String.valueOf(size)))
-                .andExpect(status().isOk());
-
-        actions.andDo(document("searchQuestion",
+        actions.andExpect(status().isOk())
+                .andDo(document("searchQuestion",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 pathParameters(
@@ -424,20 +426,28 @@ public class QuestionControllerTest {
                 ),
                 responseFields(
                         List.of(
-                                fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
-                                fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
-                                fieldWithPath("data.content").type(JsonFieldType.ARRAY).description("답변 내용"),
-                                fieldWithPath("data.adoptStatus").type(JsonFieldType.STRING).description("답변 채택여부"),
-                                fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성시간"),
-                                fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정시간"),
-                                fieldWithPath("data.voteCount").type(JsonFieldType.NUMBER).description("답변 추천수"),
-                                fieldWithPath("data.member.memberId").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
-                                fieldWithPath("data.member.displayName").type(JsonFieldType.STRING).description("답변 작성자 이름"),
-                                fieldWithPath("data.member.email").type(JsonFieldType.STRING).description("답변 작성자 이메일"),
-                                fieldWithPath("data.member.createdAt").type(JsonFieldType.STRING).description("답변 작성자 회원가입 시간"),
-                                fieldWithPath("data.member.iconImageUrl").type(JsonFieldType.STRING).description("답변 작성자 이미지 url"),
-                                fieldWithPath("data.member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변 작성자 질문글 전체 갯수"),
-                                fieldWithPath("data.member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변 작성자 답변글 전체 갯수")
+                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                fieldWithPath("data.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                fieldWithPath("data.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성시간"),
+                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정시간"),
+                                fieldWithPath("data.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                fieldWithPath("data.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+                                fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변갯수"),
+                                fieldWithPath("data.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글에 채택된 답변 식별자 (0이면 채택없음)"),
+                                fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("질문글 작성자 식별자"),
+                                fieldWithPath("data.[].member.displayName").type(JsonFieldType.STRING).description("질문글 작성자 이름"),
+                                fieldWithPath("data.[].member.email").type(JsonFieldType.STRING).description("질문글 작성자 이메일"),
+                                fieldWithPath("data.[].member.createdAt").type(JsonFieldType.STRING).description("질문글 작성자 회원가입 시간"),
+                                fieldWithPath("data.[].member.iconImageUrl").type(JsonFieldType.STRING).description("질문글 작성자 이미지 url"),
+                                fieldWithPath("data.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("질문글 작성자 질문글 전체 갯수"),
+                                fieldWithPath("data.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("질문글 작성자 답변글 전체 갯수"),
+                                fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
+                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지정보 - 현재 페이지"),
+                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지정보 - 페이지당 출력 갯수"),
+                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 질문글수"),
+                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 페이지수")
                         )
                 )
         ));

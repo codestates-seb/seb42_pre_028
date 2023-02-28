@@ -9,6 +9,7 @@ import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import Preproject28.server.question.dto.response.QuestionDetailPageResponseDto;
 import Preproject28.server.question.dto.response.QuestionResponseDto;
 import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
+import Preproject28.server.question.entity.Question;
 import Preproject28.server.questionVote.entity.QuestionVote;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -33,9 +34,14 @@ public class StubData {
     public static final QuestionTotalPageResponseDto questionTotalPageResponseDto = new QuestionTotalPageResponseDto();
     public static final List<QuestionTotalPageResponseDto> questionTotalPageResponseDtos = new ArrayList<>();
     public static final QuestionDetailPageResponseDto questionDetailPageResponseDto = new QuestionDetailPageResponseDto();
-
+    public static final List<Question> searchQList  = new ArrayList<>();
+    public static final Question q1 = new Question();
+    public static final Question q2 = new Question();
+    public static final Question q3 = new Question();
 
     public static void init() {
+
+
         contentBodySample.add("답변글 내용 List 예시 1번");
         contentBodySample.add("답변글 내용 List 예시 2번");
         contentBodySample.add("답변글 내용 List 예시 3번");
@@ -114,5 +120,16 @@ public class StubData {
         questionResponseDto.setMember(memberInfoResponseDto);
         questionResponseDto.setTag(tagList);
 
+        q1.setTitle("example");
+        q2.setTitle("examples");
+        q3.setTitle("EXAMPLES");
+        q1.setId(1);
+        q2.setId(2);
+        q3.setId(3);
+
+
+        searchQList.add(q1);
+        searchQList.add(q2);
+        searchQList.add(q3);
     }
 }

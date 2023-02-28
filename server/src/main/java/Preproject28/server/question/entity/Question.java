@@ -5,6 +5,7 @@ import Preproject28.server.member.entity.Member;
 import Preproject28.server.questionVote.entity.QuestionVote;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,6 +20,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @EntityListeners(AuditingEntityListener.class)
+
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
