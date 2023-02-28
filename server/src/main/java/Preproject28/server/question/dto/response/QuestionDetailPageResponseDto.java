@@ -36,8 +36,7 @@ public class QuestionDetailPageResponseDto {
     private LocalDateTime modifiedAt;
     private long viewCount;
     private long voteCount;
-
-    private long answerCount;
+    private long answerCount; //수동구현
     private List<AnswerInfoResponseDto> answers;
     private LoginMemberVoteInfo loginUserInfo;
 }

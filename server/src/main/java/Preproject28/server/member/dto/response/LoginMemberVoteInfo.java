@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +24,7 @@ public class LoginMemberVoteInfo {
     private Long memberId;
     private String email;
     private Long questionId;
-    //수동구현필요
     private QuestionVote.VoteStatus questionvoteStatus;
-    private List<LoginUserAnswerVoteResponseDto> answerVoteStatus =new ArrayList<>();
+    private List<LoginUserAnswerVoteResponseDto> answerVoteStatus = new ArrayList<>();
 
 }

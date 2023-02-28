@@ -57,9 +57,10 @@ public class QuestionService {
 
     public Page<Question> findQuestions(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
-
     }
-
+    public Page<Question> findQuestionsByMemberId(long memberId, int page, int size) {
+        return questionRepository.findByMemberId(memberId, PageRequest.of(page, size, Sort.by("questionId").descending()));
+    }
     public Question findQuestion(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 

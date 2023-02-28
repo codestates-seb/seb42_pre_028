@@ -24,8 +24,7 @@ public class QuestionTotalPageResponseDto {
     private LocalDateTime modifiedAt;
     private long viewCount;
     private long voteCount;
-    private long answerCount;
-
+    private long answerCount; //수동추가
     private long adoptAnswerId;
     private MemberInfoResponseDto member;
     private List<String> tag;

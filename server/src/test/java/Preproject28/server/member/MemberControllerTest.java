@@ -1,16 +1,17 @@
 package Preproject28.server.member;
 
-import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.mapper.AnswerMapper;
+import Preproject28.server.answer.service.AnswerService;
+import Preproject28.server.helper.StubData;
 import Preproject28.server.member.controller.MemberController;
 import Preproject28.server.member.dto.*;
-import Preproject28.server.member.dto.response.MemberAnswersResponseDto;
-import Preproject28.server.member.dto.response.MemberInfoResponseDto;
-import Preproject28.server.member.dto.response.MemberQuestionResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
 import Preproject28.server.question.entity.Question;
+import Preproject28.server.question.mapper.QuestionMapper;
+import Preproject28.server.question.service.QuestionService;
 import Preproject28.server.utils.SecurityTestConfig;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -29,11 +32,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Preproject28.server.helper.StubData.*;
 import static Preproject28.server.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static Preproject28.server.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.ArgumentMatchers.*;
@@ -41,8 +43,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,20 +60,21 @@ public class MemberControllerTest {
     @MockBean
     private MemberService memberService;
     @MockBean
-    private MemberMapper mapper;
+    private AnswerService answerService;
+    @MockBean
+    private QuestionService questionService;
+    @MockBean
+    private QuestionMapper questionMapper;
+    @MockBean
+    private MemberMapper memberMapper;
+    @MockBean
+    private AnswerMapper answerMapper;
     @Autowired
     private Gson gson;
-    private final LocalDateTime timeSample = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-    private final MemberInfoResponseDto memberInfoResponseDto = new MemberInfoResponseDto();
-
-    private final List<String> contentList = new ArrayList<>();
-
 
     @BeforeEach
     public void init() {
-        contentList.add("본문 List 형식예시 (1)");
-        contentList.add("본문 List 형식예시 (2)");
-        contentList.add("본문 List 형식예시 (3)");
+        StubData.init();
     }
 
     @Test
@@ -82,9 +84,9 @@ public class MemberControllerTest {
         MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
 
-        when(mapper.memberPostDtoToMember(any())).thenReturn(new Member());
+        when(memberMapper.memberPostDtoToMember(any())).thenReturn(new Member());
         when(memberService.createMember(any())).thenReturn(new Member());
-        when(mapper.memberToMemberInfoResponse(any())).thenReturn(memberInfoResponseDto);
+        when(memberMapper.memberToMemberInfoResponse(any())).thenReturn(memberInfoResponseDto);
         //when
 
         ResultActions actions = mockMvc.perform(post("/members")
@@ -112,7 +114,10 @@ public class MemberControllerTest {
                                         fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("data.email").type(JsonFieldType.STRING).description("회원 이메일"),
-                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
+                                        fieldWithPath("data.iconImageUrl").type(JsonFieldType.STRING).description("회원 아이콘 uri"),
+                                        fieldWithPath("data.myQuestionCount").type(JsonFieldType.NUMBER).description("회원의 전체 질문글 갯수"),
+                                        fieldWithPath("data.myAnswerCount").type(JsonFieldType.NUMBER).description("회원의 전체 답변 갯수")
                                 )
                 )
                 ));
@@ -125,11 +130,10 @@ public class MemberControllerTest {
         String requestJson = gson.toJson(requestPatch);
 
         long memberId = 1L;
-        MemberInfoResponseDto response = new MemberInfoResponseDto();
 
-        when(mapper.memberPatchDtoToMember(any())).thenReturn(new Member());
+        when(memberMapper.memberPatchDtoToMember(any())).thenReturn(new Member());
         when(memberService.updateMember(any())).thenReturn(new Member());
-        when(mapper.memberToMemberInfoResponse(any())).thenReturn(response);
+        when(memberMapper.memberToMemberInfoResponse(any())).thenReturn(memberInfoResponseDto);
 
         //when
         ResultActions actions = mockMvc.perform(patch("/members/{member-id}",memberId)
@@ -141,15 +145,13 @@ public class MemberControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("patch-member-address",
-                        pathParameters(
-                                parameterWithName("member-id").description("회원 식별자")
-                        )
-                ))
                 .andDo(document(
                         "patch-member",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        ),
                         requestFields(
                                 List.of(
                                         fieldWithPath("displayName").type(JsonFieldType.STRING).description("회원 이름"),
@@ -161,71 +163,75 @@ public class MemberControllerTest {
                                         fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("회원 이름"),
                                         fieldWithPath("data.email").type(JsonFieldType.STRING).description("회원 이메일"),
-                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
+                                        fieldWithPath("data.iconImageUrl").type(JsonFieldType.STRING).description("회원 아이콘 uri"),
+                                        fieldWithPath("data.myQuestionCount").type(JsonFieldType.NUMBER).description("회원의 전체 질문글 갯수"),
+                                        fieldWithPath("data.myAnswerCount").type(JsonFieldType.NUMBER).description("회원의 전체 답변 갯수")
                                 )
                         )
                 ));
     }
 
     //내가쓴 글 조회
-//    @Test
-//    @DisplayName("내가쓴 질문글 조회 테스트")
-//    public void getMemberQuestionTest() throws Exception {
-//        //given
-//        Member member = new Member();
-//        member.setMemberId(1L);
-//
-//        Question question = new Question();
-//        question.setQuestionId(1L);
-//        question.setTitle("질문글 제목");
-//        question.setProblemBody(contentList);
-//        question.setExpectingBody(contentList);
-//        question.setCreatedAt(timeSample);
-//        question.setModifiedAt(timeSample);
-//        question.setMember(member);
-//        question.setViewCount(0);
-//        question.setVoteCount(0);
-//
-//        MemberQuestionResponseDto response = new MemberQuestionResponseDto();
-//        response.setQuestions(List.of(question));
-//        when(memberService.findMember(anyInt())).thenReturn(new Member());
-//        when(mapper.memberToMemberQuestionResponse(any())).thenReturn(response);
-//        //when
-//        ResultActions actions = mockMvc.perform(
-//                get("/members/{member-id}/question", member.getMemberId())
-//                    .accept(MediaType.APPLICATION_JSON)
-//                    .contentType(MediaType.APPLICATION_JSON));
-//        //then
-//        actions
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andDo(document("get-member-question-address",
-//                        pathParameters(
-//                                parameterWithName("member-id").description("회원 식별자")
-//                        )
-//                ))
-//                .andDo(document(
-//                        "get-member-question",
-//                        getRequestPreProcessor(),
-//                        getResponsePreProcessor(),
-//
-//                        responseFields(
-//                                List.of(
-//                                        fieldWithPath("data.questions.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
-//                                        fieldWithPath("data.questions.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
-//                                        fieldWithPath("data.questions.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
-//                                        fieldWithPath("data.questions.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
-//                                        fieldWithPath("data.questions.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성 시간"),
-//                                        fieldWithPath("data.questions.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정 시간"),
-//                                        fieldWithPath("data.questions.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
-//                                        fieldWithPath("data.questions.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
-//                                        fieldWithPath("data.questions.[].answers").type(JsonFieldType.ARRAY).description("질문에 달린 답변"),
-//                                        fieldWithPath("data.questions.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
-//                                        fieldWithPath("data.questions.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글 채택되있는 답변 ID")
-//                                )
-//                        )
-//                ));
-//    }
+    @Test
+    @DisplayName("내가쓴 질문글 조회 테스트")
+    public void getMemberQuestionTest() throws Exception {
+        //given
+        Member member = new Member();
+        member.setMemberId(1L);
+
+        when(questionService.findQuestionsByMemberId(anyLong(),anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Question())), PageRequest.of(1,5),1));
+        when(questionMapper.questionToQuestionTotalPageResponseDtos(any())).thenReturn(questionTotalPageResponseDtos);
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/members/{member-id}/question", member.getMemberId())
+                        .param("page", "1")
+                        .param("size", "5")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON));
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document(
+                        "get-member-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 요청"),
+                                parameterWithName("size").description("페이지당 출력갯수 지정")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문글 식별자"),
+                                        fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문글 제목"),
+                                        fieldWithPath("data.[].problemBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 문제점(LIST)"),
+                                        fieldWithPath("data.[].expectingBody").type(JsonFieldType.ARRAY).description("질문글 본문 - 해결시(LIST)"),
+                                        fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문글 생성시간"),
+                                        fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문글 수정시간"),
+                                        fieldWithPath("data.[].viewCount").type(JsonFieldType.NUMBER).description("질문글 조회수"),
+                                        fieldWithPath("data.[].voteCount").type(JsonFieldType.NUMBER).description("질문글 추천수"),
+                                        fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("질문글에 달린 답변갯수"),
+                                        fieldWithPath("data.[].adoptAnswerId").type(JsonFieldType.NUMBER).description("질문글에 채택된 답변 식별자 (0이면 채택없음)"),
+                                        fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("질문글 작성자 회원 식별자"),
+                                        fieldWithPath("data.[].member.displayName").type(JsonFieldType.STRING).description("질문글 작성자 회원 이름"),
+                                        fieldWithPath("data.[].member.email").type(JsonFieldType.STRING).description("질문글 작성자 회원 이메일"),
+                                        fieldWithPath("data.[].member.createdAt").type(JsonFieldType.STRING).description("질문글 작성자 회원가입 시간"),
+                                        fieldWithPath("data.[].member.iconImageUrl").type(JsonFieldType.STRING).description("질문글 작성자 회원 이미지 url"),
+                                        fieldWithPath("data.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("질문글 작성자 질문글 전체 갯수"),
+                                        fieldWithPath("data.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("질문글 작성자 답변글 전체 갯수"),
+                                        fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그(LIST)"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지정보 - 현재 페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지정보 - 페이지당 출력 갯수"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 질문글수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 페이지수")
+                                )
+                        )
+                ));
+    }
     //내가쓴 답변 조회
     @Test
     @DisplayName("내가쓴 답변글 조회 테스트")
@@ -234,52 +240,52 @@ public class MemberControllerTest {
         Member member = new Member();
         member.setMemberId(1L);
 
-        AnswerInfoResponseDto answer = new AnswerInfoResponseDto();
-        answer.setAnswerId(1L);
-        answer.setQuestionId(1L);
-        answer.setMember(memberInfoResponseDto);
-        answer.setContent(contentList);
-        answer.setVoteCount(0);
-        answer.setCreatedAt(timeSample);
-        answer.setModifiedAt(timeSample);
-        answer.setAdoptStatus(Answer.AdoptStatus.FALSE);
 
-        MemberAnswersResponseDto response = new MemberAnswersResponseDto();
-        response.setAnswers(List.of(answer));
-        when(memberService.findMember(anyInt())).thenReturn(new Member());
-        when(mapper.memberToMemberAnswerResponse(any())).thenReturn(response);
+
+        when(answerService.findAnswersByMemberId(anyLong(),anyInt(),anyInt())).thenReturn(new PageImpl<>(new ArrayList<>(List.of(new Answer())), PageRequest.of(1,5),1));
+        when(answerMapper.answerToAnswerInfoResponseDtos(any())).thenReturn(answerInfoResponseDtos);
         //when
         ResultActions actions = mockMvc.perform(
                 get("/members/{member-id}/answer", member.getMemberId())
+                        .param("page", "1")
+                        .param("size", "5")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON));
         //then
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("get-member-answer-address",
-                        pathParameters(
-                                parameterWithName("member-id").description("회원 식별자")
-                        )
-                ))
                 .andDo(document(
                         "get-member-answer",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
-
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 요청"),
+                                parameterWithName("size").description("페이지당 출력갯수 지정")
+                        ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
-                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
-                                        fieldWithPath("data.answers.[].content").type(JsonFieldType.ARRAY).description("답변글 본문"),
-                                        fieldWithPath("data.answers.[].voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
-                                        fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
-                                        fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
-                                        fieldWithPath("data.answers.[].adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
-                                        fieldWithPath("data.answers.[].member.memberId").type(JsonFieldType.NUMBER).description("답변의 회원 식별자"),
-                                        fieldWithPath("data.answers.[].member.displayName").type(JsonFieldType.STRING).description("답변의 회원 이름"),
-                                        fieldWithPath("data.answers.[].member.email").type(JsonFieldType.STRING).description("답변의 회원 이메일"),
-                                        fieldWithPath("data.answers.[].member.createdAt").type(JsonFieldType.STRING).description("답변의 회원 생성 시간")
+                                        fieldWithPath("data.[].answerId").type(JsonFieldType.NUMBER).description("답변글 식별자"),
+                                        fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문글 식별자"),
+                                        fieldWithPath("data.[].content").type(JsonFieldType.ARRAY).description("답변글 본문"),
+                                        fieldWithPath("data.[].voteCount").type(JsonFieldType.NUMBER).description("답변글 추천수"),
+                                        fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("답변글 생성 시간"),
+                                        fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("답변글 수정 시간"),
+                                        fieldWithPath("data.[].adoptStatus").type(JsonFieldType.STRING).description("답변글 채택여부"),
+                                        fieldWithPath("data.[].member.memberId").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
+                                        fieldWithPath("data.[].member.displayName").type(JsonFieldType.STRING).description("답변 작성자 이름"),
+                                        fieldWithPath("data.[].member.email").type(JsonFieldType.STRING).description("답변 작성자 이메일"),
+                                        fieldWithPath("data.[].member.createdAt").type(JsonFieldType.STRING).description("답변 작성자 생성 시간"),
+                                        fieldWithPath("data.[].member.iconImageUrl").type(JsonFieldType.STRING).description("답변 작성자 이미지 url"),
+                                        fieldWithPath("data.[].member.myQuestionCount").type(JsonFieldType.NUMBER).description("답변 작성자 질문글 전체 갯수"),
+                                        fieldWithPath("data.[].member.myAnswerCount").type(JsonFieldType.NUMBER).description("답변 작성자 답변글 전체 갯수"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지정보 - 현재 페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지정보 - 페이지당 출력 갯수"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 질문글수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지정보 - 전체 페이지수")
 
                                 )
                         )
@@ -293,10 +299,9 @@ public class MemberControllerTest {
         MemberPostDto requestPost = new MemberPostDto("홍길동", "ghdrlfehd@gmail.com", "1111");
         String requestJson = gson.toJson(requestPost);
         String memberEmail = "ghdrlfehd@gmail.com";
-        MemberInfoResponseDto response = new MemberInfoResponseDto();
 
         when(memberService.findMemberByEmail(anyString())).thenReturn(new Member());
-        when(mapper.memberToMemberInfoResponse(any())).thenReturn(response);
+        when(memberMapper.memberToMemberInfoResponse(any())).thenReturn(memberInfoResponseDto);
         //when
         ResultActions actions = mockMvc.perform(
                 get("/members/{member-email}/info", memberEmail)
@@ -307,21 +312,22 @@ public class MemberControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("get-member-info-address",
-                        pathParameters(
-                                parameterWithName("member-email").description("회원 이메일")
-                        )
-                ))
                 .andDo(document(
                         "get-member-info",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-email").description("회원 이메일")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("이름"),
                                         fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
-                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간")
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원가입 시간"),
+                                        fieldWithPath("data.iconImageUrl").type(JsonFieldType.STRING).description("회원 아이콘 uri"),
+                                        fieldWithPath("data.myQuestionCount").type(JsonFieldType.NUMBER).description("회원의 전체 질문글 갯수"),
+                                        fieldWithPath("data.myAnswerCount").type(JsonFieldType.NUMBER).description("회원의 전체 답변 갯수")
                                 )
                         )
                 ));
@@ -343,15 +349,13 @@ public class MemberControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("delete-member-address",
-                        pathParameters(
-                                parameterWithName("member-id").description("회원 식별자")
-                        )
-                ))
                 .andDo(document(
                         "delete-member",
                         getRequestPreProcessor(),
-                        getResponsePreProcessor()
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 식별자")
+                        )
                         ));
     }
 

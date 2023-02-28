@@ -82,15 +82,13 @@ public class QuestionVoteControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("question-vote-up-address",
-                        pathParameters(
-                                parameterWithName("question-id").description("질문글 식별자")
-                        )
-                ))
                 .andDo(document(
                         "question-vote-up",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문글 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.voteStatus").type(JsonFieldType.STRING).description("내 추천 상태"),
@@ -128,15 +126,13 @@ public class QuestionVoteControllerTest {
         actions
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("question-vote-down-address",
-                        pathParameters(
-                                parameterWithName("question-id").description("질문글 식별자")
-                        )
-                ))
                 .andDo(document(
                         "question-vote-down",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문글 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data.voteStatus").type(JsonFieldType.STRING).description("내 추천 상태"),

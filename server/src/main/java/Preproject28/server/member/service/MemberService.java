@@ -90,13 +90,13 @@ public class MemberService {
         List<AnswerVote> answerVotes = member.getAnswerVotes();
         List<Answer> questionAnswers = question.getAnswers();
 
-        //
         for(QuestionVote questionVote : questionVotes) {
             if(Objects.equals(questionVote.getQuestion().getQuestionId(), question.getQuestionId())) {
                 loginMemberVoteInfo.setQuestionvoteStatus(questionVote.getVoteStatus());
                 break;
             }
         }
+
         for (Answer questionAnswer : questionAnswers) {
             for (AnswerVote answerVote : answerVotes) {
                 if(Objects.equals(questionAnswer.getAnswerId(), answerVote.getAnswer().getAnswerId())){

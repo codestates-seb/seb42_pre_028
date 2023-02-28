@@ -1,21 +1,30 @@
 package Preproject28.server.member.controller;
 
+import Preproject28.server.answer.dto.AnswerInfoResponseDto;
+import Preproject28.server.answer.entity.Answer;
+import Preproject28.server.answer.mapper.AnswerMapper;
+import Preproject28.server.answer.service.AnswerService;
 import Preproject28.server.member.dto.*;
-import Preproject28.server.member.dto.response.MemberAnswersResponseDto;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
-import Preproject28.server.member.dto.response.MemberQuestionResponseDto;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.member.mapper.MemberMapper;
 import Preproject28.server.member.service.MemberService;
+import Preproject28.server.question.dto.response.QuestionTotalPageResponseDto;
+import Preproject28.server.question.entity.Question;
+import Preproject28.server.question.mapper.QuestionMapper;
+import Preproject28.server.question.service.QuestionService;
+import Preproject28.server.util.dto.MultiResponseDto;
 import Preproject28.server.util.dto.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -24,24 +33,28 @@ import javax.validation.Valid;
 @Validated
 public class MemberController {
 
-    private final MemberMapper mapper;
+    private final MemberMapper memberMapper;
+    private final AnswerMapper answerMapper;
+    private final QuestionMapper questionMapper;
     private final MemberService memberService;
+    private final AnswerService answerService;
+    private final QuestionService questionService;
 
     @PostMapping
     public ResponseEntity<?> postMember(@RequestBody @Valid MemberPostDto requestBody) {
-        Member member = mapper.memberPostDtoToMember(requestBody);
+        Member member = memberMapper.memberPostDtoToMember(requestBody);
         Member createdMember = memberService.createMember(member);
-        MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(createdMember);
+        MemberInfoResponseDto response = memberMapper.memberToMemberInfoResponse(createdMember);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{member-id}")
     public ResponseEntity<?> patchMember(@RequestBody @Valid MemberPatchDto requestBody, @PathVariable("member-id") long memberId) {
         //토큰으로 본인확인 코드 추가필요
-        Member member = mapper.memberPatchDtoToMember(requestBody);
+        Member member = memberMapper.memberPatchDtoToMember(requestBody);
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);
-        MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(updateMember);
+        MemberInfoResponseDto response = memberMapper.memberToMemberInfoResponse(updateMember);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
@@ -66,7 +79,7 @@ public class MemberController {
         //로그인했을때 로그인한 Email ->
         // 127.0.0.1:8080/members/{email}/info
         Member findMember = memberService.findMemberByEmail(memberEmail);
-        MemberInfoResponseDto response = mapper.memberToMemberInfoResponse(findMember);
+        MemberInfoResponseDto response = memberMapper.memberToMemberInfoResponse(findMember);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
@@ -74,19 +87,28 @@ public class MemberController {
      * 내가 쓴 글 조회
      */
     @GetMapping("/{member-id}/question")
-    public ResponseEntity<?> getMemberQuestion(@PathVariable("member-id") long memberId) {
-        Member findMember = memberService.findMember(memberId);
-        MemberQuestionResponseDto response = mapper.memberToMemberQuestionResponse(findMember);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    public ResponseEntity<?> getMemberQuestion(@PathVariable("member-id") long memberId, @RequestParam int page, @RequestParam int size) {
+
+        //페이지네이션 으로 질문글전체조회와 리스폰값 명세 통일(요청사항)
+        Page<Question> pageQuestions = questionService.findQuestionsByMemberId(memberId, page, size);
+        List<Question> questions = pageQuestions.getContent();
+        List<QuestionTotalPageResponseDto> responses = questionMapper.questionToQuestionTotalPageResponseDtos(questions);
+
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }
 
     /**
      * 내가 쓴 답변 조회
      */
     @GetMapping("/{member-id}/answer")
-    public ResponseEntity<?> getMemberAnswer(@PathVariable("member-id") long memberId) {
-        Member findMember = memberService.findMember(memberId);
-        MemberAnswersResponseDto response = mapper.memberToMemberAnswerResponse(findMember);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    public ResponseEntity<?> getMemberAnswer(@PathVariable("member-id") long memberId,  @RequestParam int page, @RequestParam int size) {
+
+        //페이지네이션 으로 질문글전체조회와 리스폰값 명세 통일(요청사항)
+        Page<Answer> pageAnswers = answerService.findAnswersByMemberId(memberId, page, size);
+        List<Answer> answers = pageAnswers.getContent();
+        List<AnswerInfoResponseDto> responses = answerMapper.answerToAnswerInfoResponseDtos(answers);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageAnswers), HttpStatus.OK);
     }
 }
