@@ -24,11 +24,12 @@ public interface QuestionMapper {
     QuestionResponseDto questionToQuestionResponseDto(Question question);
     @Mapping(source = "answers", target = "answerCount", qualifiedByName = "countAnswers") // 수동구현 대신하는 신기술
     QuestionDetailPageResponseDto questionToQuestionDetailPageResponseDto(Question question);
-    @Mapping(source = "answers", target = "answerCount", qualifiedByName = "countAnswers")
-    @Mapping(source = "member.questions", target = "member.myQuestionCount", qualifiedByName = "countQuestions")
-    @Mapping(source = "member.answers", target = "member.myAnswerCount", qualifiedByName = "countAnswers")
-    QuestionTotalPageResponseDto questionToQuestionTotalPageResponseDto(Question question);
 
+    // source = 주입받는곳의 변수명 , target = 변환될곳의 변수명, qualifiedByName = 등록할 로직 메서드명
+    @Mapping(source = "answers", target = "answerCount", qualifiedByName = "countAnswers")
+    @Mapping(source = "member.questions", target = "member.myQuestionCount", qualifiedByName = "countQuestions")// 수동구현 대신하는 신기술
+    @Mapping(source = "member.answers", target = "member.myAnswerCount", qualifiedByName = "countAnswers")// 수동구현 대신하는 신기술
+    QuestionTotalPageResponseDto questionToQuestionTotalPageResponseDto(Question question);
     @Named("countQuestions")
     default long countQuestions(List<Question> questions) { return questions.size(); }
     @Named("countAnswers")

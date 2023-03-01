@@ -64,8 +64,8 @@ public class SecurityConfiguration {
                 .accessDeniedHandler(new MemberAccessDeniedHandler())
                 .and()
                 .oauth2Login(oauth2-> oauth2.successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, customAuthorityUtils, memberService))) // OAuth 로그인 추가
-//                .oauth2Login().loginPage("/loginForm")
-//                .and()
+                .oauth2Login().loginPage("/auth/login")
+                .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests()

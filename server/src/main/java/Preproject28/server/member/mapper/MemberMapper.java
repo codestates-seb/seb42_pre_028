@@ -18,9 +18,12 @@ public interface MemberMapper {
 
     Member memberPostDtoToMember(MemberPostDto memberPostDto);
     Member memberPatchDtoToMember(MemberPatchDto memberPatchDto);
+    // source = 주입받는곳의 변수명 , target = 변환될곳의 변수명, qualifiedByName = 등록할 로직 메서드명
     @Mapping(source = "questions", target = "myQuestionCount", qualifiedByName = "countQuestions")
     @Mapping(source = "answers", target = "myAnswerCount", qualifiedByName = "countAnswers")
     MemberInfoResponseDto memberToMemberInfoResponse(Member member);
+
+    //  Named = 등록할 로직 메서드명
     @Named("countQuestions")
     default long countQuestions(List<Question> questions) { return questions.size(); }
     @Named("countAnswers")
