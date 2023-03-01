@@ -65,7 +65,7 @@ function Answer_Update() {
           setContent(data.data.content.join('\n'));
         });
     }, 300);
-  });
+  }, []);
   const keyDownHandler = (e) => {
     if (e.target.selectionStart === e.target.selectionEnd) return;
     let prevText = e.target.value.slice(0, e.target.selectionStart);
