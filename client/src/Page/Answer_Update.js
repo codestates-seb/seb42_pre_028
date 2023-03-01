@@ -43,7 +43,7 @@ function Answer_Update() {
   const { id } = useParams();
   const [content, setContent] = useState(' ');
   const navigate = useNavigate();
-  // const accessToken = localStorage.getItem('Authorization');
+  const accessToken = localStorage.getItem('Authorization');
 
   useEffect(() => {
     setTimeout(() => {
@@ -52,7 +52,7 @@ function Answer_Update() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          // Authorization: accessToken,
+          Authorization: accessToken,
         },
       })
         .then((res) => {
@@ -114,6 +114,7 @@ function Answer_Update() {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
       body: JSON.stringify({
         answerId: id,
