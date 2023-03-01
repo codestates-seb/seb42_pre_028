@@ -51,8 +51,9 @@ const TagDiv = styled.div`
 `;
 
 const AuthorDiv = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: right;
+  justify-content: left;
   margin-bottom: 1rem;
   gap: 0.3rem;
 `;

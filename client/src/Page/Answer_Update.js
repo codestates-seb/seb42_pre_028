@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Preview from '../features/questionDetail/Preview';
 import { useNavigate, useParams } from 'react-router-dom';
+import { url } from '../url';
 
 const UpdateContainer = styled.div`
   display: flex;
@@ -44,6 +45,27 @@ function Answer_Update() {
   const navigate = useNavigate();
   // const accessToken = localStorage.getItem('Authorization');
 
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(`${url}/answer/${id}`, {
+        credentials: 'include',
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // Authorization: accessToken,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw Error('could not fetch the data for that resource');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setContent(data.data.content.join('\n'));
+        });
+    }, 300);
+  });
   const keyDownHandler = (e) => {
     if (e.target.selectionStart === e.target.selectionEnd) return;
     let prevText = e.target.value.slice(0, e.target.selectionStart);
@@ -86,21 +108,17 @@ function Answer_Update() {
 
   const updateHandler = (e) => {
     e.preventDefault();
-    const url = `http://13.125.1.215:8080/answer/${id}`;
-
     const splitPcontent = content.split('\n');
 
-    const questionData = {
-      answerId: id,
-      content: splitPcontent,
-    };
-
-    fetch(url, {
+    fetch(`${url}/answer/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(questionData),
+      body: JSON.stringify({
+        answerId: id,
+        content: splitPcontent,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
