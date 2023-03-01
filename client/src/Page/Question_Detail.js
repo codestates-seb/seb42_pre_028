@@ -10,6 +10,7 @@ import ContentRender from '../features/questionDetail/ContentRender';
 import Footer from '../Component/Footer';
 import AnswerLike from '../features/questionDetail/AnswerLike';
 import { url } from '../url';
+import Loading from '../Component/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -257,113 +258,118 @@ function Question_Detail() {
 
   return (
     <div>
-      {isPending ? null : (
-        <Container>
-          <Content>
-            <Mainbar>
-              <TitleContainer>
-                <H2>{question.data.title}</H2>
-                <Link to="/create">
-                  <AskButton>Ask Question</AskButton>
-                </Link>
-              </TitleContainer>
-              <TitleStateContainer>
-                <div>
-                  <LeftSpan>Asked</LeftSpan> <RightSpan>16 days ago</RightSpan>
-                </div>
-                <div>
-                  <LeftSpan>Modified</LeftSpan>{' '}
-                  <RightSpan>9 days ago</RightSpan>
-                </div>
-                <div>
-                  <LeftSpan>Viewed</LeftSpan>{' '}
-                  <RightSpan>{question.data.viewCount} times</RightSpan>
-                </div>
-              </TitleStateContainer>
-              <QuestionContainer>
-                <Like
-                  vote={question.data.voteCount}
-                  questionvoteStatus={
-                    question.data.loginUserInfo.questionvoteStatus
-                  }
-                />
-                <QuestionContentContainer>
-                  {/* <span>Problem</span> */}
-                  <ContentRender qContent={question.data.problemBody} />
-                  {/* <span>Expecting</span> */}
-                  <ContentRender qContent={question.data.expectingBody} />
-                  <TagContainer>
-                    {
-                      //question.tags
-                      question.data.tag.map((el, index) => {
-                        return <TagSpan key={index}>{el}</TagSpan>;
-                      })
+      {isPending ? (
+        <Loading />
+      ) : (
+        <>
+          <Container>
+            <Content>
+              <Mainbar>
+                <TitleContainer>
+                  <H2>{question.data.title}</H2>
+                  <Link to="/create">
+                    <AskButton>Ask Question</AskButton>
+                  </Link>
+                </TitleContainer>
+                <TitleStateContainer>
+                  <div>
+                    <LeftSpan>Asked</LeftSpan>{' '}
+                    <RightSpan>16 days ago</RightSpan>
+                  </div>
+                  <div>
+                    <LeftSpan>Modified</LeftSpan>{' '}
+                    <RightSpan>9 days ago</RightSpan>
+                  </div>
+                  <div>
+                    <LeftSpan>Viewed</LeftSpan>{' '}
+                    <RightSpan>{question.data.viewCount} times</RightSpan>
+                  </div>
+                </TitleStateContainer>
+                <QuestionContainer>
+                  <Like
+                    vote={question.data.voteCount}
+                    questionvoteStatus={
+                      question.data.loginUserInfo.questionvoteStatus
                     }
-                  </TagContainer>
-                  <Author
-                    questionId={id}
-                    memberId={question.data.member.memberId}
-                    name={question.data.member.displayName}
-                    answered={345}
-                    avatar={'img'}
                   />
-                </QuestionContentContainer>
-              </QuestionContainer>
-              <AnswerContainer>
-                <p>{question.data.answers.length} Answer</p>
-                {
-                  // question.answer.map
-                  question.data.answers.map((answer, index) => {
-                    return (
-                      <AnswerColumContainer key={index}>
-                        <AnswerRowContainer>
-                          <AnswerLike
-                            adoptedId={adoptedId}
-                            setAdoptedId={setAdoptedId}
-                            memberId={question.data.member.memberId}
+                  <QuestionContentContainer>
+                    {/* <span>Problem</span> */}
+                    <ContentRender qContent={question.data.problemBody} />
+                    {/* <span>Expecting</span> */}
+                    <ContentRender qContent={question.data.expectingBody} />
+                    <TagContainer>
+                      {
+                        //question.tags
+                        question.data.tag.map((el, index) => {
+                          return <TagSpan key={index}>{el}</TagSpan>;
+                        })
+                      }
+                    </TagContainer>
+                    <Author
+                      questionId={id}
+                      memberId={question.data.member.memberId}
+                      name={question.data.member.displayName}
+                      answered={345}
+                      avatar={'img'}
+                    />
+                  </QuestionContentContainer>
+                </QuestionContainer>
+                <AnswerContainer>
+                  <p>{question.data.answers.length} Answer</p>
+                  {
+                    // question.answer.map
+                    question.data.answers.map((answer, index) => {
+                      return (
+                        <AnswerColumContainer key={index}>
+                          <AnswerRowContainer>
+                            <AnswerLike
+                              adoptedId={adoptedId}
+                              setAdoptedId={setAdoptedId}
+                              memberId={question.data.member.memberId}
+                              answerId={answer.answerId}
+                              vote={answer.voteCount}
+                              answerVoteStatus={
+                                question.data.loginUserInfo.answerVoteStatus
+                              }
+                            />
+                            <ContentRender qContent={answer.content} />
+                          </AnswerRowContainer>
+                          <Author
                             answerId={answer.answerId}
-                            vote={answer.voteCount}
-                            answerVoteStatus={
-                              question.data.loginUserInfo.answerVoteStatus
-                            }
+                            memberId={answer.member.memberId}
+                            name={answer.member.displayName}
+                            answered={345}
+                            avatar={'img'}
                           />
-                          <ContentRender qContent={answer.content} />
-                        </AnswerRowContainer>
-                        <Author
-                          answerId={answer.answerId}
-                          memberId={answer.member.memberId}
-                          name={answer.member.displayName}
-                          answered={345}
-                          avatar={'img'}
-                        />
-                      </AnswerColumContainer>
-                    );
-                  })
-                }
-              </AnswerContainer>
-              {log ? (
-                <YourAnswerContainer>
-                  <p>Your Answer</p>
-                  <Textarea
-                    value={content}
-                    onChange={(e) => {
-                      setContent(e.target.value);
-                    }}
-                    onKeyDown={keyDownHandler}
-                  />
-                  <Preview content={content} />
-                  <AskButton onClick={answerPostHandler}>
-                    Post Your Answer
-                  </AskButton>
-                </YourAnswerContainer>
-              ) : null}
-            </Mainbar>
+                        </AnswerColumContainer>
+                      );
+                    })
+                  }
+                </AnswerContainer>
+                {log ? (
+                  <YourAnswerContainer>
+                    <p>Your Answer</p>
+                    <Textarea
+                      value={content}
+                      onChange={(e) => {
+                        setContent(e.target.value);
+                      }}
+                      onKeyDown={keyDownHandler}
+                    />
+                    <Preview content={content} />
+                    <AskButton onClick={answerPostHandler}>
+                      Post Your Answer
+                    </AskButton>
+                  </YourAnswerContainer>
+                ) : null}
+              </Mainbar>
 
-            {/* <Sidebar>Sidebar</Sidebar> */}
-          </Content>
-        </Container>
+              {/* <Sidebar>Sidebar</Sidebar> */}
+            </Content>
+          </Container>
+          <Footer />
+        </>
       )}
-      <Footer />
     </div>
   );
 }
