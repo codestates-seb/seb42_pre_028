@@ -267,13 +267,13 @@ function Question_Detail() {
 
   return (
     <div>
-      <MainDiv>
-        <Nav />
-        {isPending ? (
+      {isPending ? (
         <Loading />
       ) : (
-          <>
-          <Container>
+        <>
+          <MainDiv>
+            <Nav />
+            <Container>
               <Content>
                 <Mainbar>
                   <TitleContainer>
@@ -285,8 +285,7 @@ function Question_Detail() {
                   <TitleStateContainer>
                     <div>
                       <LeftSpan>Asked</LeftSpan>{' '}
-                   {' '}
-                    <RightSpan>16 days ago</RightSpan>
+                      <RightSpan>16 days ago</RightSpan>
                     </div>
                     <div>
                       <LeftSpan>Modified</LeftSpan>{' '}
@@ -375,12 +374,11 @@ function Question_Detail() {
                     </YourAnswerContainer>
                   ) : null}
                 </Mainbar>
-
                 {/* <Sidebar>Sidebar</Sidebar> */}
               </Content>
             </Container>
-            </MainDiv>
-            <Footer />
+          </MainDiv>
+          <Footer />
         </>
       )}
     </div>

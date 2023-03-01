@@ -132,13 +132,13 @@ function Questions_List() {
 
   return (
     <div>
-      <MainDiv>
-        <Nav />
-        {isPending ? (
+      {isPending ? (
         <Loading />
       ) : (
-          <>
-          <Container>
+        <>
+          <MainDiv>
+            <Nav />
+            <Container>
               <Content>
                 <Mainbar>
                   <MainComponent>
@@ -194,8 +194,8 @@ function Questions_List() {
                 {/* <Sidebar>Sidebar</Sidebar> */}
               </Content>
             </Container>
-            </MainDiv>
-            <Footer />
+          </MainDiv>
+          <Footer />
         </>
       )}
     </div>
