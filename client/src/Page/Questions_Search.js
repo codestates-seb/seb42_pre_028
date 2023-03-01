@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import Footer from '../Component/Footer';
 import { useEffect, useState } from 'react';
 import { url } from '../url';
+import Loading from '../Component/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -149,54 +150,58 @@ function Questions_Search() {
 
   return (
     <div>
-      {isPending ? null : (
-        <Container>
-          <Content>
-            <Mainbar>
-              <MainComponent>
-                <H1>All Questions</H1>
-                <Link to="/create">
-                  <AskButton>Ask Question</AskButton>
-                </Link>
-              </MainComponent>
-              <MainComponent>
-                <div>{searchQuestion.pageInfo.totalElements} questions</div>
-              </MainComponent>
-              <MainComponent>
-                <QuestionDiv>
-                  {searchQuestion.data.map((obj, index) => {
-                    return <Question key={index} question={obj}></Question>;
-                  })}
-                </QuestionDiv>
-              </MainComponent>
-              <RowWrapDiv>
-                <Pagination
-                  size={searchQuestion.pageInfo.totalElements}
-                  pageCnt={searchQuestion.pageInfo.size}
-                  currentPage={searchQuestion.pageInfo.page}
-                  tap={tap}
-                  word={word}
-                />
-                <RowDiv>
-                  <Link to={`/search/${word}/1/5/${tap}`}>
-                    <PagingButton>5</PagingButton>
+      {isPending ? (
+        <Loading />
+      ) : (
+        <>
+          <Container>
+            <Content>
+              <Mainbar>
+                <MainComponent>
+                  <H1>All Questions</H1>
+                  <Link to="/create">
+                    <AskButton>Ask Question</AskButton>
                   </Link>
-                  <Link to={`/search/${word}/1/10/${tap}`}>
-                    <PagingButton>10</PagingButton>
-                  </Link>
-                  <Link to={`/search/${word}/1/15/${tap}`}>
-                    <PagingButton>15</PagingButton>
-                  </Link>
-                  per page
-                </RowDiv>
-              </RowWrapDiv>
-            </Mainbar>
+                </MainComponent>
+                <MainComponent>
+                  <div>{searchQuestion.pageInfo.totalElements} questions</div>
+                </MainComponent>
+                <MainComponent>
+                  <QuestionDiv>
+                    {searchQuestion.data.map((obj, index) => {
+                      return <Question key={index} question={obj}></Question>;
+                    })}
+                  </QuestionDiv>
+                </MainComponent>
+                <RowWrapDiv>
+                  <Pagination
+                    size={searchQuestion.pageInfo.totalElements}
+                    pageCnt={searchQuestion.pageInfo.size}
+                    currentPage={searchQuestion.pageInfo.page}
+                    tap={tap}
+                    word={word}
+                  />
+                  <RowDiv>
+                    <Link to={`/search/${word}/1/5/${tap}`}>
+                      <PagingButton>5</PagingButton>
+                    </Link>
+                    <Link to={`/search/${word}/1/10/${tap}`}>
+                      <PagingButton>10</PagingButton>
+                    </Link>
+                    <Link to={`/search/${word}/1/15/${tap}`}>
+                      <PagingButton>15</PagingButton>
+                    </Link>
+                    per page
+                  </RowDiv>
+                </RowWrapDiv>
+              </Mainbar>
 
-            {/* <Sidebar>Sidebar</Sidebar> */}
-          </Content>
-        </Container>
+              {/* <Sidebar>Sidebar</Sidebar> */}
+            </Content>
+          </Container>
+          <Footer />
+        </>
       )}
-      <Footer />
     </div>
   );
 }
