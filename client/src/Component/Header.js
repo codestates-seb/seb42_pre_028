@@ -75,6 +75,10 @@ function Header() {
     alert('로그아웃 성공!');
     navigate('/');
   };
+  const searchHandler = () => {
+    if (word) navigate(`/search/${word}/1/5/createdAt`);
+    else navigate('/questions');
+  };
 
   return (
     <Container>
@@ -92,9 +96,7 @@ function Header() {
           value={word}
           onChange={(e) => setWord(e.target.value)}
         />
-        <Link to={`/search/${word}/1/5/Newest`}>
-          <Button>Search</Button>
-        </Link>
+        <Button onClick={searchHandler}>Search</Button>
       </div>
 
       {log ? (

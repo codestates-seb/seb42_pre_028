@@ -50,7 +50,7 @@ function Question_Update() {
   const [problemContent, setProblemContent] = useState(' ');
   const [expectingContent, setExpectingContent] = useState(' ');
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem('Authorization');
+  // const accessToken = localStorage.getItem('Authorization');
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,7 +59,7 @@ function Question_Update() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: accessToken,
+          // Authorization: accessToken,
         },
       })
         .then((res) => {
@@ -69,6 +69,7 @@ function Question_Update() {
           return res.json();
         })
         .then((data) => {
+          console.log(data);
           setTitle(data.data.title);
           setProblemContent(data.data.problemBody.join('\n'));
           setExpectingContent(data.data.expectingBody.join('\n'));

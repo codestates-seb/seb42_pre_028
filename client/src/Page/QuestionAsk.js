@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Footer from '../Component/Footer';
 import { useNavigate } from 'react-router-dom';
 import { url } from '../url';
+import { Autocomplete } from '../Component/Autocomplete';
 
 //import { useSelector /*, useDispatch*/ } from 'react-redux';
 // import Editor from '../Component/Editor';
@@ -175,14 +176,13 @@ function QuestionAsk() {
   const [title, setTitle] = useState('');
   const [problemBody, setProblemBody] = useState('');
   const [expectingBody, setExpectingBody] = useState('');
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState([]);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('Authorization');
 
   const questionHandler = () => {
     const splitProblemBody = problemBody.split('\n');
     const splitexpectingBody = expectingBody.split('\n');
-    const splitTag = tag.split(' ');
 
     fetch(`${url}/question`, {
       method: 'POST',
@@ -196,7 +196,7 @@ function QuestionAsk() {
         title: title,
         problemBody: splitProblemBody,
         expectingBody: splitexpectingBody,
-        tag: splitTag,
+        tag: tag,
       }),
     })
       .then((response) => response.json())
@@ -212,7 +212,7 @@ function QuestionAsk() {
     setTitle('');
     setProblemBody('');
     setExpectingBody('');
-    setTag('');
+    setTag([]);
   };
   return (
     <React.Fragment>
@@ -325,12 +325,7 @@ function QuestionAsk() {
                     </MainDescription>
                   </LabelAndDescription>
                 </LabelBox>
-                <Input
-                  value={tag}
-                  type="text"
-                  placeholder="태그는 띄어쓰기로 구분됩니다"
-                  onChange={(e) => setTag(e.target.value)}
-                ></Input>
+                <Autocomplete tags={tag} setTags={setTag} />
               </InputBox>
             </CreatBox>
 

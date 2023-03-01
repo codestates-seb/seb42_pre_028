@@ -123,7 +123,7 @@ function Questions_Search() {
     setIsPending(true);
     setTimeout(() => {
       fetch(
-        `${url}/question/${word}/?page=${
+        `${url}/question/search?title=${word}&filter=${tap}&page=${
           page - 1
         }&&size=${pageCnt}&&sorted=${tap}`
       )
@@ -161,21 +161,6 @@ function Questions_Search() {
               </MainComponent>
               <MainComponent>
                 <div>{searchQuestion.pageInfo.totalElements} questions</div>
-                <RowDiv>
-                  <ArrayDiv>
-                    {sortArr.map((el, index) => {
-                      return (
-                        <Link
-                          key={index}
-                          to={`/search/${word}/${page}/${pageCnt}/${el}`}
-                        >
-                          <ArrayButton>{el}</ArrayButton>
-                        </Link>
-                      );
-                    })}
-                  </ArrayDiv>
-                  <ArrayButton>Filter</ArrayButton>
-                </RowDiv>
               </MainComponent>
               <MainComponent>
                 <QuestionDiv>
@@ -190,6 +175,7 @@ function Questions_Search() {
                   pageCnt={searchQuestion.pageInfo.size}
                   currentPage={searchQuestion.pageInfo.page}
                   tap={tap}
+                  word={word}
                 />
                 <RowDiv>
                   <Link to={`/search/${word}/1/5/${tap}`}>
