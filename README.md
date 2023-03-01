@@ -1,6 +1,6 @@
 ## 💫 PRE_28!!
 
-### 우리 사랑스러운 멍멍이의 산책 친구를 만들어 주고 싶다면 PuppyBuddy(퍼피버디)와 함께해요!!
+### StackOverflow
 ![자산 10@4x-100](https://user-images.githubusercontent.com/103437860/194542875-9261ac6b-ba6d-4aa5-b764-e1b90038617d.jpg)
 ---
 
@@ -13,9 +13,9 @@
 
 <br>
 
-## 🐶About PuppyBuddy
+## 🙏StackOverflow
 
- #### PuppyBuddy 는 강아지의 산책 친구를 만들어주고 싶은 분들을 위한 서비스입니다.
+ #### StackOverflow PreProject 28팀입니다.
 <p>
   <img src="https://user-images.githubusercontent.com/61264510/194813517-58d3d645-c5cf-4420-95ef-422a285a5def.png">
 </p>
@@ -30,7 +30,7 @@
 <br>
 
 ## 👨‍👩‍👧‍👦 Team Members 
-|이선민 (FE 팀장)   |김영웅 (FE 팀원)                  |이소현 (BE 팀원)               |채화담 (BE 팀원)               |
+|노석준 (FE 팀장)   |김다빈 (FE 팀원)                  |김민호 (BE 팀원)               |노지용 (BE 팀원)               |김 (BE 팀원)               |
 |----------------|-------------------------------|-----------------------------|-----------------------------|
 |<img src='https://user-images.githubusercontent.com/104314701/195014647-071dcecb-ee2c-4664-8b13-1b0d3e9edd7a.png' width='150'>|<img src='https://user-images.githubusercontent.com/103996469/192595845-36d99b8c-ec46-41ff-98f7-aef452181093.png' width='150'/>|<img src='https://user-images.githubusercontent.com/104314701/194877479-b32226f2-50c9-4741-855a-a0ef5db9388d.png' width='150'/>|<img src='https://user-images.githubusercontent.com/104314701/194877509-fd0c2ee0-397a-4808-8c32-23a8144bfd94.png' width='150'/>|                  
 |[@HelloHailie](https://github.com/HelloHailie)        |[@houndhollis](https://github.com/houndhollis)           |[@shotny](https://github.com/shotny)           |[@Damm06](https://github.com/Damm06)       |
