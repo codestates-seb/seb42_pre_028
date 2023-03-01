@@ -297,7 +297,9 @@ function LogIn() {
             </LoginBtnDiv>
           </LogInForm>
           <Message>
-            <div>Don`t have an accout? Sign up</div>
+            <div>
+              Don`t have an accout? <Link to="/signup">Sign up</Link>
+            </div>
             <div className="mt12">Are you an employer? Sign up on Talent</div>
           </Message>
         </Items>
