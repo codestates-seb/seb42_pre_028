@@ -4,6 +4,7 @@ import Preproject28.server.answer.dto.AnswerInfoResponseDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.answer.mapper.AnswerMapper;
 import Preproject28.server.answer.service.AnswerService;
+import Preproject28.server.error.exception.BusinessLogicException;
 import Preproject28.server.member.dto.response.LoginMemberVoteInfo;
 import Preproject28.server.member.entity.Member;
 import Preproject28.server.question.dto.response.QuestionDetailPageResponseDto;
@@ -67,24 +68,34 @@ public class QuestionController {
     }
 
 
-    //질문글 상세페이지 (1건조회)
     @GetMapping("/{question-id}")
-    public ResponseEntity<?> getQuestion(@PathVariable("question-id") long questionId){
-
-        String loginEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        Question question = questionService.findQuestion(questionId);
-        questionService.setViewCount(question); //조회수기능  1번당 1씩 올라가게 (임시)
-        QuestionDetailPageResponseDto response = questionMapper.questionToQuestionDetailPageResponseDto(question);
-
-        //로그인 되어있으면 response 에 질문글&답글 추천상태 추가
-        if(!Objects.equals(loginEmail, "anonymousUser")) {
+    public ResponseEntity<?> getQuestion(@PathVariable("question-id") long questionId) {
+        try {
             Member loginMember = loginMemberFindByToken();
-            LoginMemberVoteInfo loginMemberVoteInfo = memberService.setMemberVoteStatus(loginMember, question);
-            response.setLoginUserInfo(loginMemberVoteInfo);
-        }
 
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+            Question question = questionService.findQuestion(questionId);
+
+
+            questionService.setViewCount(question); //조회수기능  1번당 1씩 올라가게 (임시)
+            LoginMemberVoteInfo loginMemberVoteInfo = memberService.setMemberVoteStatus(loginMember, question);
+            QuestionDetailPageResponseDto response = questionMapper.questionToQuestionDetailPageResponseDto(question);
+            response.setLoginUserInfo(loginMemberVoteInfo);
+
+
+            return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+        } catch (BusinessLogicException e) {
+            Question question = questionService.findQuestion(questionId);
+
+            QuestionDetailPageResponseDto response = questionMapper.questionToQuestionDetailPageResponseDto(question);
+            Member loginMember2 = new Member();
+            loginMember2.setMemberId(null);
+            loginMember2.setQuestions(null);
+            loginMember2.setEmail(null);
+            LoginMemberVoteInfo loginMemberVoteInfo = memberService.setMemberVoteStatus(loginMember2, question);
+            response.setLoginUserInfo(loginMemberVoteInfo);
+
+            return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+        }
     }
 
     //질문글 검색 리스트페이지
