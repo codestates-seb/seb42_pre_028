@@ -7,11 +7,12 @@ import Preproject28.server.answer.dto.AnswerResponseDto;
 import Preproject28.server.answer.entity.Answer;
 import Preproject28.server.member.dto.response.MemberInfoResponseDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AnswerMapper {
     Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto);
     Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto);

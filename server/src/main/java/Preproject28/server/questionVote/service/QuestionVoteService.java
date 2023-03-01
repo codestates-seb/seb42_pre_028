@@ -28,6 +28,8 @@ public class QuestionVoteService {
         Member member = memberService.findMemberByEmail(loginMemberEmail);
 
         QuestionVote questionVote = findQuestionVote(question, member); // 현재 상태값 불러오기
+
+        //로그인된사람, 상태값이 있는상태
         if(questionVote.getVoteStatus().equals(QuestionVote.VoteStatus.UP)){ //만약에 UP 이면
             questionVote.setVoteStatus(QuestionVote.VoteStatus.NONE); // UP 취소로 동작 (NONE 으로 변경)
             question.setVoteCount(question.getVoteCount() -1); // 게시글의 카운트수 -1
@@ -39,7 +41,6 @@ public class QuestionVoteService {
             question.setVoteCount(question.getVoteCount() +2); // 게시글 카운트 수 + 2 (DOWN -> UP)이라서
         }
         return questionVoteRepository.save(questionVote);
-
     }
 
 

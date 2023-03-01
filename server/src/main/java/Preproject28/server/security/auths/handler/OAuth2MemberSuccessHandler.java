@@ -9,9 +9,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +29,11 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     private final MemberService memberService;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
         String name = String.valueOf(oAuth2User.getAttributes().get("name"));
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
+
         List<String> authorities = authorityUtils.createRoles(email);
 
         saveMember(name,email);
@@ -42,12 +48,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         memberService.createMember(member);
     }
 
-    private void redirect(HttpServletRequest request, HttpServletResponse response, String email, List<String> authorities) {
+    private void redirect(HttpServletRequest request, HttpServletResponse response, String email, List<String> authorities) throws IOException {
         String accessToken = delegateAccessToken(email, authorities);
         String refreshToken = delegateRefreshToken(email);
 
         response.setHeader("Authorization","Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
+
+        String uri = createURI(request, accessToken, refreshToken).toString();
+        getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
     private String delegateAccessToken(String email, List<String> authorities) {
@@ -72,5 +81,23 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
         return refreshToken;
+    }
+
+    private URI createURI(HttpServletRequest request, String accessToken, String refreshToken) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("access_token", accessToken);
+        queryParams.add("refresh_token", refreshToken);
+
+        String serverName = request.getServerName();
+
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host(serverName)
+//                .port(80)
+                .path("/token")
+                .queryParams(queryParams)
+                .build()
+                .toUri();
     }
 }

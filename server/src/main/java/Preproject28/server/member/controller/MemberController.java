@@ -78,4 +78,11 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    @GetMapping("/token")
+    public ResponseEntity<?> giveMemberInfo(Long memberId) {
+        Member member = memberService.findMember(memberId);
+        MemberInfoResponseDto response = memberMapper.memberToMemberInfoResponse(member);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
 }
