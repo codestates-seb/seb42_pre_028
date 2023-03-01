@@ -6,19 +6,28 @@ import { Link } from 'react-router-dom';
 import Footer from '../Component/Footer';
 import useGetFetch from '../Util/useGetFetch';
 import { url } from '../url';
+import Nav from '../Component/Nav';
+
+const MainDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1264px;
+  margin: 0 auto;
+`;
 
 const Container = styled.div`
   display: flex;
   justify-content: right;
+  width: 100%;
 `;
 
 const Content = styled.div`
-  width: 79.8%;
   display: flex;
   justify-content: left;
   padding: 1.5rem;
-  border-left: 0.5px solid gray;
   gap: 1rem;
+  width: 100%;
 `;
 
 const Mainbar = styled.div`
@@ -26,6 +35,7 @@ const Mainbar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 // eslint-disable-next-line no-unused-vars
@@ -121,64 +131,67 @@ function Questions_List() {
 
   return (
     <div>
-      {isPending ? null : (
-        <Container>
-          <Content>
-            <Mainbar>
-              <MainComponent>
-                <H1>All Questions</H1>
-                <Link to="/create">
-                  <AskButton>Ask Question</AskButton>
-                </Link>
-              </MainComponent>
-              <MainComponent>
-                <div>{data.pageInfo.totalElements} questions</div>
-                <RowDiv>
-                  <ArrayDiv>
-                    {sortArr.map((el, index) => {
-                      return (
-                        <Link key={index} to={`/questions/1/5/${el}`}>
-                          <ArrayButton>{el}</ArrayButton>
-                        </Link>
-                      );
+      <MainDiv>
+        <Nav />
+        {isPending ? null : (
+          <Container>
+            <Content>
+              <Mainbar>
+                <MainComponent>
+                  <H1>All Questions</H1>
+                  <Link to="/create">
+                    <AskButton>Ask Question</AskButton>
+                  </Link>
+                </MainComponent>
+                <MainComponent>
+                  <div>{data.pageInfo.totalElements} questions</div>
+                  <RowDiv>
+                    <ArrayDiv>
+                      {sortArr.map((el, index) => {
+                        return (
+                          <Link key={index} to={`/questions/1/5/${el}`}>
+                            <ArrayButton>{el}</ArrayButton>
+                          </Link>
+                        );
+                      })}
+                    </ArrayDiv>
+                    <ArrayButton>Filter</ArrayButton>
+                  </RowDiv>
+                </MainComponent>
+                <MainComponent>
+                  <QuestionDiv>
+                    {data.data.map((obj, index) => {
+                      return <Question key={index} question={obj}></Question>;
                     })}
-                  </ArrayDiv>
-                  <ArrayButton>Filter</ArrayButton>
-                </RowDiv>
-              </MainComponent>
-              <MainComponent>
-                <QuestionDiv>
-                  {data.data.map((obj, index) => {
-                    return <Question key={index} question={obj}></Question>;
-                  })}
-                </QuestionDiv>
-              </MainComponent>
-              <RowWrapDiv>
-                <Pagination
-                  size={data.pageInfo.totalElements}
-                  pageCnt={data.pageInfo.size}
-                  currentPage={data.pageInfo.page}
-                  tap={'createdAt'}
-                />
-                <RowDiv>
-                  <Link to={`/questions/1/5/createdAt`}>
-                    <PagingButton>5</PagingButton>
-                  </Link>
-                  <Link to={`/questions/1/10/createdAt`}>
-                    <PagingButton>10</PagingButton>
-                  </Link>
-                  <Link to={`/questions/1/15/createdAt`}>
-                    <PagingButton>15</PagingButton>
-                  </Link>
-                  per page
-                </RowDiv>
-              </RowWrapDiv>
-            </Mainbar>
+                  </QuestionDiv>
+                </MainComponent>
+                <RowWrapDiv>
+                  <Pagination
+                    size={data.pageInfo.totalElements}
+                    pageCnt={data.pageInfo.size}
+                    currentPage={data.pageInfo.page}
+                    tap={'createdAt'}
+                  />
+                  <RowDiv>
+                    <Link to={`/questions/1/5/createdAt`}>
+                      <PagingButton>5</PagingButton>
+                    </Link>
+                    <Link to={`/questions/1/10/createdAt`}>
+                      <PagingButton>10</PagingButton>
+                    </Link>
+                    <Link to={`/questions/1/15/createdAt`}>
+                      <PagingButton>15</PagingButton>
+                    </Link>
+                    per page
+                  </RowDiv>
+                </RowWrapDiv>
+              </Mainbar>
 
-            {/* <Sidebar>Sidebar</Sidebar> */}
-          </Content>
-        </Container>
-      )}
+              {/* <Sidebar>Sidebar</Sidebar> */}
+            </Content>
+          </Container>
+        )}
+      </MainDiv>
       <Footer />
     </div>
   );

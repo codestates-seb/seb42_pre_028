@@ -6,9 +6,19 @@ import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
 import MyPSetNav from '../../Component/MyPages/myP_Set_nav';
 import Footer from '../../Component/Footer';
+import Nav from '../../Component/Nav';
+
+const MainDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1264px;
+  margin: 0 auto;
+`;
 
 const Container = styled.div`
-  margin: 0px 65px 0px 65px;
+  /* margin: 0px 65px 0px 65px; */
+  width: 100%;
 `;
 
 const H1 = styled.h1`
@@ -133,142 +143,147 @@ const DownloadBtn = styled.button`
 function MySettings() {
   return (
     <React.Fragment>
-      <Container>
-        <Content>
-          <MyPTProfile />
-          <MyPMenu />
-          <MainContainer>
-            <MyPSetNav />
-            <Main>
-              <Title>
-                <H1>Preferences</H1>
-              </Title>
-              <SubTitle>
-                <H3>Interface</H3>
-                <SetList>
-                  <SetListCompo>
-                    <SetBodyCompo>
-                      <label htmlFor="theme" className="text-only-label">
-                        <div id="theme">Theme</div>
-                      </label>
-                      <SetItemCompo className="theme-div"></SetItemCompo>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                  <SetListCompo>
-                    <SetBodyCompo>
-                      <label htmlFor="highcontrast-togle">
-                        <div>High contrast</div>
-                        <p>
-                          Flipping this switch improves legibility by increasing
-                          the contrast between text, background, and border
-                          colors.
-                        </p>
-                      </label>
-                      <SetItemCompo className="toggle-div"></SetItemCompo>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                  <SetListCompo>
-                    <SetBodyCompo>
-                      <label htmlFor="keyboard-shortcuts">
-                        <div>Enable keyboard shortcuts</div>
-                        <p>
-                          When enabled, press <code>?</code> for help
-                        </p>
-                      </label>
-                      <SetItemCompo className="toggle-div"></SetItemCompo>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                  <SetListCompo>
-                    <SetBodyCompo>
-                      <label htmlFor="hide-navigation">
-                        <div>Hide left navigation</div>
-                        <p>
-                          When you flip this switch, the left navigation will no
-                          longer be pinned to the left of the page on Q&A sites.
-                        </p>
-                      </label>
-                      <SetItemCompo className="toggle-div"></SetItemCompo>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                  <SetListCompo className="last">
-                    <SetBodyCompo>
-                      <label htmlFor="hide-questions">
-                        <div>Hide hot network questions</div>
-                        <p>
-                          When you flip this switch, you will no longer see Hot
-                          Network Questions in the right sidebar on Q&A sites.
-                        </p>
-                      </label>
-                      <SetItemCompo className="toggle-div"></SetItemCompo>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                </SetList>
-                <H3>Advertisements</H3>
-                <SetList>
-                  <SetListCompo className="last">
-                    <SetBodyCompo>
-                      <label
-                        htmlFor="Companies-to-exclude"
-                        className="text-only-label to-exclude-input"
-                      >
-                        <div className="to-exclude-input">
-                          Companies to exclude
-                        </div>
-                        <input
-                          id="Companies-to-exclude"
-                          type="text"
-                          maxLength="140"
-                          autoComplete="off"
-                        />
-                      </label>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                </SetList>
-                <H3>Activity data</H3>
-                <SetList>
-                  <SetListCompo>
-                    <SetBodyCompo>
-                      <label
-                        htmlFor="download-data"
-                        className="download-data-hover"
-                      >
-                        <div>
-                          Stack Overflow never sells or shares your activity
-                          data with third parties.
-                        </div>
-                        <p>
-                          We use your on-site activity to show you more relevant
-                          content. For example, we might show you questions
-                          based on the tags you usually browse, or show you job
-                          listings in your current location.
-                        </p>
-                      </label>
-                      <SetItemCompo className="download-btn">
-                        <DownloadBtn>Download activity data</DownloadBtn>
-                      </SetItemCompo>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                  <SetListCompo className="last">
-                    <SetBodyCompo>
-                      <label htmlFor="show-more-relevant">
-                        <div>
-                          Use my on-site activity to show more relevant content
-                          (recommended)
-                        </div>
-                        <p>
-                          If you opt-out, existing recommendations will be
-                          discarded within 24 hours.
-                        </p>
-                      </label>
-                      <SetItemCompo className="toggle-div"></SetItemCompo>
-                    </SetBodyCompo>
-                  </SetListCompo>
-                </SetList>
-              </SubTitle>
-            </Main>
-          </MainContainer>
-        </Content>
-      </Container>
+      <MainDiv>
+        <Nav />
+        <Container>
+          <Content>
+            <MyPTProfile />
+            <MyPMenu />
+            <MainContainer>
+              <MyPSetNav />
+              <Main>
+                <Title>
+                  <H1>Preferences</H1>
+                </Title>
+                <SubTitle>
+                  <H3>Interface</H3>
+                  <SetList>
+                    <SetListCompo>
+                      <SetBodyCompo>
+                        <label htmlFor="theme" className="text-only-label">
+                          <div id="theme">Theme</div>
+                        </label>
+                        <SetItemCompo className="theme-div"></SetItemCompo>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                    <SetListCompo>
+                      <SetBodyCompo>
+                        <label htmlFor="highcontrast-togle">
+                          <div>High contrast</div>
+                          <p>
+                            Flipping this switch improves legibility by
+                            increasing the contrast between text, background,
+                            and border colors.
+                          </p>
+                        </label>
+                        <SetItemCompo className="toggle-div"></SetItemCompo>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                    <SetListCompo>
+                      <SetBodyCompo>
+                        <label htmlFor="keyboard-shortcuts">
+                          <div>Enable keyboard shortcuts</div>
+                          <p>
+                            When enabled, press <code>?</code> for help
+                          </p>
+                        </label>
+                        <SetItemCompo className="toggle-div"></SetItemCompo>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                    <SetListCompo>
+                      <SetBodyCompo>
+                        <label htmlFor="hide-navigation">
+                          <div>Hide left navigation</div>
+                          <p>
+                            When you flip this switch, the left navigation will
+                            no longer be pinned to the left of the page on Q&A
+                            sites.
+                          </p>
+                        </label>
+                        <SetItemCompo className="toggle-div"></SetItemCompo>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                    <SetListCompo className="last">
+                      <SetBodyCompo>
+                        <label htmlFor="hide-questions">
+                          <div>Hide hot network questions</div>
+                          <p>
+                            When you flip this switch, you will no longer see
+                            Hot Network Questions in the right sidebar on Q&A
+                            sites.
+                          </p>
+                        </label>
+                        <SetItemCompo className="toggle-div"></SetItemCompo>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                  </SetList>
+                  <H3>Advertisements</H3>
+                  <SetList>
+                    <SetListCompo className="last">
+                      <SetBodyCompo>
+                        <label
+                          htmlFor="Companies-to-exclude"
+                          className="text-only-label to-exclude-input"
+                        >
+                          <div className="to-exclude-input">
+                            Companies to exclude
+                          </div>
+                          <input
+                            id="Companies-to-exclude"
+                            type="text"
+                            maxLength="140"
+                            autoComplete="off"
+                          />
+                        </label>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                  </SetList>
+                  <H3>Activity data</H3>
+                  <SetList>
+                    <SetListCompo>
+                      <SetBodyCompo>
+                        <label
+                          htmlFor="download-data"
+                          className="download-data-hover"
+                        >
+                          <div>
+                            Stack Overflow never sells or shares your activity
+                            data with third parties.
+                          </div>
+                          <p>
+                            We use your on-site activity to show you more
+                            relevant content. For example, we might show you
+                            questions based on the tags you usually browse, or
+                            show you job listings in your current location.
+                          </p>
+                        </label>
+                        <SetItemCompo className="download-btn">
+                          <DownloadBtn>Download activity data</DownloadBtn>
+                        </SetItemCompo>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                    <SetListCompo className="last">
+                      <SetBodyCompo>
+                        <label htmlFor="show-more-relevant">
+                          <div>
+                            Use my on-site activity to show more relevant
+                            content (recommended)
+                          </div>
+                          <p>
+                            If you opt-out, existing recommendations will be
+                            discarded within 24 hours.
+                          </p>
+                        </label>
+                        <SetItemCompo className="toggle-div"></SetItemCompo>
+                      </SetBodyCompo>
+                    </SetListCompo>
+                  </SetList>
+                </SubTitle>
+              </Main>
+            </MainContainer>
+          </Content>
+        </Container>
+      </MainDiv>
       <Footer />
     </React.Fragment>
   );

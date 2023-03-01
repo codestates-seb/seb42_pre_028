@@ -10,11 +10,21 @@ import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
 import MyPSetNav from '../../Component/MyPages/myP_Set_nav';
 import Footer from '../../Component/Footer';
+import Nav from '../../Component/Nav';
 
 import { url } from '../../url';
 
+const MainDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1264px;
+  margin: 0 auto;
+`;
+
 const Container = styled.div`
-  margin: 0px 65px 0px 65px;
+  /* margin: 0px 65px 0px 65px; */
+  width: 100%;
 `;
 
 const H1 = styled.h1`
@@ -99,76 +109,79 @@ function DeleteProfile() {
   };
   return (
     <React.Fragment>
-      <Container>
-        <Content>
-          <MyPTProfile />
-          <MyPMenu />
-          <MainContainer>
-            <MyPSetNav />
-            <Main>
-              <Title>
-                <H1>Delete Profile</H1>
-              </Title>
-              <div>
-                <p>
-                  {`Before confirming that you would like your profile deleted,
+      <MainDiv>
+        <Nav />
+        <Container>
+          <Content>
+            <MyPTProfile />
+            <MyPMenu />
+            <MainContainer>
+              <MyPSetNav />
+              <Main>
+                <Title>
+                  <H1>Delete Profile</H1>
+                </Title>
+                <div>
+                  <p>
+                    {`Before confirming that you would like your profile deleted,
                   we'd like to take a moment to explain the implications of
                   deletion:`}
-                </p>
-                <ul>
-                  <li>
-                    Deletion is irreversible, and you will have no way to regain
-                    any of your original content, should this deletion be
-                    carried out and you change your mind later on.
-                  </li>
-                  <li>
-                    {`Your questions and answers will remain on the site, but will
+                  </p>
+                  <ul>
+                    <li>
+                      Deletion is irreversible, and you will have no way to
+                      regain any of your original content, should this deletion
+                      be carried out and you change your mind later on.
+                    </li>
+                    <li>
+                      {`Your questions and answers will remain on the site, but will
                     be disassociated and anonymized (the author will be listed
                     as "유저번호 또는 이메일아이디") and will not indicate your
                     authorship even if you later return to the site.`}
-                  </li>
-                </ul>
-                <p>
-                  {`Confirming deletion will only delete your profile on Stack
+                    </li>
+                  </ul>
+                  <p>
+                    {`Confirming deletion will only delete your profile on Stack
                   Overflow - it will not affect any of your other profiles on
                   the Stack Exchange network. If you want to delete multiple
                   profiles, you'll need to visit each site separately and
                   request deletion of those individual profiles.`}
-                </p>
-                <form>
-                  <fieldset>
-                    <div>
-                      <label>
-                        <div>
-                          <input
-                            type="checkbox"
-                            name="delete-agree"
-                            checked={boxChecked}
-                            onChange={CheckedHandler}
-                          />
-                        </div>
-                        <div>
-                          I have read the information stated above and
-                          understand the implications of having my profile
-                          deleted. I wish to proceed with the deletion of my
-                          profile.
-                        </div>
-                      </label>
-                    </div>
-                  </fieldset>
-                  {boxChecked ? (
-                    <DeleteBtn onClick={deleteHandler}>
-                      Delete Profile
-                    </DeleteBtn>
-                  ) : (
-                    <DeleteBtn className="disabled">Delete Profile</DeleteBtn>
-                  )}
-                </form>
-              </div>
-            </Main>
-          </MainContainer>
-        </Content>
-      </Container>
+                  </p>
+                  <form>
+                    <fieldset>
+                      <div>
+                        <label>
+                          <div>
+                            <input
+                              type="checkbox"
+                              name="delete-agree"
+                              checked={boxChecked}
+                              onChange={CheckedHandler}
+                            />
+                          </div>
+                          <div>
+                            I have read the information stated above and
+                            understand the implications of having my profile
+                            deleted. I wish to proceed with the deletion of my
+                            profile.
+                          </div>
+                        </label>
+                      </div>
+                    </fieldset>
+                    {boxChecked ? (
+                      <DeleteBtn onClick={deleteHandler}>
+                        Delete Profile
+                      </DeleteBtn>
+                    ) : (
+                      <DeleteBtn className="disabled">Delete Profile</DeleteBtn>
+                    )}
+                  </form>
+                </div>
+              </Main>
+            </MainContainer>
+          </Content>
+        </Container>
+      </MainDiv>
       <Footer />
     </React.Fragment>
   );

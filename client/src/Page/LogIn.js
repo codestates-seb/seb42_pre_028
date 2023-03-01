@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// eslint-disable-next-line no-unused-vars
 import { useNavigate, Link } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -198,8 +197,8 @@ const Label = styled.label`
 `;
 
 function LogIn() {
-  const [userEmail, setUserEmail] = useState('');
-  const [userPW, setUserPW] = useState('');
+  const [userEmail, setUserEmail] = useState('godalsgh@gmail.com');
+  const [userPW, setUserPW] = useState('1111');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.log);
@@ -276,6 +275,7 @@ function LogIn() {
                 size="30"
                 maxLength="100"
                 name="email"
+                placeholder="godalsgh@gmail.com"
               />
             </InputEmail>
             <InputPW>
@@ -290,6 +290,7 @@ function LogIn() {
                 onChange={(e) => setUserPW(e.target.value)}
                 name="password"
                 autoComplete="off"
+                placeholder="1111"
               />
             </InputPW>
             <LoginBtnDiv>

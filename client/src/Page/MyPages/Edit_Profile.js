@@ -7,11 +7,21 @@ import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
 import MyPSetNav from '../../Component/MyPages/myP_Set_nav';
 import Footer from '../../Component/Footer';
+import Nav from '../../Component/Nav';
 
 import { url } from '../../url';
 
+const MainDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1264px;
+  margin: 0 auto;
+`;
+
 const Container = styled.div`
-  margin: 0px 65px 0px 65px;
+  /* margin: 0px 65px 0px 65px; */
+  width: 100%;
 `;
 
 const H1 = styled.h1`
@@ -101,84 +111,89 @@ function EditProfile() {
 
   return (
     <React.Fragment>
-      <Container>
-        <Content>
-          <MyPTProfile />
-          <MyPMenu />
-          <MainContainer>
-            <MyPSetNav />
-            <Main>
-              <Title>
-                <H1>Edit your Profile</H1>
-              </Title>
-              <SubTitle>
-                <H3>Public information</H3>
-                <SetList>
-                  <div>
-                    <label htmlFor="change-picture">Profile image</label>
-                    <img
-                      id="my_profile_img"
-                      src="../../logo192.png"
-                      alt="my profile img"
-                    />
-                    <button id="change-picture">Change picture</button>
-                  </div>
-                  <div>
-                    <label>
-                      <div>Display name</div>
-                      <input onChange={(e) => setDisplayName(e.target.value)} />
-                    </label>
-                  </div>
-                  <div>
-                    <label>
-                      <div>Password</div>
-                      <input onChange={(e) => setPassword(e.target.value)} />
-                    </label>
-                  </div>
-                </SetList>
-              </SubTitle>
-              <SubTitle>
-                <H3>Links</H3>
-                <SetList>
-                  <div>
-                    <label>
-                      <div>Website link</div>
-                      <input />
-                    </label>
-                  </div>
-                  <div>
-                    <label>
-                      <div>Twitter link or username</div>
-                      <input />
-                    </label>
-                  </div>
-                  <div>
-                    <label>
-                      <div>GitHub link or username</div>
-                      <input />
-                    </label>
-                  </div>
-                </SetList>
-              </SubTitle>
-              <SubTitle>
-                <H3>Private information</H3>
-                <div>Not shown publicly</div>
-                <SetList>
-                  <div>
-                    <label>
-                      <div>Full name</div>
-                      <input />
-                    </label>
-                  </div>
-                </SetList>
-              </SubTitle>
-              <div>
-                <button onClick={submitHandler}>Submit</button>
-              </div>
-            </Main>
-          </MainContainer>
-        </Content>
-      </Container>
+      <MainDiv>
+        <Nav />
+        <Container>
+          <Content>
+            <MyPTProfile />
+            <MyPMenu />
+            <MainContainer>
+              <MyPSetNav />
+              <Main>
+                <Title>
+                  <H1>Edit your Profile</H1>
+                </Title>
+                <SubTitle>
+                  <H3>Public information</H3>
+                  <SetList>
+                    <div>
+                      <label htmlFor="change-picture">Profile image</label>
+                      <img
+                        id="my_profile_img"
+                        src="../../logo192.png"
+                        alt="my profile img"
+                      />
+                      <button id="change-picture">Change picture</button>
+                    </div>
+                    <div>
+                      <label>
+                        <div>Display name</div>
+                        <input
+                          onChange={(e) => setDisplayName(e.target.value)}
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <label>
+                        <div>Password</div>
+                        <input onChange={(e) => setPassword(e.target.value)} />
+                      </label>
+                    </div>
+                  </SetList>
+                </SubTitle>
+                <SubTitle>
+                  <H3>Links</H3>
+                  <SetList>
+                    <div>
+                      <label>
+                        <div>Website link</div>
+                        <input />
+                      </label>
+                    </div>
+                    <div>
+                      <label>
+                        <div>Twitter link or username</div>
+                        <input />
+                      </label>
+                    </div>
+                    <div>
+                      <label>
+                        <div>GitHub link or username</div>
+                        <input />
+                      </label>
+                    </div>
+                  </SetList>
+                </SubTitle>
+                <SubTitle>
+                  <H3>Private information</H3>
+                  <div>Not shown publicly</div>
+                  <SetList>
+                    <div>
+                      <label>
+                        <div>Full name</div>
+                        <input />
+                      </label>
+                    </div>
+                  </SetList>
+                </SubTitle>
+                <div>
+                  <button onClick={submitHandler}>Submit</button>
+                </div>
+              </Main>
+            </MainContainer>
+          </Content>
+        </Container>
+      </MainDiv>
       <Footer />
     </React.Fragment>
   );
