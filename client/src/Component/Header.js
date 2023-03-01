@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../features/log/logSlice';
 import { deleteData } from '../features/userData/userDataSlice';
+import { deletePage } from '../features/myPageSlice/myPageSlice';
 
 const Container = styled.header`
   padding: 4px;
@@ -18,6 +19,7 @@ const Container = styled.header`
   align-items: center;
   border-top: 0.2rem solid #f48225;
   box-shadow: 0 0 5px #c8c8c8;
+  z-index: 1;
 `;
 
 const Logo = styled.img`
@@ -68,6 +70,7 @@ function Header() {
     localStorage.removeItem('Authorization');
     // localStorage.removeItem('Refresh');
     dispatch(deleteData());
+    dispatch(deletePage());
     dispatch(logout(state));
     alert('로그아웃 성공!');
     navigate('/');

@@ -1,6 +1,5 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Content = styled.div`
@@ -20,6 +19,11 @@ const MyPageMenuUl = styled.ul`
   > a {
     text-decoration: none;
     color: black;
+
+    > #selected {
+      background-color: #f48225;
+      color: white;
+    }
   }
 `;
 
@@ -28,6 +32,7 @@ const MyPageMenuLi = styled.li`
   flex-direction: column;
   margin: 0px;
   padding: 6px 12px 6px 12px;
+  border-radius: 1000px;
 
   &.title {
     margin-top: 16px;
@@ -38,10 +43,17 @@ const MyPageMenuLi = styled.li`
   }
   &.item {
     font-weight: normal;
+
+    &:hover {
+      background-color: #e3e6e8;
+    }
   }
 `;
 
 function MyPSetNav() {
+  let location = useLocation().pathname;
+  location = location.slice(8);
+
   return (
     <React.Fragment>
       <Content>
@@ -50,10 +62,22 @@ function MyPSetNav() {
             PERSONAL INFORMATION
           </MyPageMenuLi>
           <Link to="/mypage/useredit">
-            <MyPageMenuLi className="item">Edit profile</MyPageMenuLi>
+            {location === 'useredit' ? (
+              <MyPageMenuLi id="selected" className="item">
+                Edit profile
+              </MyPageMenuLi>
+            ) : (
+              <MyPageMenuLi className="item">Edit profile</MyPageMenuLi>
+            )}
           </Link>
           <Link to="/mypage/userdelete">
-            <MyPageMenuLi className="item">Delete profile</MyPageMenuLi>
+            {location === 'userdelete' ? (
+              <MyPageMenuLi id="selected" className="item">
+                Delete profile
+              </MyPageMenuLi>
+            ) : (
+              <MyPageMenuLi className="item">Delete profile</MyPageMenuLi>
+            )}
           </Link>
           <MyPageMenuLi className="title">EMAIL SETTINGS</MyPageMenuLi>
           <MyPageMenuLi className="item">Edit email settings</MyPageMenuLi>
@@ -62,7 +86,13 @@ function MyPSetNav() {
           <MyPageMenuLi className="item">Question subscriptions</MyPageMenuLi>
           <MyPageMenuLi className="title">SITE SETTINGS</MyPageMenuLi>
           <Link to="/mypage/setting">
-            <MyPageMenuLi className="item">Preferences</MyPageMenuLi>
+            {location === 'setting' ? (
+              <MyPageMenuLi id="selected" className="item">
+                Preferences
+              </MyPageMenuLi>
+            ) : (
+              <MyPageMenuLi className="item">Preferences</MyPageMenuLi>
+            )}
           </Link>
           <MyPageMenuLi className="item">Flair</MyPageMenuLi>
           <MyPageMenuLi className="item">Hide communities</MyPageMenuLi>

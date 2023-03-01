@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -26,6 +26,11 @@ const MyPageMenuUl = styled.ul`
   > a {
     text-decoration: none;
     color: black;
+
+    > .selected {
+      background-color: #f48225;
+      color: white;
+    }
   }
 `;
 
@@ -38,27 +43,43 @@ const MyPageMenuLi = styled.li`
   padding: 6px 12px 6px 12px;
   height: 29px;
 
-  .selected {
-    background-color: #f48225;
-    color: white;
+  &:hover {
+    background-color: #e3e6e8;
   }
 `;
 
 function MyPMenu() {
+  let location = useLocation().pathname;
+  location = location.slice(8);
+
   return (
     <React.Fragment>
       <Container>
         <Content>
           <MyPageMenuUl>
             <Link to="/mypage/profile">
-              <MyPageMenuLi>Profile</MyPageMenuLi>
+              {location === 'profile' ? (
+                <MyPageMenuLi className="selected">Profile</MyPageMenuLi>
+              ) : (
+                <MyPageMenuLi>Profile</MyPageMenuLi>
+              )}
             </Link>
             <Link to="/mypage/activity">
-              <MyPageMenuLi>activity</MyPageMenuLi>
+              {location === 'activity' ? (
+                <MyPageMenuLi className="selected">activity</MyPageMenuLi>
+              ) : (
+                <MyPageMenuLi>activity</MyPageMenuLi>
+              )}
             </Link>
             <MyPageMenuLi>Saves</MyPageMenuLi>
             <Link to="/mypage/setting">
-              <MyPageMenuLi>Settings</MyPageMenuLi>
+              {location === 'setting' ||
+              location === 'useredit' ||
+              location === 'userdelete' ? (
+                <MyPageMenuLi className="selected">Settings</MyPageMenuLi>
+              ) : (
+                <MyPageMenuLi>Settings</MyPageMenuLi>
+              )}
             </Link>
           </MyPageMenuUl>
         </Content>

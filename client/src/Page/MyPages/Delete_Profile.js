@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/log/logSlice';
 import { deleteData } from '../../features/userData/userDataSlice';
+import { deletePage } from '../../features/myPageSlice/myPageSlice';
 
 import MyPTProfile from '../../Component/MyPages/MyP_Top_profile';
 import MyPMenu from '../../Component/MyPages/MyP_menu';
@@ -88,6 +89,7 @@ function DeleteProfile() {
           localStorage.removeItem('Authorization');
           // localStorage.removeItem('Refresh');
           dispatch(deleteData());
+          dispatch(deletePage());
           dispatch(logout(state));
           alert('회원정보를 삭제하고 로그아웃하였습니다.');
           navigate('/', { replace: true });

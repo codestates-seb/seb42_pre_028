@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCakeCandles } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCakeCandles,
+  faPen,
+  faMessage,
+} from '@fortawesome/free-solid-svg-icons';
 import { faClock, faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 const Container = styled.div`
@@ -86,8 +90,33 @@ const Icon = styled.div`
 `;
 
 const BtnContainer = styled.div`
+  position: absolute;
+  top: 5.5em;
+  right: 1.5em;
   display: flex;
+  flex-wrap: wrap;
   margin-left: auto;
+`;
+
+const TopButton = styled.button`
+  position: relative;
+  margin: 3px;
+  padding: 0.8em;
+  border: 1px solid #9fa6ad;
+  border-radius: 3px;
+  background-color: white;
+  color: #6a737c;
+
+  &.cursor {
+    cursor: pointer;
+  }
+
+  > .icon-style {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    vertical-align: center;
+  }
 `;
 
 function MyPTProfile() {
@@ -116,7 +145,7 @@ function MyPTProfile() {
             <Link to="/mypage/activity">
               <img
                 id="my_profile_img"
-                src="../logo192.png"
+                src="../../logo192.png"
                 alt="my profile img"
               />
             </Link>
@@ -169,9 +198,15 @@ function MyPTProfile() {
           </UserData>
           <BtnContainer>
             <Link to="/mypage/useredit">
-              <button>Edit profile</button>
+              <TopButton className="cursor">
+                <FontAwesomeIcon className="icon-style" icon={faPen} />
+                Edit profile
+              </TopButton>
             </Link>
-            <button>Network profile</button>
+            <TopButton>
+              <FontAwesomeIcon className="icon-style" icon={faMessage} />
+              Network profile
+            </TopButton>
           </BtnContainer>
         </Content>
       </Container>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Question from '../Question';
-// import Pagination from '../Component/Pagination';
+import MyQPagination from './myP_myQ_Pagination';
 // import { Link } from 'react-router-dom';
 // import useGetFetch from '../../Util/useGetFetch';
 import { useSelector } from 'react-redux';
@@ -53,8 +53,16 @@ const DeletedQ = styled.div`
   border-top: 1px solid #e3e6e8;
 `;
 
+const RowWrapDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
 function MyQuestionList() {
   const userDataState = useSelector((state) => state.userData);
+  const pageNumber = useSelector((state) => state.myPage.pageNumber);
 
   const useGetFetch = (url) => {
     const [data, setData] = useState(null);
@@ -93,21 +101,25 @@ function MyQuestionList() {
   };
 
   const [data, isPending] = useGetFetch(
-    `${url}/members/${userDataState.memberId}/question?page=0&size=5`
+    `${url}/question/${userDataState.memberId}/question?page=${pageNumber}&size=5`
   );
   console.log(data);
 
-  const [data2] = useGetFetch(
-    `${url}/members/${userDataState.memberId}/answer?page=1&size=5`
-  );
-  console.log(data2);
+  // const [data2] = useGetFetch(
+  //   `${url}/members/${userDataState.memberId}/answer?page=1&size=5`
+  // );
+  // console.log(data2);
 
   return (
     <React.Fragment>
       <Container>
         <Menubar>
           <div>
-            <H2>0 Questions</H2>
+            {isPending || !data ? (
+              <H2>0 Questions</H2>
+            ) : (
+              <H2>{data.pageInfo.totalElements} Questions</H2>
+            )}
           </div>
           <div>
             <button>Score</button>
@@ -125,6 +137,14 @@ function MyQuestionList() {
             {data.data.map((obj, index) => {
               return <Question key={index} question={obj}></Question>;
             })}
+            <RowWrapDiv>
+              <MyQPagination
+                totalEle={data.pageInfo.totalElements}
+                size={data.pageInfo.size}
+                currentPage={data.pageInfo.page}
+                pageNumber={pageNumber}
+              />
+            </RowWrapDiv>
           </Questions>
         )}
 

@@ -6,6 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../features/log/logSlice';
 import { saveData } from '../features/userData/userDataSlice';
+import { setPage } from '../features/myPageSlice/myPageSlice';
 
 import { url } from '../url';
 
@@ -39,6 +40,12 @@ const OpenIdDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin: -4px 0 16px;
+
+  > a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+  }
 `;
 
 const OpenIdBtn = styled.button`
@@ -233,6 +240,7 @@ function LogIn() {
             .then((data) => {
               let memberdata = data.data;
               dispatch(saveData(memberdata));
+              dispatch(setPage());
 
               dispatch(login(state));
               alert('로그인 성공!!');
@@ -251,9 +259,9 @@ function LogIn() {
             <img id="logo" src="../images/apple-touch-icon.png" alt="logo" />
           </Logo>
           <OpenIdDiv>
-            {/* <Link to="http://ec2-13-125-1-215.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/google"> */}
-            <OpenIdBtn id="Google">Log in with Google</OpenIdBtn>
-            {/* </Link> */}
+            <Link to="https://ec2-13-125-1-215.ap-northeast-2.compute.amazonaws.com/login/oauth2/code/google">
+              <OpenIdBtn id="Google">Log in with Google</OpenIdBtn>
+            </Link>
             <OpenIdBtn id="GitHub">Log in with GitHub</OpenIdBtn>
             <OpenIdBtn id="Facebook">Log in with Facebook</OpenIdBtn>
           </OpenIdDiv>

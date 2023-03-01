@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Content = styled.div`
@@ -19,6 +19,11 @@ const MyPageMenuUl = styled.ul`
   > a {
     text-decoration: none;
     color: black;
+
+    > .selected {
+      background-color: #f48225;
+      color: white;
+    }
   }
 `;
 
@@ -27,9 +32,17 @@ const MyPageMenuLi = styled.li`
   flex-direction: column;
   margin: 0px;
   padding: 6px 48px 6px 12px;
+  border-radius: 1000px;
+
+  &:hover {
+    background-color: #e3e6e8;
+  }
 `;
 
 function MyPActNav() {
+  let location = useLocation().pathname;
+  location = location.slice(8);
+
   return (
     <React.Fragment>
       <Content>
@@ -37,7 +50,11 @@ function MyPActNav() {
           <MyPageMenuLi>Answer</MyPageMenuLi>
           <MyPageMenuLi>Summary</MyPageMenuLi>
           <Link to="/mypage/activity">
-            <MyPageMenuLi>Questions</MyPageMenuLi>
+            {location === 'activity' ? (
+              <MyPageMenuLi className="selected">Questions</MyPageMenuLi>
+            ) : (
+              <MyPageMenuLi>Questions</MyPageMenuLi>
+            )}
           </Link>
           <MyPageMenuLi>Tags</MyPageMenuLi>
           <MyPageMenuLi>Articles</MyPageMenuLi>

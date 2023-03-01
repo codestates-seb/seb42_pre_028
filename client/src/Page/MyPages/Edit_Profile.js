@@ -118,7 +118,7 @@ function EditProfile() {
                     <label htmlFor="change-picture">Profile image</label>
                     <img
                       id="my_profile_img"
-                      src="../logo192.png"
+                      src="../../logo192.png"
                       alt="my profile img"
                     />
                     <button id="change-picture">Change picture</button>
