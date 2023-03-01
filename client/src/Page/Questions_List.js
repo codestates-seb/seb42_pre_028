@@ -117,7 +117,7 @@ function Questions_List() {
     `${url}/question/?page=0&&size=5`
   );
   console.log(data);
-  const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered'];
+  const sortArr = ['createdAt', 'viewCount', 'voteCount'];
 
   return (
     <div>
@@ -158,16 +158,16 @@ function Questions_List() {
                   size={data.pageInfo.totalElements}
                   pageCnt={data.pageInfo.size}
                   currentPage={data.pageInfo.page}
-                  tap={'Active'}
+                  tap={'createdAt'}
                 />
                 <RowDiv>
-                  <Link to={`/questions/1/5/Active`}>
+                  <Link to={`/questions/1/5/createdAt`}>
                     <PagingButton>5</PagingButton>
                   </Link>
-                  <Link to={`/questions/1/10/Active`}>
+                  <Link to={`/questions/1/10/createdAt`}>
                     <PagingButton>10</PagingButton>
                   </Link>
-                  <Link to={`/questions/1/15/Active`}>
+                  <Link to={`/questions/1/15/createdAt`}>
                     <PagingButton>15</PagingButton>
                   </Link>
                   per page

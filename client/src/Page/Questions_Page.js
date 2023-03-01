@@ -121,7 +121,9 @@ function Questions_Page() {
   useEffect(() => {
     setIsPending(true);
     setTimeout(() => {
-      fetch(`${url}/question/?page=${page - 1}&&size=${pageCnt}`)
+      fetch(
+        `${url}/question/search?filter=${tap}&page=${page - 1}&size=${pageCnt}`
+      )
         .then((res) => {
           if (!res.ok) {
             throw Error('could not fetch the data for that resource');
@@ -140,7 +142,7 @@ function Questions_Page() {
     }, 300);
   }, [page, pageCnt, tap]);
 
-  const sortArr = ['Newest', 'Active', 'Bountied', 'Unanswered'];
+  const sortArr = ['createdAt', 'viewCount', 'voteCount'];
 
   return (
     <div>
