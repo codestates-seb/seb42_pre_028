@@ -6,6 +6,7 @@ import MyQPagination from './myP_myQ_Pagination';
 // import useGetFetch from '../../Util/useGetFetch';
 import { useSelector } from 'react-redux';
 import { url } from '../../url';
+import Loading from '../Loading';
 
 const Container = styled.div`
   display: flex;
@@ -115,8 +116,8 @@ function MyQuestionList() {
       <Container>
         <Menubar>
           <div>
-            {isPending || !data ? (
-              <H2>0 Questions</H2>
+            {isPending ? (
+              <Loading />
             ) : (
               <H2>{data.pageInfo.totalElements} Questions</H2>
             )}
@@ -130,22 +131,28 @@ function MyQuestionList() {
         </Menubar>
       </Container>
       <Main>
-        {isPending || !data ? (
-          <NoQuestions>You have not asked any questions</NoQuestions>
+        {isPending ? (
+          <Loading />
         ) : (
-          <Questions>
-            {data.data.map((obj, index) => {
-              return <Question key={index} question={obj}></Question>;
-            })}
-            <RowWrapDiv>
-              <MyQPagination
-                totalEle={data.pageInfo.totalElements}
-                size={data.pageInfo.size}
-                currentPage={data.pageInfo.page}
-                pageNumber={pageNumber}
-              />
-            </RowWrapDiv>
-          </Questions>
+          <>
+            {data.pageInfo.totalElements === 0 ? (
+              <NoQuestions>You have not asked any questions</NoQuestions>
+            ) : (
+              <Questions>
+                {data.data.map((obj, index) => {
+                  return <Question key={index} question={obj}></Question>;
+                })}
+                <RowWrapDiv>
+                  <MyQPagination
+                    totalEle={data.pageInfo.totalElements}
+                    size={data.pageInfo.size}
+                    currentPage={data.pageInfo.page}
+                    pageNumber={pageNumber}
+                  />
+                </RowWrapDiv>
+              </Questions>
+            )}
+          </>
         )}
 
         <DeletedQ>Deleted questions</DeletedQ>

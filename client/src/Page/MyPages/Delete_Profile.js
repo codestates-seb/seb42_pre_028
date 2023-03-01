@@ -77,35 +77,42 @@ function DeleteProfile() {
   };
 
   const deleteHandler = () => {
-    const accessToken = localStorage.getItem('Authorization');
-    // const refreshToken = localStorage.getItem('Refresh');
+    // 테스트 데이터가 들어가 있는 김민호 계정 삭제 방지 코드
+    if (userDataState.memberId !== '1') {
+      const accessToken = localStorage.getItem('Authorization');
+      // const refreshToken = localStorage.getItem('Refresh');
 
-    fetch(`${url}/members/${userDataState.memberId}`, {
-      credentials: 'include',
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: accessToken,
-        // Refresh: refreshToken,
-      },
-    })
-      .then((res) => {
-        // 확인하기 : 삭제 후 쿼리 GET 요청이 자동으로 이루어지며 페이지가 해당 주소로 이동됨; 왜?
-        if (!(res.ok || res.status === 304)) {
-          alert('회원정보 삭제 실패');
-        } else {
-          let data = res.json();
-          console.log(data);
-          localStorage.removeItem('Authorization');
-          // localStorage.removeItem('Refresh');
-          dispatch(deleteData());
-          dispatch(deletePage());
-          dispatch(logout(state));
-          alert('회원정보를 삭제하고 로그아웃하였습니다.');
-          navigate('/', { replace: true });
-        }
+      fetch(`${url}/members/${userDataState.memberId}`, {
+        credentials: 'include',
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken,
+          // Refresh: refreshToken,
+        },
       })
-      .catch(() => alert('에러 발생'));
+        .then((res) => {
+          // 확인하기 : 삭제 후 쿼리 GET 요청이 자동으로 이루어지며 페이지가 해당 주소로 이동됨; 왜?
+          if (!(res.ok || res.status === 304)) {
+            alert('회원정보 삭제 실패');
+          } else {
+            let data = res.json();
+            console.log(data);
+            localStorage.removeItem('Authorization');
+            // localStorage.removeItem('Refresh');
+            dispatch(deleteData());
+            dispatch(deletePage());
+            dispatch(logout(state));
+            alert('회원정보를 삭제하고 로그아웃하였습니다.');
+            navigate('/', { replace: true });
+          }
+        })
+        .catch(() => alert('에러 발생'));
+    } else {
+      alert(
+        '해당 계정은 테스트용 계정으로, 삭제하실 수 없습니다. 임의의 계정으로 회원가입을 하신 후 계정 삭제 테스트를 진행해 주세요.'
+      );
+    }
   };
   return (
     <React.Fragment>
