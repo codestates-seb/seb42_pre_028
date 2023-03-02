@@ -1,6 +1,8 @@
 # PRE-PROJECT-SEB42-028
 # ☀️二八靑春
 
+https://user-images.githubusercontent.com/101079192/222361293-c1af1ae1-f952-4e3c-929e-a89b1ad00cba.gif
+
 ---
 
 
