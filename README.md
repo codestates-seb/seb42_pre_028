@@ -102,9 +102,9 @@ https://www.figma.com/file/MRCZz7TXuJs9GXkkxnj6hf/Pre_Project_User_Flow?node-id=
 https://user-images.githubusercontent.com/101079192/222359837-1a30cca4-b6e2-4c2a-b2ea-54a8a2be3b5c.gif
 
 
-| image1 | image2 | image3 |
+| 로그인 | image2 | image3 |
 |------|---|---|
-| image1 | image2 | image3 |
+| <image src = "https://user-images.githubusercontent.com/116045890/222360145-23ab1874-523a-4053-9217-3cfee77b1921.gif"> | image2 | image3 |
 
 
 | image1 | image2 | image3 |
