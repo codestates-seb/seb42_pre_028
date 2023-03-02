@@ -73,7 +73,8 @@ function Header() {
     dispatch(deletePage());
     dispatch(logout(state));
     alert('로그아웃 성공!');
-    navigate('/');
+    window.location.reload();
+    // navigate('/');
   };
 
   const searchHandler = () => {

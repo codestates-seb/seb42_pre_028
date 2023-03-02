@@ -18,6 +18,7 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
 `;
 
 const ProfileImg = styled.div`
@@ -91,15 +92,14 @@ const Icon = styled.div`
 
 const BtnContainer = styled.div`
   position: absolute;
-  top: 5.5em;
-  right: 1.5em;
+  top: 0;
+  right: -0.5em;
   display: flex;
   flex-wrap: wrap;
   margin-left: auto;
 `;
 
 const TopButton = styled.button`
-  position: relative;
   margin: 3px;
   padding: 0.8em;
   border: 1px solid #9fa6ad;
