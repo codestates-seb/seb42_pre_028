@@ -140,7 +140,7 @@ Stack Overflow 클론코딩
    
 | 로그아웃시 권한 부여 x |
 |-----|
-|<image src = "https://user-images.githubusercontent.com/116045890/222388239-f07048ff-7a6f-40b3-9d6b-3aa1578b0e4a.gif" width = 480> |
+|<image src = "https://user-images.githubusercontent.com/116045890/222388239-f07048ff-7a6f-40b3-9d6b-3aa1578b0e4a.gif" width = 480>  |
    
    
    
