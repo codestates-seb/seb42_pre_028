@@ -116,10 +116,10 @@ const PagingButton = styled.button`
   align-items: center;
 
   height: 1.8rem;
-  background-color: ${(props) => props.backColor || 'none'};
+  background-color: ${(props) => props.backColor || 'white'};
   padding: 0.6rem;
   border: 1px solid #738089;
-
+  text-decoration: none;
   cursor: pointer;
 `;
 
@@ -127,6 +127,7 @@ function Questions_List() {
   const [data, isPending, error] = useGetFetch(
     `${url}/question/?page=0&&size=5`
   );
+
   console.log(data);
   const sortArr = ['createdAt', 'viewCount', 'voteCount'];
 

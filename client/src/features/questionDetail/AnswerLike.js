@@ -4,6 +4,17 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { url } from '../../url';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faThumbsUp as regularThumbsUp,
+  faThumbsDown as regularThumbsDown,
+  faBookmark,
+} from '@fortawesome/free-regular-svg-icons';
+import {
+  faThumbsUp as solidThumbsUp,
+  faThumbsDown as solidThumbsDown,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 
 const QuestionLikeContainer = styled.div`
   display: flex;
@@ -13,24 +24,30 @@ const QuestionLikeContainer = styled.div`
 `;
 
 const UpButton = styled.button`
+  border: none;
   pointer-events: ${(props) => (props.bState === 'DOWN' ? 'none' : 'all')};
-  background-color: ${(props) => (props.bState === 'UP' ? '#f48224' : 'none')};
+  background-color: white;
+  color: ${(props) => (props.bState === 'UP' ? '#f48224' : 'black')};
 `;
 
 const DownButton = styled.button`
+  border: none;
   pointer-events: ${(props) => (props.bState === 'UP' ? 'none' : 'all')};
-  background-color: ${(props) =>
-    props.bState === 'DOWN' ? '#f48224' : 'none'};
+  background-color: white;
+  color: ${(props) => (props.bState === 'DOWN' ? '#f48224' : 'black')};
 `;
+
 const AdoptButton = styled.button`
+  border: none;
   display: ${(props) =>
     props.memberId === Number(sessionStorage.getItem('memberId'))
       ? 'block'
       : 'none'};
-  background-color: ${(props) =>
-    props.adoptedId === props.answerId ? '#437b55' : 'none'};
-  color: ${(props) => (props.adoptedId === props.answerId ? 'white' : 'none')};
+  background-color: white;
+  color: ${(props) =>
+    props.adoptedId === props.answerId ? '#437b55' : 'black'};
 `;
+
 function AnswerLike({
   vote,
   answerId,
@@ -48,7 +65,6 @@ function AnswerLike({
   const [bState, setBstate] = useState(tmp);
 
   const [curVote, setCurVote] = useState(vote);
-  console.log(answerVoteStatus);
 
   const accessToken = localStorage.getItem('Authorization');
 
@@ -105,11 +121,19 @@ function AnswerLike({
   return (
     <QuestionLikeContainer>
       <UpButton bState={bState} onClick={voteUpHandler}>
-        上
+        {bState === 'UP' ? (
+          <FontAwesomeIcon icon={solidThumbsUp} size="2x" />
+        ) : (
+          <FontAwesomeIcon icon={regularThumbsUp} size="2x" />
+        )}
       </UpButton>
       <div>{curVote}</div>
       <DownButton bState={bState} onClick={voteDownHandler}>
-        下
+        {bState === 'DOWN' ? (
+          <FontAwesomeIcon icon={solidThumbsDown} size="2x" />
+        ) : (
+          <FontAwesomeIcon icon={regularThumbsDown} size="2x" />
+        )}
       </DownButton>
       <AdoptButton
         answerId={answerId}
@@ -117,7 +141,11 @@ function AnswerLike({
         memberId={memberId}
         onClick={adoptHandler}
       >
-        Adopt
+        {adoptedId === answerId ? (
+          <FontAwesomeIcon icon={faCheck} size="2x" />
+        ) : (
+          <FontAwesomeIcon icon={faBookmark} size="2x" />
+        )}
       </AdoptButton>
     </QuestionLikeContainer>
   );

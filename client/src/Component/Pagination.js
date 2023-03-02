@@ -12,7 +12,7 @@ const Li = styled.li`
 `;
 
 const Button = styled.button`
-  background-color: ${(props) => props.seleted || null};
+  background-color: ${(props) => props.seleted || 'white'};
 `;
 
 // props type 에러 : props 타입을 검사하여 안전한 props 인지 확인하라는 오류
@@ -32,7 +32,7 @@ function Pagination({ size, pageCnt, currentPage, tap, word }) {
             }/${pageCnt}/${tap}`}
           >
             <Li>
-              <button>{'< prev'}</button>
+              <Button>{'< prev'}</Button>
             </Li>
           </Link>
           {arr.map((el, index) => {
@@ -55,7 +55,7 @@ function Pagination({ size, pageCnt, currentPage, tap, word }) {
             }/${pageCnt}/${tap}`}
           >
             <Li>
-              <button>{'next >'}</button>
+              <Button>{'next >'}</Button>
             </Li>
           </Link>
         </Ul>
@@ -67,7 +67,7 @@ function Pagination({ size, pageCnt, currentPage, tap, word }) {
             }/${pageCnt}/${tap}`}
           >
             <Li>
-              <button>{'< prev'}</button>
+              <Button>{'< prev'}</Button>
             </Li>
           </Link>
           {arr.map((el, index) => {
@@ -90,7 +90,7 @@ function Pagination({ size, pageCnt, currentPage, tap, word }) {
             }/${pageCnt}/${tap}`}
           >
             <Li>
-              <button>{'next >'}</button>
+              <Button>{'next >'}</Button>
             </Li>
           </Link>
         </Ul>

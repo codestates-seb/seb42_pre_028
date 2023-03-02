@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Preview from '../features/questionDetail/Preview';
 import { useNavigate, useParams } from 'react-router-dom';
 import { url } from '../url';
+import { Autocomplete } from '../Component/Autocomplete';
 
 const UpdateContainer = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const ColumDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: left;
-  gap: 0.7rem;
+  gap: 2rem;
 `;
 
 const Input = styled.input`
@@ -49,6 +50,7 @@ function Question_Update() {
   const [title, setTitle] = useState('');
   const [problemContent, setProblemContent] = useState(' ');
   const [expectingContent, setExpectingContent] = useState(' ');
+  const [tag, setTag] = useState([]);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('Authorization');
 
@@ -73,6 +75,7 @@ function Question_Update() {
           setTitle(data.data.title);
           setProblemContent(data.data.problemBody.join('\n'));
           setExpectingContent(data.data.expectingBody.join('\n'));
+          setTag(data.data.tag);
         });
     }, 300);
   }, []);
@@ -133,7 +136,7 @@ function Question_Update() {
       title: title,
       problemBody: splitPcontent,
       expectingBody: splitEcontent,
-      tag: [],
+      tag: tag,
     };
 
     fetch(`${url}/question/${id}`, {
@@ -153,45 +156,44 @@ function Question_Update() {
         console.error(error); // 에러 처리
       });
   };
+
   return (
     <UpdateContainer>
-      <form>
-        <ColumDiv>
-          <label htmlFor="title">Title</label>
-          <Input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+      <ColumDiv>
+        <label htmlFor="title">Title</label>
+        <Input
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-          <label htmlFor="problemContent">Problem</label>
-          <Textarea
-            id="problemContent"
-            value={problemContent}
-            onChange={(e) => {
-              setProblemContent(e.target.value);
-            }}
-            onKeyDown={keyDownHandler}
-          />
+        <label htmlFor="problemContent">Problem</label>
+        <Textarea
+          id="problemContent"
+          value={problemContent}
+          onChange={(e) => {
+            setProblemContent(e.target.value);
+          }}
+          onKeyDown={keyDownHandler}
+        />
 
-          <label htmlFor="expectingContent">Expecting</label>
-          <Textarea
-            id="expectingContent"
-            value={expectingContent}
-            onChange={(e) => {
-              setExpectingContent(e.target.value);
-            }}
-            onKeyDown={keyDownHandler}
-          />
+        <label htmlFor="expectingContent">Expecting</label>
+        <Textarea
+          id="expectingContent"
+          value={expectingContent}
+          onChange={(e) => {
+            setExpectingContent(e.target.value);
+          }}
+          onKeyDown={keyDownHandler}
+        />
 
-          <Preview content={problemContent}></Preview>
-          <Preview content={expectingContent}></Preview>
+        <Preview content={problemContent}></Preview>
+        <Preview content={expectingContent}></Preview>
 
-          <label htmlFor="tags">Tags(구현예정)</label>
-
-          <UpdateButton onClick={updateHandler}>Question Update</UpdateButton>
-        </ColumDiv>
-      </form>
+        <label htmlFor="tags">Tags</label>
+        <Autocomplete tags={tag} setTags={setTag} />
+        <UpdateButton onClick={updateHandler}>Question Update</UpdateButton>
+      </ColumDiv>
     </UpdateContainer>
   );
 }

@@ -57,6 +57,7 @@ const AuthorDiv = styled.div`
   margin-bottom: 1rem;
   gap: 0.3rem;
 `;
+
 const AnswerBox = styled.div`
   padding: 0.2rem;
   border: ${(props) => (props.adopted ? '1px solid green' : 'none')};
@@ -64,11 +65,47 @@ const AnswerBox = styled.div`
   gap: 0.5rem;
 `;
 
+const BoldSpan = styled.span`
+  font-weight: bold;
+`;
+
+const ColorSpan = styled.span`
+  color: #488fd6;
+`;
+
 function Tag({ tag }) {
   return <TagSpan>{tag}</TagSpan>;
 }
 
 function Question({ question }) {
+  const timeCalc = (time) => {
+    const mDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const date = new Date();
+    const year = Number(date.getUTCFullYear()) - Number(time.slice(0, 4));
+    const month = Number(date.getUTCMonth() + 1) - Number(time.slice(5, 7));
+    const day = Number(date.getUTCDate()) - Number(time.slice(8, 10));
+    const hour = Number(date.getUTCHours()) - Number(time.slice(11, 13));
+    const min = Number(date.getUTCMinutes()) - Number(time.slice(14, 16));
+    const sec = Number(date.getUTCSeconds()) - Number(time.slice(17, 19));
+
+    console.log(date);
+    console.log(Number(date.getUTCHours()));
+    console.log(time);
+    console.log(hour);
+
+    if (year > 1) return `${year} years ago`;
+    else if (year === 1) return `${12 + month} months ago`;
+    if (month > 1) return `${month} months ago`;
+    else if (month === 1)
+      return `${mDay[Number(date.getUTCMonth())] + day} days ago`;
+
+    if (day) return `${day} days ago`;
+    if (hour) return `${hour} hours ago`;
+    if (min) return `${min} mins ago`;
+    if (sec) return `${sec} secs ago`;
+    else return 'now';
+  };
+
   return (
     <Container>
       <ColumDiv>
@@ -99,11 +136,12 @@ function Question({ question }) {
           </TagDiv>
           <AuthorDiv>
             <span>{question.member.iconImageUrl}</span>
-            <span>{question.member.displayName}</span>
-            <span>
+            <ColorSpan>{question.member.displayName}</ColorSpan>
+            <BoldSpan>
               {question.member.myQuestionCount + question.member.myAnswerCount}
-            </span>
-            <span>asked {question.createdAt.slice(0, 19)}</span>
+            </BoldSpan>
+            <span>asked</span>
+            <span>{timeCalc(question.createdAt)}</span>
           </AuthorDiv>
         </ColumDiv>
       </ColumDiv>

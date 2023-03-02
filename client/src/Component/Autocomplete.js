@@ -138,6 +138,7 @@ export const Autocomplete = ({ setTags, tags }) => {
   };
 
   const handleKeyUp = (event) => {
+    event.preventDefault();
     if (event.key === 'ArrowUp' && currentOption > -1) {
       seturrentOption(currentOption - 1);
     }

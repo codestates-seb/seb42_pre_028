@@ -3,6 +3,13 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { url } from '../url';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import {
+  faGoogle,
+  faGithub,
+  faFacebook,
+} from '@fortawesome/free-brands-svg-icons';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -30,6 +37,11 @@ const OauthButton = styled.button`
   border: 0.5px solid gray;
   border-radius: 5px;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const Label = styled.label`
@@ -103,6 +115,7 @@ const TextContainer = styled.div`
   display: flex;
   justify-content: left;
   height: 40px;
+  gap: 0.5rem;
 `;
 
 function Sign_Up() {
@@ -141,19 +154,27 @@ function Sign_Up() {
       <LContainer align="start" padding="30px">
         <H1>Join the Stack Overflow community</H1>
         <TextContainer>
-          <span>[Icon] </span>
+          <span>
+            <FontAwesomeIcon icon={faCircleQuestion} />
+          </span>
           <div>Get unstuck — ask a question</div>
         </TextContainer>
         <TextContainer>
-          <span>[Icon] </span>
+          <span>
+            <FontAwesomeIcon icon={faCircleQuestion} />
+          </span>
           <div>Unlock new privileges like voting and commenting</div>
         </TextContainer>
         <TextContainer>
-          <span>[Icon] </span>
+          <span>
+            <FontAwesomeIcon icon={faCircleQuestion} />
+          </span>
           <div>Save your favorite tags, filters, and jobs</div>
         </TextContainer>
         <TextContainer>
-          <span>[Icon] </span>
+          <span>
+            <FontAwesomeIcon icon={faCircleQuestion} />{' '}
+          </span>
           <div>Earn reputation and badges</div>
         </TextContainer>
         <P width="400px">
@@ -164,12 +185,14 @@ function Sign_Up() {
         </P>
       </LContainer>
       <LContainer>
-        <OauthButton>Sign up with Google</OauthButton>
+        <OauthButton>
+          <FontAwesomeIcon icon={faGoogle} /> Sign up with Google
+        </OauthButton>
         <OauthButton background_color="hsl(210,8%,20%);" color="white">
-          Sign up with GitHub
+          <FontAwesomeIcon icon={faGithub} /> Sign up with GitHub
         </OauthButton>
         <OauthButton background_color="#385499" color="white">
-          Sign up with Facebook
+          <FontAwesomeIcon icon={faFacebook} /> Sign up with Facebook
         </OauthButton>
         <Form onsubmit="return false;">
           <InputContainer>
@@ -207,7 +230,9 @@ function Sign_Up() {
               Opt-in to receive occasional product updates, user research
               invitations, company announcements, and digests.
             </Label>
-            <div>Icon?</div>
+            <div>
+              <FontAwesomeIcon icon={faCircleQuestion} />
+            </div>
           </InputContainer>
           <SubmitButton type="submit" onClick={submitHandler}>
             Sign up

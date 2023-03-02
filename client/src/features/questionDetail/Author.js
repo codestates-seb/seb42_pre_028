@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -75,7 +77,15 @@ const AuthorRightInnerRightContainer = styled.div`
   gap: 0.2rem;
 `;
 
-function Author({ questionId, answerId, memberId, name, answered, avatar }) {
+function Author({
+  questionId,
+  answerId,
+  memberId,
+  name,
+  answered,
+  avatar,
+  time,
+}) {
   const navigate = useNavigate();
 
   const deleteHandler = () => {
@@ -101,6 +111,29 @@ function Author({ questionId, answerId, memberId, name, answered, avatar }) {
       });
   };
 
+  const timeCalc = (time) => {
+    const mDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const date = new Date();
+    const year = Number(date.getUTCFullYear()) - Number(time.slice(0, 4));
+    const month = Number(date.getUTCMonth() + 1) - Number(time.slice(5, 7));
+    const day = Number(date.getUTCDate()) - Number(time.slice(8, 10));
+    const hour = Number(date.getUTCHours()) - Number(time.slice(11, 13));
+    const min = Number(date.getUTCMinutes()) - Number(time.slice(14, 16));
+    const sec = Number(date.getUTCSeconds()) - Number(time.slice(17, 19));
+
+    if (year > 1) return `${year} years ago`;
+    else if (year === 1) return `${12 + month} months ago`;
+    if (month > 1) return `${month} months ago`;
+    else if (month === 1)
+      return `${mDay[Number(date.getUTCMonth())] + day} days ago`;
+
+    if (day) return `${day} days ago`;
+    if (hour) return `${hour} hours ago`;
+    if (min) return `${min} mins ago`;
+    if (sec) return `${sec} secs ago`;
+    else return 'now';
+  };
+
   return (
     <AuthorContainer>
       <AuthorLeftContainer>
@@ -118,9 +151,9 @@ function Author({ questionId, answerId, memberId, name, answered, avatar }) {
         </DeleteA>
       </AuthorLeftContainer>
       <AuthorRightContainer>
-        <LeftSpan>asked 2 days ago</LeftSpan>
+        <LeftSpan>{timeCalc(time)}</LeftSpan>
         <AuthorRightInnerContainer>
-          <span>{avatar}</span>
+          <img className="circle" src="http://placeimg.com/40/40" />
           <AuthorRightInnerRightContainer>
             <span>{name}</span>
             <div>{answered}</div>

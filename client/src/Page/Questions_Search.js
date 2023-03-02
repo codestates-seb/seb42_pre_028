@@ -106,7 +106,7 @@ const PagingButton = styled.button`
   align-items: center;
 
   height: 1.8rem;
-  background-color: ${(props) => props.backColor || 'none'};
+  background-color: ${(props) => props.backColor || 'white'};
   padding: 0.6rem;
   border: 1px solid #738089;
 
