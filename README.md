@@ -99,8 +99,6 @@ https://www.figma.com/file/MRCZz7TXuJs9GXkkxnj6hf/Pre_Project_User_Flow?node-id=
 ## 구현화면
 
 
-https://user-images.githubusercontent.com/101079192/222359837-1a30cca4-b6e2-4c2a-b2ea-54a8a2be3b5c.gif
-
 
 | 로그인 | image2 | image3 |
 |------|---|---|
