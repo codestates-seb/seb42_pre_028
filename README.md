@@ -83,7 +83,7 @@ http://pre28front.s3-website-us-east-1.amazonaws.com/
 
 
 
-## ☀️WireFrame
+## ☀️목업
 
 https://www.figma.com/proto/rzh0WU8wMVRdZPWOCz2Bu0/028_Pre_Project?node-id=1%3A3&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=1%3A3
 
@@ -97,6 +97,9 @@ https://www.figma.com/file/MRCZz7TXuJs9GXkkxnj6hf/Pre_Project_User_Flow?node-id=
 
 
 ## 구현화면
+
+
+https://user-images.githubusercontent.com/101079192/222359837-1a30cca4-b6e2-4c2a-b2ea-54a8a2be3b5c.gif
 
 
 | image1 | image2 | image3 |
