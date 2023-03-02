@@ -76,13 +76,16 @@ const H1 = styled.h1`
 `;
 
 const AskButton = styled.button`
-  pointer-events: ${(props) => (props.log ? 'none' : 'all')};
+  pointer-events: ${(props) => (!props.log ? 'none' : 'all')};
   height: 2.5rem;
   padding: 0 0.6rem;
   background-color: #1295ff;
-  color: white;
-  border: none;
-  cursor: pointer;
+  a {
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
   :hover {
     background-color: #0088ff;
   }
@@ -171,9 +174,9 @@ function Questions_Page() {
                 <Mainbar>
                   <MainComponent>
                     <H1>All Questions</H1>
-                    <Link to="/create">
-                      <AskButton log={log}>Ask Question</AskButton>
-                    </Link>
+                    <AskButton log={log}>
+                      <a href="/create">Ask Question </a>
+                    </AskButton>
                   </MainComponent>
                   <MainComponent>
                     <div>{pageQuestion.pageInfo.totalElements} questions</div>
