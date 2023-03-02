@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -71,6 +72,14 @@ function DeleteProfile() {
   const [boxChecked, setBoxChecked] = useState(false);
   const userDataState = useSelector((state) => state.userData);
   const state = useSelector((state) => state.log);
+  let deleteQuery = window.location.search;
+
+  useEffect(() => {
+    if (deleteQuery === '?delete-agree=on') {
+      alert('회원정보를 삭제하고 로그아웃하였습니다.');
+      navigate('/', { replace: true });
+    }
+  }, [deleteQuery, navigate]);
 
   const CheckedHandler = () => {
     setBoxChecked(!boxChecked);
@@ -93,7 +102,7 @@ function DeleteProfile() {
       })
         .then((res) => {
           // 확인하기 : 삭제 후 쿼리 GET 요청이 자동으로 이루어지며 페이지가 해당 주소로 이동됨; 왜?
-          if (!(res.ok || res.status === 304)) {
+          if (!res.ok) {
             alert('회원정보 삭제 실패');
           } else {
             let data = res.json();
@@ -103,8 +112,6 @@ function DeleteProfile() {
             dispatch(deleteData());
             dispatch(deletePage());
             dispatch(logout(state));
-            alert('회원정보를 삭제하고 로그아웃하였습니다.');
-            navigate('/', { replace: true });
           }
         })
         .catch(() => alert('에러 발생'));

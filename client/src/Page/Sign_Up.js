@@ -141,12 +141,19 @@ function Sign_Up() {
           password,
         }),
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          alert('회원가입 성공!');
-          navigate('/login');
-        });
+        .then((res) => {
+          if (!res.ok) {
+            if (res.status === 500) {
+              alert('회원가입 실패 : 이미 존재하는 계정입니다.');
+            } else {
+              alert('회원가입 실패');
+            }
+          } else {
+            alert('회원가입 성공!');
+            navigate('/login');
+          }
+        })
+        .catch(() => alert('에러 발생'));
     }
   };
   return (
