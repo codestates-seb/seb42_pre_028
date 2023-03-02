@@ -83,7 +83,7 @@ http://pre28front.s3-website-us-east-1.amazonaws.com/
 
 
 
-## ☀️목업
+## ☀️WireFrame
 
 https://www.figma.com/proto/rzh0WU8wMVRdZPWOCz2Bu0/028_Pre_Project?node-id=1%3A3&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=1%3A3
 
