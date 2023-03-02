@@ -2,9 +2,9 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Like from '../features/questionDetail/Like';
-import Author from '../features/questionDetail/Author';
+import Author, { timeCalc } from '../features/questionDetail/Author';
 import Preview from '../features/questionDetail/Preview';
 import ContentRender from '../features/questionDetail/ContentRender';
 import Footer from '../Component/Footer';
@@ -175,34 +175,6 @@ function Question_Detail() {
   const [modifiedTime, setModifiedTime] = useState('');
 
   const accessToken = localStorage.getItem('Authorization');
-
-  const timeCalc = (time) => {
-    const mDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    const date = new Date();
-    const year = Number(date.getUTCFullYear()) - Number(time.slice(0, 4));
-    const month = Number(date.getUTCMonth() + 1) - Number(time.slice(5, 7));
-    const day = Number(date.getUTCDate()) - Number(time.slice(8, 10));
-    const hour = Number(date.getUTCHours()) - Number(time.slice(11, 13));
-    const min = Number(date.getUTCMinutes()) - Number(time.slice(14, 16));
-    const sec = Number(date.getUTCSeconds()) - Number(time.slice(17, 19));
-
-    console.log(date);
-    console.log(Number(date.getUTCHours()));
-    console.log(time);
-    console.log(hour);
-
-    if (year > 1) return `${year} years ago`;
-    else if (year === 1) return `${12 + month} months ago`;
-    if (month > 1) return `${month} months ago`;
-    else if (month === 1)
-      return `${mDay[Number(date.getUTCMonth())] + day} days ago`;
-
-    if (day) return `${day} days ago`;
-    if (hour) return `${hour} hours ago`;
-    if (min) return `${min} mins ago`;
-    if (sec) return `${sec} secs ago`;
-    else return 'now';
-  };
 
   useEffect(() => {
     setTimeout(() => {
