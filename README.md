@@ -109,26 +109,26 @@ Stack Overflow 클론코딩
 
 
 
-| 로그인 | image2 | image3 |
-|------|---|---|
-| <image src = "https://user-images.githubusercontent.com/116045890/222360145-23ab1874-523a-4053-9217-3cfee77b1921.gif"> | image2 | image3 |
+| 로그인 | 로그아웃 |
+|------|---|
+| <image src = "https://user-images.githubusercontent.com/116045890/222364288-17e12f64-543d-4d8f-a343-b6bd47eb0a99.gif"> | <image src = "https://user-images.githubusercontent.com/116045890/222363773-5c74ebb0-810a-4dab-8726-558eeca3f0ae.gif"> |
 
 
-| image1 | image2 | image3 |
-|------|---|---|
-| image1 | image2 | image3 |
+| 회원가입 | 회원탈퇴 |
+|------|---|
+| <image src = "https://user-images.githubusercontent.com/116045890/222365937-6d7121d7-3326-4959-bac4-bff39a5ff070.gif"> | <image src = "https://user-images.githubusercontent.com/116045890/222366941-b86b73a9-ed29-4729-b65e-1b32530e046e.gif"> |
 
 
-| image1 | image2 | image3 |
-|------|---|---|
-| image1 | image2 | image3 |
+| image1 | image2 |
+|------|---|
+| image1 | image2 |
 
 
-| image1 | image2 | image3 |
-|------|---|---|
-| image1 | image2 | image3 |
+| image1 | image2 |
+|------|---|
+| image1 | image2 |
 
 
-| image1 | image2 | image3 |
-|------|---|---|
-| image1 | image2 | image3 |
+| image1 | image2 |
+|------|---|
+| image1 | image2 |
