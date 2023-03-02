@@ -59,11 +59,59 @@ const Title = styled.div`
 `;
 
 const DeleteBtn = styled.button`
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background-color: #d0393e;
+  color: white;
+  box-shadow: hsla(0, 0%, 100%, 0.4);
+  width: 7rem;
+  height: 2.5rem;
+  padding: 10.4px;
+  &:hover {
+    cursor: pointer;
+    background-color: #ab262a;
+  }
+
   &.disabled {
     opacity: 0.5;
     pointer-events: none;
     text-decoration: none;
   }
+`;
+
+const P = styled.p`
+  margin-bottom: 1.1em;
+`;
+
+const UL = styled.ul`
+  margin-bottom: 1.1em;
+  margin-left: 1em;
+`;
+
+const Fieldset = styled.fieldset`
+  padding: 0.4em;
+  margin-bottom: 24px;
+`;
+
+const ChectDiv = styled.div`
+  display: flex;
+
+  > label {
+    display: flex;
+
+    > div {
+      margin: 4px;
+    }
+  }
+`;
+
+const PlsLoginDiv = styled.div`
+  padding: 24px;
+  height: calc(100vh - 23.4rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
 
 function DeleteProfile() {
@@ -73,6 +121,17 @@ function DeleteProfile() {
   const userDataState = useSelector((state) => state.userData);
   const state = useSelector((state) => state.log);
   let deleteQuery = window.location.search;
+
+  if (
+    !(
+      state.value === 1 ||
+      state.value === '1' ||
+      state.value === 0 ||
+      state.value === '0'
+    )
+  ) {
+    window.location.reload();
+  }
 
   useEffect(() => {
     if (deleteQuery === '?delete-agree=on') {
@@ -126,74 +185,81 @@ function DeleteProfile() {
       <MainDiv>
         <Nav />
         <Container>
-          <Content>
-            <MyPTProfile />
-            <MyPMenu />
-            <MainContainer>
-              <MyPSetNav />
-              <Main>
-                <Title>
-                  <H1>Delete Profile</H1>
-                </Title>
-                <div>
-                  <p>
-                    {`Before confirming that you would like your profile deleted,
-                  we'd like to take a moment to explain the implications of
-                  deletion:`}
-                  </p>
-                  <ul>
-                    <li>
-                      Deletion is irreversible, and you will have no way to
-                      regain any of your original content, should this deletion
-                      be carried out and you change your mind later on.
-                    </li>
-                    <li>
-                      {`Your questions and answers will remain on the site, but will
-                    be disassociated and anonymized (the author will be listed
-                    as "유저번호 또는 이메일아이디") and will not indicate your
-                    authorship even if you later return to the site.`}
-                    </li>
-                  </ul>
-                  <p>
-                    {`Confirming deletion will only delete your profile on Stack
-                  Overflow - it will not affect any of your other profiles on
-                  the Stack Exchange network. If you want to delete multiple
-                  profiles, you'll need to visit each site separately and
-                  request deletion of those individual profiles.`}
-                  </p>
-                  <form>
-                    <fieldset>
-                      <div>
-                        <label>
-                          <div>
-                            <input
-                              type="checkbox"
-                              name="delete-agree"
-                              checked={boxChecked}
-                              onChange={CheckedHandler}
-                            />
-                          </div>
-                          <div>
-                            I have read the information stated above and
-                            understand the implications of having my profile
-                            deleted. I wish to proceed with the deletion of my
-                            profile.
-                          </div>
-                        </label>
-                      </div>
-                    </fieldset>
-                    {boxChecked ? (
-                      <DeleteBtn onClick={deleteHandler}>
-                        Delete Profile
-                      </DeleteBtn>
-                    ) : (
-                      <DeleteBtn className="disabled">Delete Profile</DeleteBtn>
-                    )}
-                  </form>
-                </div>
-              </Main>
-            </MainContainer>
-          </Content>
+          {state.value === 1 || state.value === '1' ? (
+            <Content>
+              <MyPTProfile />
+              <MyPMenu />
+              <MainContainer>
+                <MyPSetNav />
+                <Main>
+                  <Title>
+                    <H1>Delete Profile</H1>
+                  </Title>
+                  <div>
+                    <P>
+                      {`Before confirming that you would like your profile deleted,
+                we'd like to take a moment to explain the implications of
+                deletion:`}
+                    </P>
+                    <UL>
+                      <li>
+                        Deletion is irreversible, and you will have no way to
+                        regain any of your original content, should this
+                        deletion be carried out and you change your mind later
+                        on.
+                      </li>
+                      <li>
+                        {`Your questions and answers will remain on the site, but will
+                  be disassociated and anonymized (the author will be listed
+                  as "${userDataState.email}") and will not indicate your
+                  authorship even if you later return to the site.`}
+                      </li>
+                    </UL>
+                    <P>
+                      {`Confirming deletion will only delete your profile on Stack
+                Overflow - it will not affect any of your other profiles on
+                the Stack Exchange network. If you want to delete multiple
+                profiles, you'll need to visit each site separately and
+                request deletion of those individual profiles.`}
+                    </P>
+                    <form>
+                      <Fieldset>
+                        <ChectDiv>
+                          <label>
+                            <div>
+                              <input
+                                type="checkbox"
+                                name="delete-agree"
+                                checked={boxChecked}
+                                onChange={CheckedHandler}
+                              />
+                            </div>
+                            <div>
+                              I have read the information stated above and
+                              understand the implications of having my profile
+                              deleted. I wish to proceed with the deletion of my
+                              profile.
+                            </div>
+                          </label>
+                        </ChectDiv>
+                      </Fieldset>
+                      {boxChecked ? (
+                        <DeleteBtn onClick={deleteHandler}>
+                          Delete Profile
+                        </DeleteBtn>
+                      ) : (
+                        <DeleteBtn className="disabled">
+                          Delete Profile
+                        </DeleteBtn>
+                      )}
+                    </form>
+                  </div>
+                </Main>
+              </MainContainer>
+            </Content>
+          ) : (
+            <PlsLoginDiv>로그인이 필요한 페이지입니다.</PlsLoginDiv>
+          )}
         </Container>
       </MainDiv>
       <Footer />

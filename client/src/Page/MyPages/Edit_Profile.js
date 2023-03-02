@@ -64,16 +64,83 @@ const Title = styled.div`
 const SubTitle = styled.div``;
 
 const SetList = styled.div`
+  padding: 24px;
   margin-bottom: 48px;
   border: 1px solid #e3e6e8;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ListCompoDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 12px 0px 12px 0px;
+`;
+
+const ListCompoTitle = styled.div`
+  font-weight: bold;
+`;
+
+const Label = styled.label`
+  > div {
+    margin: 2px 0 2px 0;
+  }
+  > input {
+    width: 100%;
+    max-width: 421.33px;
+    min-height: 32.59px;
+    padding: 7.8px 9.1px 7.8px 9.1px;
+  }
+`;
+
+const BtnDiv = styled.div`
+  margin-bottom: 48px;
+  padding: 10px 0 15px 0;
+`;
+
+const SubmitBtn = styled.button`
+  margin: 4px;
+  padding: 10.4px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background-color: #0a95ff;
+  color: white;
+  box-shadow: hsla(0, 0%, 100%, 0.4);
+  width: 7rem;
+  height: 2.5rem;
+  &:hover {
+    cursor: pointer;
+    background-color: #0074cc;
+  }
+`;
+
+const PlsLoginDiv = styled.div`
+  padding: 24px;
+  height: calc(100vh - 23.4rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
 
 function EditProfile() {
-  const [displayName, setDisplayName] = useState(null);
-  const [password, setPassword] = useState(null);
   const userDataState = useSelector((state) => state.userData);
   const dispatch = useDispatch();
+  const [displayName, setDisplayName] = useState(userDataState.displayName);
+  const [password, setPassword] = useState(null);
+  const state = useSelector((state) => state.log);
+
+  if (
+    !(
+      state.value === 1 ||
+      state.value === '1' ||
+      state.value === 0 ||
+      state.value === '0'
+    )
+  ) {
+    window.location.reload();
+  }
 
   const submitHandler = () => {
     const accessToken = localStorage.getItem('Authorization');
@@ -114,84 +181,59 @@ function EditProfile() {
       <MainDiv>
         <Nav />
         <Container>
-          <Content>
-            <MyPTProfile />
-            <MyPMenu />
-            <MainContainer>
-              <MyPSetNav />
-              <Main>
-                <Title>
-                  <H1>Edit your Profile</H1>
-                </Title>
-                <SubTitle>
-                  <H3>Public information</H3>
-                  <SetList>
-                    <div>
-                      <label htmlFor="change-picture">Profile image</label>
-                      <img
-                        id="my_profile_img"
-                        src="../../logo192.png"
-                        alt="my profile img"
-                      />
-                      <button id="change-picture">Change picture</button>
-                    </div>
-                    <div>
-                      <label>
-                        <div>Display name</div>
-                        <input
-                          onChange={(e) => setDisplayName(e.target.value)}
-                        />
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        <div>Password</div>
-                        <input onChange={(e) => setPassword(e.target.value)} />
-                      </label>
-                    </div>
-                  </SetList>
-                </SubTitle>
-                <SubTitle>
-                  <H3>Links</H3>
-                  <SetList>
-                    <div>
-                      <label>
-                        <div>Website link</div>
-                        <input />
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        <div>Twitter link or username</div>
-                        <input />
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        <div>GitHub link or username</div>
-                        <input />
-                      </label>
-                    </div>
-                  </SetList>
-                </SubTitle>
-                <SubTitle>
-                  <H3>Private information</H3>
-                  <div>Not shown publicly</div>
-                  <SetList>
-                    <div>
-                      <label>
-                        <div>Full name</div>
-                        <input />
-                      </label>
-                    </div>
-                  </SetList>
-                </SubTitle>
-                <div>
-                  <button onClick={submitHandler}>Submit</button>
-                </div>
-              </Main>
-            </MainContainer>
-          </Content>
+          {state.value === 1 || state.value === '1' ? (
+            <Content>
+              <MyPTProfile />
+              <MyPMenu />
+              <MainContainer>
+                <MyPSetNav />
+                <Main>
+                  <Title>
+                    <H1>Edit your Profile</H1>
+                  </Title>
+                  <SubTitle>
+                    <H3>Public information</H3>
+                    <SetList>
+                      <ListCompoDiv>
+                        <Label htmlFor="change-picture">
+                          <ListCompoTitle>Profile image</ListCompoTitle>
+                          <div>
+                            <img
+                              id="my_profile_img"
+                              src="../../logo192.png"
+                              alt="my profile img"
+                            />
+                          </div>
+                        </Label>
+                      </ListCompoDiv>
+                      <ListCompoDiv>
+                        <Label>
+                          <ListCompoTitle>Display name</ListCompoTitle>
+                          <input
+                            onChange={(e) => setDisplayName(e.target.value)}
+                            value={displayName}
+                          />
+                        </Label>
+                      </ListCompoDiv>
+                      <ListCompoDiv>
+                        <Label>
+                          <ListCompoTitle>Password</ListCompoTitle>
+                          <input
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
+                        </Label>
+                      </ListCompoDiv>
+                    </SetList>
+                  </SubTitle>
+                  <BtnDiv>
+                    <SubmitBtn onClick={submitHandler}>Save Profile</SubmitBtn>
+                  </BtnDiv>
+                </Main>
+              </MainContainer>
+            </Content>
+          ) : (
+            <PlsLoginDiv>로그인이 필요한 페이지입니다.</PlsLoginDiv>
+          )}
         </Container>
       </MainDiv>
       <Footer />
