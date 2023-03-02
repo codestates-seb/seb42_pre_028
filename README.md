@@ -119,16 +119,28 @@ Stack Overflow 클론코딩
 | <image src = "https://user-images.githubusercontent.com/116045890/222365937-6d7121d7-3326-4959-bac4-bff39a5ff070.gif"> | <image src = "https://user-images.githubusercontent.com/116045890/222366941-b86b73a9-ed29-4729-b65e-1b32530e046e.gif"> |
 
 
-| image1 | image2 |
+| 게시글 작성 | 게시글 삭제 |
 |------|---|
-| image1 | image2 |
+| <image src = "https://user-images.githubusercontent.com/116045890/222386903-d1c5f672-eaad-4ea8-9688-770d448e7ce7.gif"> | <image src = "https://user-images.githubusercontent.com/116045890/222386972-2fe145e9-61ac-4623-849e-e94a54a23501.gif"> |
 
 
-| image1 | image2 |
+| 게시글 수정 | 답변 등록 |
 |------|---|
-| image1 | image2 |
+| <image src = "https://user-images.githubusercontent.com/116045890/222386980-89a5bd08-8e8e-4d08-a85f-dea293cdb599.gif"> | <image src = "https://user-images.githubusercontent.com/116045890/222386993-2cbe8531-569d-4edb-a2c1-f3068d993a39.gif"> |
 
 
-| image1 | image2 |
+| 답변 수정 | 답변 삭제 |
 |------|---|
-| image1 | image2 |
+| <image src = "https://user-images.githubusercontent.com/116045890/222386989-82fdcc7a-8e12-4d95-b5ce-1d541ee819f0.gif"> | <image src = "https://user-images.githubusercontent.com/116045890/222386986-ed9a9ccf-7f26-471a-a7e3-f75847881a1c.gif">|
+   
+   
+| 게시글,답변 추천| 답변채택 |
+|------|---|
+|<image src = "https://user-images.githubusercontent.com/116045890/222386984-e9f91de7-b0b9-41f5-88c3-6af67029a43d.gif"> | <image src = "https://user-images.githubusercontent.com/116045890/222386998-ddc1d847-c4d1-4609-8a0b-582dcab2275d.gif"> |
+   
+| 로그아웃시 권한 부여 x |
+|-----|
+|<image src = "https://user-images.githubusercontent.com/116045890/222388239-f07048ff-7a6f-40b3-9d6b-3aa1578b0e4a.gif" width = 480> |
+   
+   
+   
