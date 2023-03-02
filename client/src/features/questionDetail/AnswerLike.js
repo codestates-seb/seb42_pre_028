@@ -39,10 +39,11 @@ const DownButton = styled.button`
 
 const AdoptButton = styled.button`
   border: none;
-  display: ${(props) =>
-    props.memberId === Number(sessionStorage.getItem('memberId'))
-      ? 'block'
-      : 'none'};
+  pointer-events: ${(props) =>
+    props.memberId !== Number(sessionStorage.getItem('memberId'))
+      ? 'none'
+      : 'all'};
+  display: block;
   background-color: white;
   color: ${(props) =>
     props.adoptedId === props.answerId ? '#437b55' : 'black'};
@@ -63,7 +64,6 @@ function AnswerLike({
   else tmp = voteStatus[0].voteStatus;
 
   const [bState, setBstate] = useState(tmp);
-
   const [curVote, setCurVote] = useState(vote);
 
   const accessToken = localStorage.getItem('Authorization');
@@ -113,6 +113,7 @@ function AnswerLike({
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (adoptedId === answerId) setAdoptedId(0);
         else setAdoptedId(answerId);
       });
