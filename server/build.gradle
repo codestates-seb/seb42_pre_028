@@ -38,6 +38,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws-parameter-store-config' // 파라미터 스토어 추가
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'  // 기본코드 구현시 잠시 비활성화
@@ -54,7 +55,11 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'  // jwt 인증 방식 추가
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'  // jwt 인증 방식 추가
 }
-
+dependencyManagement { // 파라미터 스토어 설정추가
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-starter-parent:Hoxton.SR12"
+	}
+}
 tasks.named('test') {
 	outputs.dir snippetsDir  // docs 설정추가
 	useJUnitPlatform()

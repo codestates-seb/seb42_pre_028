@@ -1,10 +1,10 @@
 server:
   port: 8080
 spring:
-  datasource:
-    url: jdbc:mysql://database-1.c16y5acx5nnq.ap-northeast-2.rds.amazonaws.com:3306/preproject28?serverTimezone=Asia/Seoul
-    username: admin
-    password: GQyMD4Ih5VnC3m6ALwOK
+#  datasource:
+#    url:
+#    username:
+#    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,8 +18,8 @@ spring:
       client:
         registration:
           google:
-            clientId: 570320017982-vbbg21deg1362t9fi4uv6lko4q3oj7nl.apps.googleusercontent.com
-            clientSecret: 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
+#            clientId:
+#            clientSecret:
             scope:
               - email
               - profile
@@ -28,6 +28,5 @@ mail:
     admin: admin@gmail.com
 jwt:
 #  key: ${JWT_SECRET_KEY}               # 민감한 정보는 시스템 환경 변수에서 로드한다.
-  key: minho1234123412341234123412341234               # 민감한 정보는 시스템 환경 변수에서 로드한다.
-  access-token-expiration-minutes: 60
+  access-token-expiration-minutes: 420
   refresh-token-expiration-minutes: 420
