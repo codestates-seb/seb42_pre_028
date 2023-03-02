@@ -86,12 +86,12 @@ Stack Overflow 클론코딩
 
 <a href="http://pre-project-28-docs.s3-website.ap-northeast-2.amazonaws.com"> API 명세서 보러가기!</a>
 
-## ☀️목업
+## ☀️화면 목업 설계
 
 https://www.figma.com/proto/rzh0WU8wMVRdZPWOCz2Bu0/028_Pre_Project?node-id=1%3A3&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=1%3A3
 
 
-## ☀️유저플로우
+## ☀️유저플로우 목업 설계
 
 https://www.figma.com/file/MRCZz7TXuJs9GXkkxnj6hf/Pre_Project_User_Flow?node-id=0%3A1&t=FmdNVH2rGkYSRKdY-0
 
