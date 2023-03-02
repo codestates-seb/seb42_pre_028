@@ -14,7 +14,7 @@ Stack Overflow 클론코딩
    
 ## ☀️배포 주소
 
-http://pre28front.s3-website-us-east-1.amazonaws.com/
+<a href="http://pre28front.s3-website-us-east-1.amazonaws.com/"> PRE-PROJECT-SEB42-028-TEAM</a>
 
 
 ## ☀️프로젝트 기간
