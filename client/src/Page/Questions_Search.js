@@ -7,6 +7,7 @@ import Footer from '../Component/Footer';
 import { useEffect, useState } from 'react';
 import { url } from '../url';
 import Loading from '../Component/Loading';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
@@ -65,6 +66,7 @@ const H1 = styled.h1`
 `;
 
 const AskButton = styled.button`
+  pointer-events: ${(props) => (props.log ? 'none' : 'all')};
   height: 2.5rem;
   padding: 0 0.6rem;
   background-color: #1295ff;
@@ -119,6 +121,7 @@ function Questions_Search() {
   const [searchQuestion, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
+  const log = useSelector((state) => state.log.value);
 
   useEffect(() => {
     setIsPending(true);
@@ -160,7 +163,7 @@ function Questions_Search() {
                 <MainComponent>
                   <H1>All Questions</H1>
                   <Link to="/create">
-                    <AskButton>Ask Question</AskButton>
+                    <AskButton log={log}>Ask Question</AskButton>
                   </Link>
                 </MainComponent>
                 <MainComponent>

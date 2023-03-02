@@ -8,6 +8,7 @@ import useGetFetch from '../Util/useGetFetch';
 import { url } from '../url';
 import Nav from '../Component/Nav';
 import Loading from '../Component/Loading';
+import { useSelector } from 'react-redux';
 
 const MainDiv = styled.div`
   display: flex;
@@ -75,12 +76,16 @@ const H1 = styled.h1`
 `;
 
 const AskButton = styled.button`
+  pointer-events: ${(props) => (!props.log ? 'none' : 'all')};
   height: 2.5rem;
   padding: 0 0.6rem;
   background-color: #1295ff;
-  color: white;
-  border: none;
-  cursor: pointer;
+  a {
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
   :hover {
     background-color: #0088ff;
   }
@@ -129,7 +134,8 @@ function Questions_List() {
   );
   console.log(data);
   const sortArr = ['createdAt', 'viewCount', 'voteCount'];
-
+  const log = useSelector((state) => state.log.value);
+  console.log(log);
   return (
     <div>
       {isPending ? (
@@ -143,9 +149,9 @@ function Questions_List() {
                 <Mainbar>
                   <MainComponent>
                     <H1>All Questions</H1>
-                    <Link to="/create">
-                      <AskButton>Ask Question</AskButton>
-                    </Link>
+                    <AskButton log={log}>
+                      <a href="/create">Ask Question</a>
+                    </AskButton>
                   </MainComponent>
                   <MainComponent>
                     <div>{data.pageInfo.totalElements} questions</div>

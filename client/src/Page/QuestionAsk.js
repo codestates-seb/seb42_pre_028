@@ -181,32 +181,35 @@ function QuestionAsk() {
   const accessToken = localStorage.getItem('Authorization');
 
   const questionHandler = () => {
-    const splitProblemBody = problemBody.split('\n');
-    const splitexpectingBody = expectingBody.split('\n');
+    if (title === '' || problemBody === '' || expectingBody === '') {
+      alert('빈 곳을 채워주세요!');
+    } else {
+      const splitProblemBody = problemBody.split('\n');
+      const splitexpectingBody = expectingBody.split('\n');
 
-    fetch(`${url}/question`, {
-      method: 'POST',
-      headers: {
-        credentials: 'include',
-        'Content-Type': 'application/json',
-        Authorization: accessToken,
-      },
-      body: JSON.stringify({
-        questionId: 54,
-        title: title,
-        problemBody: splitProblemBody,
-        expectingBody: splitexpectingBody,
-        tag: tag,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigate(`/questions/${data.data.questionId}`); // 서버로부터 받은 응답 데이터 출력
+      fetch(`${url}/question`, {
+        method: 'POST',
+        headers: {
+          credentials: 'include',
+          'Content-Type': 'application/json',
+          Authorization: accessToken,
+        },
+        body: JSON.stringify({
+          title: title,
+          problemBody: splitProblemBody,
+          expectingBody: splitexpectingBody,
+          tag: tag,
+        }),
       })
-      .catch((error) => {
-        console.error(error); // 에러 처리
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          navigate(`/questions/${data.data.questionId}`); // 서버로부터 받은 응답 데이터 출력
+        })
+        .catch((error) => {
+          console.error(error); // 에러 처리
+        });
+    }
   };
   const discardHandler = () => {
     setTitle('');
