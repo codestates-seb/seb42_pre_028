@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import Menu from './Menu';
+// import Menu from './Menu';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../features/log/logSlice';
@@ -56,14 +56,14 @@ const Input = styled.input`
 function Header() {
   const log = useSelector((state) => state.log.value);
   const [word, setWord] = useState('');
-  const [menuflag, setMenuFlag] = useState(false);
+  // const [menuflag, setMenuFlag] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.log);
 
-  const menuToggle = () => {
-    setMenuFlag(!menuflag);
-  };
+  // const menuToggle = () => {
+  //   setMenuFlag(!menuflag);
+  // };
 
   const logoutHandler = () => {
     // 로그아웃은 프론트엔드에서만 처리하기로 함
@@ -75,6 +75,7 @@ function Header() {
     alert('로그아웃 성공!');
     navigate('/');
   };
+
   const searchHandler = () => {
     if (word) navigate(`/search/${word}/1/5/createdAt`);
     else navigate('/questions');
@@ -83,8 +84,8 @@ function Header() {
   return (
     <Container>
       <MenuContainer>
-        <Button onClick={menuToggle}>Menu</Button>
-        {menuflag ? <Menu setMenuFlag={setMenuFlag} /> : null}
+        {/* <Button onClick={menuToggle}>Menu</Button>
+        {menuflag ? <Menu setMenuFlag={setMenuFlag} /> : null} */}
         <Link to="/">
           <Logo img src="../images/Stack_Overflow_logo.svg.png" />
         </Link>
