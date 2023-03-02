@@ -14,6 +14,7 @@ Stack Overflow 클론코딩
    
 ## ☀️배포 주소
 
+http://pre28front.s3-website-us-east-1.amazonaws.com/
 
 
 ## ☀️프로젝트 기간
@@ -68,17 +69,28 @@ Stack Overflow 클론코딩
 |질문 추천| 질문 추천, 비추천 . 두번 클릭시 취소 가능|
 |답변글 CRUD| 답변글 생성, 수정, 삭제, 조회|
 |답변 추천| 답변 추천, 비추천 . 두번 클릭시 취소 가능|
+|작성권한| 게시글, 답변글 작성, 추천시 로그인 필요함|
+|수정권한| 게시글, 답변글 수정 -> 작성자만 가능|
 |답변 채택| 질문글 답변 중 채택 가능|
 |코드작성| 내용 중 코드부분 마크다운 문법적용 가능 (Ctrl + Q / 영문키일때에만 가능)|
+|태그| 태그 단어 자동완성 구현|
 |마이페이지| 좌측 바 Users 클릭시 마이페이지 이동|
 |로그인| 우측 상단 Log in 클릭시 로그인페이지 이동|
+|로그아웃| 로그인 상태에서 우측 상단 로그아웃 버튼 클릭시 로그아웃|
 |회원가입| 우측 상단 Sign up 클릭시 회원가입페이지 이동|
+|회원탈퇴| 마이페이지 settings 에서 체크박스 체크 후 delete -> 홈화면이동|
+|태그| 태그 단어 자동완성 구현|
 
 
 
+## ☀️목업
+
+https://www.figma.com/proto/rzh0WU8wMVRdZPWOCz2Bu0/028_Pre_Project?node-id=1%3A3&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=1%3A3
 
 
+## ☀️유저플로우
 
+https://www.figma.com/file/MRCZz7TXuJs9GXkkxnj6hf/Pre_Project_User_Flow?node-id=0%3A1&t=FmdNVH2rGkYSRKdY-0
 
 
 
