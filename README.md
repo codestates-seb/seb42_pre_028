@@ -28,7 +28,5 @@ http://pre28front.s3-website-us-east-1.amazonaws.com/mypage/userdelete?delete-ag
 
 |노지용|김기은| 
 |------|---|
-|<img src="https://user-images.githubusercontent.com/116045890/222328052-d6bccb91-1e7d-4f25-abb5-b266509412ba.jpg" width="130" height="160">|<img src="https://user-images.githubusercontent.com/116045890/222328072-9985a90f-8898-41c1-8489-577244e43bba.jpg"  width="120" height="160">|
-
-
+|<img src="https://user-images.githubusercontent.com/116045890/222332062-825706f7-124e-4edf-95ed-52a5210bc244.jpg" width="150" height="160">|<img src="https://user-images.githubusercontent.com/116045890/222328072-9985a90f-8898-41c1-8489-577244e43bba.jpg"  width="120" height="160">|
 
