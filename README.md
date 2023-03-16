@@ -82,9 +82,7 @@ Stack Overflow 클론코딩
 |회원탈퇴| 마이페이지 settings 에서 체크박스 체크 후 delete -> 홈화면이동|
 |태그| 태그 단어 자동완성 구현|
 
-## ☀️API 명세서
 
-<a href="http://pre-project-28-docs.s3-website.ap-northeast-2.amazonaws.com"> API 명세서 보러가기! </a>
 
 
 ## ☀️테이블 설계
